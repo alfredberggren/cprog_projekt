@@ -39,13 +39,16 @@ LIBRARY_PATHS_MACARM = -Llib -L/opt/homebrew/lib
 LIBRARY_PATHS_WINDOWS = -Llib -LC:/msys64/ucrt64/lib
 
 # LÄNKNING - objekfiler som används vid länkning. Enklare program utan SDL behöver normalt inte några speciella länk-flaggor
-#LINKER_FLAGS = 
 # Om SDL2 används, Mac LINKER_FLAGS!
 LINKER_FLAGS_MAC = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 # Om SDL2 används, Windows LINKER_FLAGS!
 LINKER_FLAGS_WINDOWS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 OS := $(shell uname)
+
+INCLUDE_PATHS = $(INCLUDE_PATHS_WINDOWS)
+LIBRARY_PATHS = $(LIBRARY_PATHS_WINDOWS)
+LINKER_FLAGS = $(LINKER_FLAGS_WINDOWS)
 
 ifeq ($(OS), Darwin)
 	ifeq ($(shell uname -p), arm)
@@ -57,9 +60,6 @@ ifeq ($(OS), Darwin)
 		LIBRARY_PATHS = $(LIBRARY_PATHS_MACINTEL)
 		LINKER_FLAGS = $(LINKER_FLAGS_MAC)
 	endif
-	all:
-	    $(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
-else ifeq ($(OS), Windows_NT)
-	all:
-	    $(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS_WINDOWS) $(LIBRARY_PATHS_WINDOWS) $(SRC_FILES) $(LINKER_FLAGS_WINDOWS) -o $(BUILD_DIR)/$(OBJ_NAME)
 endif
+
+$(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
