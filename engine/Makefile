@@ -24,27 +24,42 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 
 # INKLUDERINGSFILER–var dina header-filer finns
 # Mac INTEL INCLUDE_PATHS!
-#INCLUDE_PATHS = -Iinclude -I/usr/local/include
+INCLUDE_PATHS_MACINTEL = -Iinclude -I/usr/local/include
 # Mac ARM INCLUDE_PATHS!
-#INCLUDE_PATHS = -Iinclude -I/opt/homebrew/include
+INCLUDE_PATHS_MACARM = -Iinclude -I/opt/homebrew/include
 # Windows INCLUDE_PATHS!
-INCLUDE_PATHS = -Iinclude -IC:/msys64/ucrt64/include
+INCLUDE_PATHS_WINDOWS = -Iinclude -IC:/msys64/ucrt64/include
 
 # BIBLIOTEKSFILER–kompilerad objektkod
 # Mac INTEL LIBRARY_PATHS!
-#LIBRARY_PATHS = -Llib -L/usr/local/lib
+LIBRARY_PATHS_MACINTEL = -Llib -L/usr/local/lib
 # Mac ARM LIBRARY_PATHS!
-#LIBRARY_PATHS = -Llib -L/opt/homebrew/lib
+LIBRARY_PATHS_MACARM = -Llib -L/opt/homebrew/lib
 # Windows LIBRARY_PATHS
-LIBRARY_PATHS = -Llib -LC:/msys64/ucrt64/lib
+LIBRARY_PATHS_WINDOWS = -Llib -LC:/msys64/ucrt64/lib
 
 # LÄNKNING - objekfiler som används vid länkning. Enklare program utan SDL behöver normalt inte några speciella länk-flaggor
-LINKER_FLAGS = 
+#LINKER_FLAGS = 
 # Om SDL2 används, Mac LINKER_FLAGS!
-#LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+LINKER_FLAGS_MAC = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 # Om SDL2 används, Windows LINKER_FLAGS!
-#LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+LINKER_FLAGS_WINDOWS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
+OS := $(shell uname)
 
-all:
-	$(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
+ifeq ($(OS), Darwin)
+	ifeq ($(shell uname -p), arm)
+		INCLUDE_PATHS = $(INCLUDE_PATHS_MACARM)
+		LIBRARY_PATHS = $(LIBRARY_PATHS_MACARM)
+		LINKER_FLAGS = $(LINKER_FLAGS_MAC)
+	else
+		INCLUDE_PATHS = $(INCLUDE_PATHS_MACINTEL)
+		LIBRARY_PATHS = $(LIBRARY_PATHS_MACINTEL)
+		LINKER_FLAGS = $(LINKER_FLAGS_MAC)
+	endif
+	all:
+	    $(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
+else ifeq ($(OS), Windows_NT)
+	all:
+	    $(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS_WINDOWS) $(LIBRARY_PATHS_WINDOWS) $(SRC_FILES) $(LINKER_FLAGS_WINDOWS) -o $(BUILD_DIR)/$(OBJ_NAME)
+endif
