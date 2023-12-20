@@ -32,3 +32,5 @@
 *.app
 # Visual Studio Code folder
 .vscode/
+
+Makefile
