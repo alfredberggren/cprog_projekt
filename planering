@@ -1,0 +1,17 @@
+Vi har en SPELidé.
+
+Impossible game.
+
+Börja med EN låt, EN nivå.
+
+- Räkna ut utefter en låts bpm hur långt i spelet spelaren ta sig på en takt. 
+  - spelaren rör sig en viss hastighet per minut (?), och alltid i samma hastighet
+  - låten går i ett visst antal slag i minuten, antal takter per minut blir då BPM/4 (om låten går i 4-takt).
+  - 
+- När man vet hur fysiskt lång en takt blir, kan man sätta ut hinder där. För att sätta hinder i takten, kan man lägga hindret på t.ex. taktDistans + taktDistans/4 för att lägga till ett hinder en fjärdedel in i takten.
+
+Frivillig utökning
+  - Automatisk generering av kartor
+
+
+
