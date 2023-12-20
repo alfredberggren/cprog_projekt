@@ -33,5 +33,5 @@
 # Visual Studio Code folder
 .vscode/
 
-Makefile
+engine/Makefile
 build/
