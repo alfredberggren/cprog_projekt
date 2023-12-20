@@ -7,18 +7,15 @@
 class System {
    private:
     static System* instance;
-    SDL_Renderer* renderer;
-    SDL_Window* window;
-    System(/* args */);
+    void initSDLComponents();
 
    public:
-    static System* get_instance() {
-        if (instance == nullptr) {
-            instance = new System();
-        }
-        return instance;
-    }
+    System();
+    SDL_Renderer* renderer;
+    SDL_Window* window;
     ~System();
 };
+
+extern System sys;
 
 #endif  // SYSTEM_H
