@@ -1,7 +1,3 @@
-//
-//  c++_empty
-//  
-
 #include <iostream>
 #include <string>
 #include "GameEngine.h"
