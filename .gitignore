@@ -34,6 +34,9 @@
 # Visual Studio Code folder
 .vscode/
 
+# json files
+*.json
+
 # Makefiles
 Makefile
 makefile
