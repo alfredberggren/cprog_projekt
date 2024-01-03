@@ -9,19 +9,20 @@
 #include <map>
 
 #include "Sprite.h"
-#include "SpriteManager.h"
+#include "AssetManager.h"
 #include "System.h"
 
 class GameEngine {
    private:
     static GameEngine* instance;
     GameEngine(/* args */);
-    void loadPng(std::string path);
-    void loadJpg(std::string path);
-    void loadMp3(std::string path);
-    void loadWav(std::string path);
+    
+    bool load_img(std::string path);
+    bool load_sound(std::string path);
 
    public:
+    SDL_Texture* texture;
+    
     void run_game();
     static GameEngine* get_instance() {
         if (instance == nullptr) {
@@ -31,6 +32,9 @@ class GameEngine {
     }
     void load_assets(std::vector<std::string> assets);
     void loadSurface(std::string& asset, SDL_Surface* surface, int& retFlag);
+
+    void add_sprite(Sprite& sprite);
+
     ~GameEngine();
 };
 

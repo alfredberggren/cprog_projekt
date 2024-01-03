@@ -1,20 +1,7 @@
 #include "GameEngine.h"
+#include <SDL2/SDL_mixer.h>
+#include <utility>
 
-void GameEngine::loadWav(std::string path) {
-    std::cout << "Loading wav: " << path << std::endl;
-}
-
-void GameEngine::loadPng(std::string path) {
-    std::cout << "Loading png: " << path << std::endl;
-}
-
-void GameEngine::loadMp3(std::string path) {
-    std::cout << "Loading mp3: " << path << std::endl;
-}
-
-void GameEngine::loadJpg(std::string path) {
-    std::cout << "Loading jpg: " << path << std::endl;
-}
 
 GameEngine* GameEngine::instance = nullptr;
 
@@ -39,40 +26,78 @@ void GameEngine::run_game() {
                 }
             }
         }
-        SDL_RenderClear(sys.renderer);
-        SDL_RenderPresent(sys.renderer);
+        SDL_RenderClear(SYSTEM.renderer);
+        AssetManager::get_instance()->drawAll();
+        SDL_RenderPresent(SYSTEM.renderer);
+      
     }
 }
 
+/*Loads assets from the vector*/
 void GameEngine::load_assets(std::vector<std::string> assets) {
     for (auto asset : assets) {
-        if (asset.find(".png") != std::string::npos) {
-            loadPng(asset);
-        } else if (asset.find(".jpg") != std::string::npos) {
-            loadJpg(asset);
-        } else if (asset.find(".mp3") != std::string::npos) {
-            loadMp3(asset);
-        } else if (asset.find(".wav") != std::string::npos) {
-            loadWav(asset);
+        if ((asset.find(".png") != std::string::npos) || (asset.find(".jpg") != std::string::npos)) {
+            load_img(asset);
+        } else if ((asset.find(".mp3") != std::string::npos) || (asset.find(".wav") != std::string::npos)) {
+            load_sound(asset);
         } else {
             std::cout << "Unknown file type: " << asset << std::endl;
         }
+
+
+        //TODO: add pathway?
+        //TODO: Figure out what the above means, write better comments
         
-        SDL_Surface* surface = IMG_Load(asset.c_str());
-        if (surface == nullptr) {
-            std::cout << "Error loading image: " << asset << std::endl;
-            std::cout << "SDL Error: " << SDL_GetError() << std::endl;
-            continue;
-        }
-        SDL_Texture* texture =
-            SDL_CreateTextureFromSurface(sys.renderer, surface);
-        if (texture == nullptr) {
-            std::cout << "Error creating texture from surface: " << asset
-                      << std::endl;
-            std::cout << "SDL Error: " << SDL_GetError() << std::endl;
-            continue;
-        }
-        SDL_FreeSurface(surface);
-        SpriteManager::get_instance()->loadedTextures[asset] = texture;
     }
 }
+
+//TODO: could just return the texture itself
+/*Loads an image from the path*/
+bool GameEngine::load_img(std::string path){
+    SDL_Surface* surface = IMG_Load(path.c_str());
+        if (surface == nullptr) {
+            std::cout << "Error loading image: " << path << std::endl;
+            std::cout << "SDL Error: " << SDL_GetError() << std::endl;
+            return false;
+        }
+
+        //Behöver kanske inte vara klassmedlem
+        texture =
+            SDL_CreateTextureFromSurface(SYSTEM.renderer, surface);
+        if (texture == nullptr) {
+            std::cout << "Error creating texture from surface: " << path
+                      << std::endl;
+            std::cout << "SDL Error: " << SDL_GetError() << std::endl;
+            return false;
+        }
+        
+
+        
+        
+        AssetManager::get_instance()->loaded_textures.insert(std::make_pair(path, texture));
+        SDL_FreeSurface(surface);
+         if (AssetManager::get_instance()->loaded_textures[path] == nullptr) {
+            std::cout << "Texturen är null efter inlagd" << std::endl;
+            return false;
+        }
+        return true;
+}
+
+/*Loads a sound from the path, as a Chunk*/
+bool GameEngine::load_sound(std::string path){
+    Mix_Chunk* chunk = Mix_LoadWAV(path.c_str());
+
+    if (chunk == nullptr){
+        std::cerr << "Error loading sound: " << path << std::endl;
+        std::cerr << "SDL error: " << Mix_GetError();
+        return false;
+    }
+
+    AssetManager::get_instance()->loaded_sounds.insert(std::make_pair(path, chunk));
+    return true;
+}
+
+void GameEngine::add_sprite(Sprite& sprite){
+    AssetManager::get_instance()->add(sprite);
+}
+

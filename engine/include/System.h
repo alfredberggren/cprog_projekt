@@ -3,19 +3,18 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 class System {
-   private:
-    static System* instance;
-    void initSDLComponents();
-
+  
    public:
-    System();
+    bool initSDLComponents();
     SDL_Renderer* renderer;
     SDL_Window* window;
+    System();
     ~System();
 };
 
-extern System sys;
+extern System SYSTEM;
 
 #endif  // SYSTEM_H
