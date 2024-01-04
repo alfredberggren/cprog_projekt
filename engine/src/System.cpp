@@ -1,4 +1,5 @@
 #include "System.h"
+#include <iostream>
 
 
 System::System() {
@@ -30,6 +31,8 @@ bool System::initSDLComponents(){
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create renderer: %s", SDL_GetError());
         check = false;
     }
+
+    std::cout << "SYSTEM: \n\tSDL components initialized successfully: " << check << std::endl;
 
     return check;
 }

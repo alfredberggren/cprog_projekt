@@ -10,6 +10,9 @@ GameEngine::GameEngine() {}
 GameEngine::~GameEngine() {}
 
 void GameEngine::run_game() {
+    
+    Mix_PlayChannel(-1, AssetManager::get_instance()->loaded_sounds["resources/sounds/TillSpel.mp3"], -1); //REMOVE REMOVE REMOVE
+    
     SDL_Event event;
     bool running = true;
     while (running) {
