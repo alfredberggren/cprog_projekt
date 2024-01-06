@@ -6,6 +6,8 @@
 #include <string>
 #include <unordered_map>
 
+// TODO : Bör vara abstrakt?
+
 class Sprite {
    private:
     SDL_Rect rect;

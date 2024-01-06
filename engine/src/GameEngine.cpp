@@ -29,6 +29,7 @@ void GameEngine::run_game() {
                 }
             }
         }
+
         SDL_RenderClear(SYSTEM.renderer);
         AssetManager::get_instance()->drawAll();
         SDL_RenderPresent(SYSTEM.renderer);
@@ -65,7 +66,7 @@ bool GameEngine::load_img(std::string path){
         }
 
         //Behöver kanske inte vara klassmedlem
-        texture =
+        SDL_Texture* texture =
             SDL_CreateTextureFromSurface(SYSTEM.renderer, surface);
         if (texture == nullptr) {
             std::cout << "Error creating texture from surface: " << path
@@ -73,9 +74,6 @@ bool GameEngine::load_img(std::string path){
             std::cout << "SDL Error: " << SDL_GetError() << std::endl;
             return false;
         }
-        
-
-        
         
         AssetManager::get_instance()->loaded_textures.insert(std::make_pair(path, texture));
         SDL_FreeSurface(surface);
@@ -102,5 +100,12 @@ bool GameEngine::load_sound(std::string path){
 
 void GameEngine::add_sprite(Sprite& sprite){
     AssetManager::get_instance()->add(sprite);
+}
+
+GameEngine* GameEngine::get_instance() {
+    if (instance == nullptr) {
+        instance = new GameEngine();
+    }
+    return instance;
 }
 

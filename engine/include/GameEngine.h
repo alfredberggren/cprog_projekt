@@ -4,32 +4,34 @@
 #include <SDL2/SDL.h>
 
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
-#include "Sprite.h"
 #include "AssetManager.h"
+#include "Sprite.h"
 #include "System.h"
 
 class GameEngine {
    private:
     static GameEngine* instance;
     GameEngine(/* args */);
-    
+
     bool load_img(std::string path);
     bool load_sound(std::string path);
 
    public:
-    SDL_Texture* texture;
-    
+
+    // Istället för att ha SYSTEM variabeln i main kan vi låta kommunikationen mellan faktiska spelet/användaren och System utföras av GameEngine. 
+    // ** Fundering ** Ge möjligheten att välja vilka SDL bibliotek man vill inkludera till sin GameEngine? 
+    bool init_SDL_libraries();
+    bool init_SDL_window(std::string windowTitle, int xPosition, int yPosition,
+                       int width, int height);
+
     void run_game();
-    static GameEngine* get_instance() {
-        if (instance == nullptr) {
-            instance = new GameEngine();
-        }
-        return instance;
-    }
+
+    static GameEngine* get_instance();
+
     void load_assets(std::vector<std::string> assets);
     void loadSurface(std::string& asset, SDL_Surface* surface, int& retFlag);
 
