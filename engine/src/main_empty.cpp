@@ -6,19 +6,15 @@
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
-
 int main(int argc, char* argv[]) {
 	std::string s1 = "Hejsan";
 	std::cout << s1 << std::endl;
-	
-
 	
 	SYSTEM.initSDLComponents();
 
 	GameEngine* game = GameEngine::get_instance();
 
 	std::vector<std::string> assets;
-	game->load_assets(assets);
 
 	for(const auto& dirEntry : dir_iterator("resources")){
 		if(dirEntry.is_regular_file())

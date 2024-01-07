@@ -22,7 +22,8 @@ class GameEngine {
 
    public:
 
-    // Istället för att ha SYSTEM variabeln i main kan vi låta kommunikationen mellan faktiska spelet/användaren och System utföras av GameEngine. 
+    // Istället för att ha SYSTEM variabeln i main kan vi låta kommunikationen mellan faktiska spelet/användaren och System utföras av GameEngine.
+    // Nedan är 2 funktioner som exemplifierar detta.  
     // ** Fundering ** Ge möjligheten att välja vilka SDL bibliotek man vill inkludera till sin GameEngine? 
     bool init_SDL_libraries();
     bool init_SDL_window(std::string windowTitle, int xPosition, int yPosition,
