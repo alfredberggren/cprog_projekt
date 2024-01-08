@@ -9,7 +9,8 @@
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
-// Denna implementation get möjligheten att mappa en KEY till en specific funktion i en eller flera subklasser av Sprite. 
+// Denna implementation get möjligheten att mappa en KEY till en specific funktion i en eller flera subklasser av Sprite. Även funktioner
+// i Sprite går bra.
 // Då är det helt upp till själva spelet / användaren att bestämma vad som ska utföras, alltså behövs det ingen funktion som
 // som hanterar tryck av tangenten 'J' i Sprite t.ex. 
 
@@ -32,6 +33,9 @@ int main(int argc, char* argv[]) {
     SYSTEM.initSDLComponents();
 
     GameEngine* game = GameEngine::get_instance();
+
+    game->init_SDL_libraries();
+    game->init_SDL_window("NOT AGARIO COPY", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480);
 
     std::vector<std::string> assets;
 

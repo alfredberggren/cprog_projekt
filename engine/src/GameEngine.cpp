@@ -10,6 +10,18 @@ GameEngine::GameEngine() {}
 
 GameEngine::~GameEngine() {}
 
+// TODO : Fixa returvärden!
+
+bool GameEngine::init_SDL_libraries() {
+    SYSTEM.initSDLComponents();
+    return true;
+}
+
+bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition, int yPosition, int width, int height){
+    SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width, height);
+    return true;
+}
+
 void GameEngine::run_game() {
     Mix_PlayChannel(-1,
                     AssetManager::get_instance()
@@ -23,7 +35,6 @@ void GameEngine::run_game() {
             if (event.type == SDL_QUIT) {
                 running = false;
             } else if (event.type == SDL_KEYDOWN) {
-
                 // Kolla om KEY finns i keyMapping, isåfall hämta den och skicka
                 // funktionen till AssetManager
                 if (keyMapping->count(event.key.keysym.sym) > 0) {
