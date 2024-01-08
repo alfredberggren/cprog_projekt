@@ -5,11 +5,7 @@
 #include "AssetManager.h"
 #include "System.h"
 
-Sprite::~Sprite() {
-    if (texture != nullptr) {
-        SDL_DestroyTexture(texture);
-    }
-}
+Sprite::~Sprite() {}
 
 Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height)
     : rect{x, y, width, height} {
@@ -36,27 +32,17 @@ void Sprite::move(double x, double y) {
     rect.y += y;
 }
 
-void Sprite::setW(int w){
-    rect.w = w;
-}
+void Sprite::setW(int w) { rect.w = w; }
 
-void Sprite::setH(int h){
-    rect.h = h;
-}
+void Sprite::setH(int h) { rect.h = h; }
 
-void Sprite::setX(int x) {
-    rect.x = x;
-}
+void Sprite::setX(int x) { rect.x = x; }
 
 void Sprite::setY(int y) { rect.y = y; }
 
-int Sprite::getW() const {
-    return rect.w;
-}
+int Sprite::getW() const { return rect.w; }
 
-int Sprite::getH() const {
-    return rect.h;
-}
+int Sprite::getH() const { return rect.h; }
 
 int Sprite::getCenterX() const { return rect.x + rect.w / 2; }
 

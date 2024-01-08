@@ -9,13 +9,6 @@ GameEngine* GameEngine::instance = nullptr;
 GameEngine::GameEngine() {}
 
 GameEngine::~GameEngine() {
-    std::cout << "Destroying GameEngine" << std::endl;
-    for (auto pair : AssetManager::get_instance()->loaded_textures) {
-        SDL_DestroyTexture(pair.second);
-    }
-    for (auto pair : AssetManager::get_instance()->loaded_sounds) {
-        Mix_FreeChunk(pair.second);
-    }
     Mix_Quit();
     IMG_Quit();
     SDL_Quit();

@@ -8,19 +8,20 @@ AssetManager::AssetManager() {
 AssetManager::~AssetManager() {
     std::cout << "Destroying AssetManager" << std::endl;
     for (auto pair : loaded_textures) {
-        SDL_DestroyTexture(pair.second); 
+        SDL_DestroyTexture(pair.second);
+    }
+    for (auto pair : loaded_sounds) {
+        Mix_FreeChunk(pair.second);
     }
 }
 
-void AssetManager::handleKeyEvent(funcPtr func){
-    for(Sprite* sprite : sprites){
+void AssetManager::handleKeyEvent(funcPtr func) {
+    for (Sprite* sprite : sprites) {
         func(sprite);
     }
 }
 
-void AssetManager::add(Sprite& sprite) {
-    sprites.push_back(&sprite);
-}
+void AssetManager::add(Sprite& sprite) { sprites.push_back(&sprite); }
 
 void AssetManager::remove(Sprite& sprite) {
     for (int i = 0; i < sprites.size(); i++) {
@@ -32,27 +33,25 @@ void AssetManager::remove(Sprite& sprite) {
     delete &sprite;
 }
 
-void AssetManager::tickAll(){
+void AssetManager::tickAll() {
     for (Sprite* sprite : sprites) {
         sprite->tick();
     }
 }
 
-void AssetManager::mouseMovedAll(double x, double y){
+void AssetManager::mouseMovedAll(double x, double y) {
     for (Sprite* sprite : sprites) {
         sprite->mouseMoved(x, y);
     }
 }
 
-
-
-void AssetManager::drawAll(){
-    for (Sprite* sprite : sprites){
+void AssetManager::drawAll() {
+    for (Sprite* sprite : sprites) {
         sprite->draw();
     }
 }
 
-std::unordered_map<std::string, SDL_Texture *> AssetManager::loaded_textures;
-std::unordered_map<std::string, Mix_Chunk *> AssetManager::loaded_sounds;
+std::unordered_map<std::string, SDL_Texture*> AssetManager::loaded_textures;
+std::unordered_map<std::string, Mix_Chunk*> AssetManager::loaded_sounds;
 
 AssetManager* AssetManager::instance;

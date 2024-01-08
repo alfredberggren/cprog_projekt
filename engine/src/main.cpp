@@ -3,27 +3,27 @@
 #include <string>
 #include <vector>
 
+#include "Food.h"
 #include "GameEngine.h"
 #include "Player.h"
-#include "Food.h"
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
-// Denna implementation get möjligheten att mappa en KEY till en specific funktion i en eller flera subklasser av Sprite. Även funktioner
-// i Sprite går bra.
-// Då är det helt upp till själva spelet / användaren att bestämma vad som ska utföras, alltså behövs det ingen funktion som
-// som hanterar tryck av tangenten 'J' i Sprite t.ex. 
+// Denna implementation get möjligheten att mappa en KEY till en specific
+// funktion i en eller flera subklasser av Sprite. Även funktioner i Sprite går
+// bra. Då är det helt upp till själva spelet / användaren att bestämma vad som
+// ska utföras, alltså behövs det ingen funktion som som hanterar tryck av
+// tangenten 'J' i Sprite t.ex.
 
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
-void expandPlayer(Sprite* s){
-	if(Player* p = dynamic_cast<Player*>(s)){
-		p->expand();
-	}
+void expandPlayer(Sprite* s) {
+    if (Player* p = dynamic_cast<Player*>(s)) {
+        p->expand();
+    }
 }
 
-void minimizePlayer(Sprite* s){
-	if(Player* p = dynamic_cast<Player*>(s))
-		p->minimize();
+void minimizePlayer(Sprite* s) {
+    if (Player* p = dynamic_cast<Player*>(s)) p->minimize();
 }
 
 int main(int argc, char* argv[]) {
@@ -35,7 +35,8 @@ int main(int argc, char* argv[]) {
     GameEngine* game = GameEngine::get_instance();
 
     game->init_SDL_libraries();
-    game->init_SDL_window("NOT AGARIO COPY", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480);
+    game->init_SDL_window("NOT AGARIO COPY", SDL_WINDOWPOS_UNDEFINED,
+                          SDL_WINDOWPOS_UNDEFINED, 640, 480);
 
     std::vector<std::string> assets;
 
@@ -48,25 +49,25 @@ int main(int argc, char* argv[]) {
 
     Player* s = new Player("resources/images/circle.png", 320, 240, 100, 100);
     Food* f = new Food("resources/images/circle.png", 320, 240, 15, 15);
-    Food* f2 = new Food("resources/images/circle.png", 600, 100, 15, 15);
+    /*Food* f2 = new Food("resources/images/circle.png", 600, 100, 15, 15);
     Food* f3 = new Food("resources/images/circle.png", 10, 270, 15, 15);
     Food* f4 = new Food("resources/images/circle.png", 460, 400, 15, 15);
     Food* f5 = new Food("resources/images/circle.png", 162, 67, 15, 15);
-    Food* f6 = new Food("resources/images/circle.png", 267, 194, 15, 15);
+    Food* f6 = new Food("resources/images/circle.png", 267, 194, 15, 15);*/
 
     game->add_sprite(*s);
     game->add_sprite(*f);
-    game->add_sprite(*f2);
+    /*game->add_sprite(*f2);
     game->add_sprite(*f3);
     game->add_sprite(*f4);
     game->add_sprite(*f5);
-    game->add_sprite(*f6);
+    game->add_sprite(*f6);*/
 
     std::unordered_map<SDL_Keycode, funcPtr> map;
-	map.emplace(SDLK_UP, expandPlayer);
-	map.emplace(SDLK_DOWN, minimizePlayer);
+    map.emplace(SDLK_UP, expandPlayer);
+    map.emplace(SDLK_DOWN, minimizePlayer);
 
-	game->load_keys(map);
+    game->load_keys(map);
 
     game->run_game();
 
