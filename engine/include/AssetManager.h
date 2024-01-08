@@ -20,7 +20,6 @@ private:
 
     AssetManager();
 
-
    public:
     std::vector<Sprite*> sprites;
     static std::unordered_map<std::string, SDL_Texture*> loaded_textures;

@@ -31,7 +31,7 @@ void Sprite::move(double x, double y) {
 }
 
 void Sprite::setW(int w){
-    rect.w += w;
+    rect.w = w;
 }
 
 void Sprite::setH(int h){

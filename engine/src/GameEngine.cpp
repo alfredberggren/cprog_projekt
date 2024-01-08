@@ -23,9 +23,14 @@ void GameEngine::run_game() {
             if (event.type == SDL_QUIT) {
                 running = false;
             } else if (event.type == SDL_KEYDOWN) {
-                if(keyMapping->count(event.key.keysym.sym) > 0){
-                    AssetManager::get_instance()->handleKeyEvent(keyMapping->at(event.key.keysym.sym));
+                
+                // Kolla om KEY finns i keyMapping, isåfall hämta den och skicka
+                // funktionen till AssetManager
+                if (keyMapping->count(event.key.keysym.sym) > 0) {
+                    AssetManager::get_instance()->handleKeyEvent(
+                        keyMapping->at(event.key.keysym.sym));
                 }
+
             } else if (event.type == SDL_MOUSEMOTION) {
                 AssetManager::get_instance()->mouseMovedAll(event.motion.x,
                                                             event.motion.y);
@@ -35,13 +40,13 @@ void GameEngine::run_game() {
         SDL_RenderClear(SYSTEM.renderer);
         AssetManager::get_instance()->tickAll();
         AssetManager::get_instance()->drawAll();
-        
+
         SDL_RenderPresent(SYSTEM.renderer);
         SDL_Delay(150);
     }
 }
 
-void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map){
+void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr>& map) {
     keyMapping = &map;
 }
 
