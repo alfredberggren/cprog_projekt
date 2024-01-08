@@ -15,12 +15,14 @@ class Sprite {
     SDL_Texture* texture;
 
    public:
-    void move(int x, int y);
+    void move(double x, double y);
     void setX(int x);
     void setY(int y);
+    int getCenterX() const;
+    int getCenterY() const;
 
     /*implement what to do when reacting to mouse-movement*/
-    virtual void mouseMoved(int x, int y) = 0;
+    virtual void mouseMoved(double x, double y) = 0;
     
     Sprite(std::string path_to_texture, int x, int y, int width, int height);
     ~Sprite();

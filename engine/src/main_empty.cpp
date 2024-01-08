@@ -1,51 +1,74 @@
+#include <cmath>
+#include <filesystem>
 #include <iostream>
 #include <string>
-#include "GameEngine.h"
 #include <vector>
-#include <filesystem>
+
+#include "GameEngine.h"
+
+#define PI 3.14
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
 class Player : public Sprite {
-	//TODO: singleton
+    // TODO: singleton
 
-	public:
-		Player(std::string path, int x, int y, int w, int h) : Sprite(path, x, y, w, h) {}
+   public:
+    Player(std::string path, int x, int y, int w, int h)
+        : Sprite(path, x, y, w, h) {}
 
-		void tick(){
-			
-		}
+    double getDirToMouse() {
+        double radian =
+            std::atan2(mouse_x - getCenterX(), mouse_y - getCenterY());
+        double angle = radian * (180 / PI);
+        if (angle < 0.0) {
+            angle += 360.0;
+        }
+        std::cout << angle << std::endl;
+        return angle;
+    }
 
-		void mouseMoved(int x, int y){
-			setX(x);
-			setY(y);
-		}
+    void tick() {
+        double dir = getDirToMouse();
+        double x = std::cos(dir * (PI / 180));
+        double y = std::sin(dir * (PI/ 180));
+        std::cout << "X: " << x << " Y: " << y << std::endl;
+        // move(std::cos(PI * 2 * dir / 360) * 2.0,
+        // std::sin(PI * 2 * dir / 360) * 2.0);
+    }
+
+    void mouseMoved(double x, double y) {
+        mouse_x = x;
+        mouse_y = y;
+    }
+
+   private:
+    double mouse_x;
+    double mouse_y;
 };
 
 int main(int argc, char* argv[]) {
-	std::string s1 = "Hejsan";
-	std::cout << s1 << std::endl;
-	
-	SYSTEM.initSDLComponents();
+    std::string s1 = "Hejsan";
+    std::cout << s1 << std::endl;
 
-	GameEngine* game = GameEngine::get_instance();
+    SYSTEM.initSDLComponents();
 
-	std::vector<std::string> assets;
+    GameEngine* game = GameEngine::get_instance();
 
-	for(const auto& dirEntry : dir_iterator("resources")){
-		if(dirEntry.is_regular_file())
-			assets.push_back(dirEntry.path().generic_string());
-	}
+    std::vector<std::string> assets;
 
-	game->load_assets(assets);
+    for (const auto& dirEntry : dir_iterator("resources")) {
+        if (dirEntry.is_regular_file())
+            assets.push_back(dirEntry.path().generic_string());
+    }
 
-	Player* s = new Player("resources/images/bg.jpg", 50,50,100,100);
-	Player* s2 = new Player("resources/images/bg.jpg", 150, 150, 50, 50);
-	
-	game->add_sprite(*s);
-	game->add_sprite(*s2);
+    game->load_assets(assets);
 
-	game->run_game();
-	
-	return 0;
+    Player* s = new Player("resources/images/bg.jpg", 320, 240, 100, 100);
+
+    game->add_sprite(*s);
+
+    game->run_game();
+
+    return 0;
 }

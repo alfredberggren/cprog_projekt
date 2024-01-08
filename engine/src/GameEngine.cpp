@@ -36,7 +36,7 @@ void GameEngine::run_game() {
         AssetManager::get_instance()->tickAll();
         AssetManager::get_instance()->drawAll();
         SDL_RenderPresent(SYSTEM.renderer);
-      
+        SDL_Delay(300);
     }
 }
 

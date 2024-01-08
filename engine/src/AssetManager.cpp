@@ -24,7 +24,7 @@ void AssetManager::tickAll(){
     }
 }
 
-void AssetManager::mouseMovedAll(int x, int y){
+void AssetManager::mouseMovedAll(double x, double y){
     for (Sprite* sprite : sprites) {
         sprite->mouseMoved(x, y);
     }

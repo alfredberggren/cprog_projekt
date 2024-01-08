@@ -37,7 +37,7 @@ public:
 
     void tickAll();
 
-    void mouseMovedAll(int, int);
+    void mouseMovedAll(double, double);
 
     void drawAll();
     ~AssetManager();
