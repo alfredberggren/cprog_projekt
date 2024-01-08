@@ -16,6 +16,22 @@ void AssetManager::add(Sprite& sprite) {
     sprites.push_back(&sprite);
 }
 
+
+
+void AssetManager::tickAll(){
+    for (Sprite* sprite : sprites) {
+        sprite->tick();
+    }
+}
+
+void AssetManager::mouseMovedAll(int x, int y){
+    for (Sprite* sprite : sprites) {
+        sprite->mouseMoved(x, y);
+    }
+}
+
+
+
 void AssetManager::drawAll(){
     for (Sprite* sprite : sprites){
         sprite->draw();

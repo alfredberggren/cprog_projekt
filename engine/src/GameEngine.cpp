@@ -27,10 +27,13 @@ void GameEngine::run_game() {
                     default:
                         break;
                 }
+            } else if (event.type == SDL_MOUSEMOTION) {
+                AssetManager::get_instance()->mouseMovedAll(event.motion.x, event.motion.y);
             }
         }
 
         SDL_RenderClear(SYSTEM.renderer);
+        AssetManager::get_instance()->tickAll();
         AssetManager::get_instance()->drawAll();
         SDL_RenderPresent(SYSTEM.renderer);
       

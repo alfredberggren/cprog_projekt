@@ -21,4 +21,18 @@ void Sprite::draw() {
     }
 }
 
+
+void Sprite::move(int x, int y) {
+    rect.x += x;
+    rect.y += y;
+}
+
+void Sprite::setX(int x) {
+    rect.x = x;
+}
+
+void Sprite::setY(int y) {
+    rect.y = y;
+}
+
 Sprite::~Sprite() {}

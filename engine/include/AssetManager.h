@@ -35,6 +35,10 @@ public:
     }
     void add(Sprite&);
 
+    void tickAll();
+
+    void mouseMovedAll(int, int);
+
     void drawAll();
     ~AssetManager();
 };
