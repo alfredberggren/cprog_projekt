@@ -22,6 +22,9 @@ void Player::tick() {
         if (Food* f = dynamic_cast<Food*>(s)) {
             if (SDL_HasIntersection(&rect, &s->rect)) {
                 AssetManager::get_instance()->remove(*s);
+                Sprite* s = new Food("resources/images/circle.png",
+                                     rand() % 1000, rand() % 1000, 20, 20);
+                AssetManager::get_instance()->add(*s);
                 rect.w += f->rect.w;
                 rect.h += f->rect.h;
             }

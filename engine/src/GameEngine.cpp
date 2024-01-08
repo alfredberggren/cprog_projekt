@@ -8,7 +8,18 @@ GameEngine* GameEngine::instance = nullptr;
 
 GameEngine::GameEngine() {}
 
-GameEngine::~GameEngine() {}
+GameEngine::~GameEngine() {
+    std::cout << "Destroying GameEngine" << std::endl;
+    for (auto pair : AssetManager::get_instance()->loaded_textures) {
+        SDL_DestroyTexture(pair.second);
+    }
+    for (auto pair : AssetManager::get_instance()->loaded_sounds) {
+        Mix_FreeChunk(pair.second);
+    }
+    Mix_Quit();
+    IMG_Quit();
+    SDL_Quit();
+}
 
 void GameEngine::run_game() {
     Mix_PlayChannel(-1,
@@ -23,7 +34,6 @@ void GameEngine::run_game() {
             if (event.type == SDL_QUIT) {
                 running = false;
             } else if (event.type == SDL_KEYDOWN) {
-                
                 // Kolla om KEY finns i keyMapping, isåfall hämta den och skicka
                 // funktionen till AssetManager
                 if (keyMapping->count(event.key.keysym.sym) > 0) {

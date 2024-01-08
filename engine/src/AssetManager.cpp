@@ -29,6 +29,7 @@ void AssetManager::remove(Sprite& sprite) {
             return;
         }
     }
+    delete &sprite;
 }
 
 void AssetManager::tickAll(){

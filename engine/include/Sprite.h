@@ -30,7 +30,7 @@ class Sprite {
     virtual void mouseMoved(double x, double y) = 0;
     
     Sprite(std::string path_to_texture, int x, int y, int width, int height);
-    ~Sprite();
+    virtual ~Sprite();
     void draw();
 
     /*Implement what to do when not reacting to input*/

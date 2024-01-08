@@ -5,6 +5,12 @@
 #include "AssetManager.h"
 #include "System.h"
 
+Sprite::~Sprite() {
+    if (texture != nullptr) {
+        SDL_DestroyTexture(texture);
+    }
+}
+
 Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height)
     : rect{x, y, width, height} {
     texture = AssetManager::get_instance()->loaded_textures[path_to_texture];
@@ -57,5 +63,3 @@ int Sprite::getCenterX() const { return rect.x + rect.w / 2; }
 int Sprite::getCenterY() const { return rect.y - rect.h / 2; }
 
 bool Sprite::isCollidable() const { return collidable; }
-
-Sprite::~Sprite() {}
