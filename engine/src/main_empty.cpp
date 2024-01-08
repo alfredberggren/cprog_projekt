@@ -18,23 +18,19 @@ class Player : public Sprite {
         : Sprite(path, x, y, w, h) {}
 
     double getDirToMouse() {
-        double radian =
-            std::atan2(mouse_x - getCenterX(), mouse_y - getCenterY());
+        double radian = std::atan2(mouse_y - getCenterY(), mouse_x - getCenterX());
         double angle = radian * (180 / PI);
         if (angle < 0.0) {
             angle += 360.0;
         }
-        std::cout << angle << std::endl;
         return angle;
     }
 
     void tick() {
         double dir = getDirToMouse();
         double x = std::cos(dir * (PI / 180));
-        double y = std::sin(dir * (PI/ 180));
-        std::cout << "X: " << x << " Y: " << y << std::endl;
-        // move(std::cos(PI * 2 * dir / 360) * 2.0,
-        // std::sin(PI * 2 * dir / 360) * 2.0);
+        double y = std::sin(dir * (PI / 180));
+        move(x * 10.0, y * 10.0);
     }
 
     void mouseMoved(double x, double y) {
