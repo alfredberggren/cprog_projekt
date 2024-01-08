@@ -16,8 +16,11 @@ class Sprite {
 
    public:
     void move(int x, int y);
+    
     void setX(int x);
     void setY(int y);
+    void setW(int w);
+    void setH(int h);
 
     /*implement what to do when reacting to mouse-movement*/
     virtual void mouseMoved(int x, int y) = 0;

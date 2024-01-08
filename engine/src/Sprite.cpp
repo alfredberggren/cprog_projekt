@@ -27,6 +27,14 @@ void Sprite::move(int x, int y) {
     rect.y += y;
 }
 
+void Sprite::setW(int w){
+    rect.w += w;
+}
+
+void Sprite::setH(int h){
+    rect.h = h;
+}
+
 void Sprite::setX(int x) {
     rect.x = x;
 }

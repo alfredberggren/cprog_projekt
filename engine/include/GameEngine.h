@@ -12,10 +12,14 @@
 #include "Sprite.h"
 #include "System.h"
 
+typedef void (*funcPtr)(Sprite*);
+
 class GameEngine {
    private:
     static GameEngine* instance;
     GameEngine(/* args */);
+
+    std::unordered_map<SDL_Keycode, funcPtr>* keyMapping;
 
     bool load_img(std::string path);
     bool load_sound(std::string path);
@@ -28,6 +32,8 @@ class GameEngine {
     bool init_SDL_libraries();
     bool init_SDL_window(std::string windowTitle, int xPosition, int yPosition,
                        int width, int height);
+
+    void load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map);
 
     void run_game();
 

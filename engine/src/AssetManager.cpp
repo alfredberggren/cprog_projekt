@@ -12,6 +12,12 @@ AssetManager::~AssetManager() {
     }
 }
 
+void AssetManager::handleKeyEvent(funcPtr func){
+    for(Sprite* sprite : sprites){
+        func(sprite);
+    }
+}
+
 void AssetManager::add(Sprite& sprite) {
     sprites.push_back(&sprite);
 }

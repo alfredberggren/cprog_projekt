@@ -20,12 +20,8 @@ void GameEngine::run_game() {
             if (event.type == SDL_QUIT) {
                 running = false;
             } else if (event.type == SDL_KEYDOWN) {
-                switch (event.key.keysym.sym) {
-                    case SDLK_ESCAPE:
-                        running = false;
-                        break;
-                    default:
-                        break;
+                if(keyMapping->count(event.key.keysym.sym) > 0){
+                    AssetManager::get_instance()->handleKeyEvent(keyMapping->at(event.key.keysym.sym));
                 }
             } else if (event.type == SDL_MOUSEMOTION) {
                 AssetManager::get_instance()->mouseMovedAll(event.motion.x, event.motion.y);
@@ -35,9 +31,13 @@ void GameEngine::run_game() {
         SDL_RenderClear(SYSTEM.renderer);
         AssetManager::get_instance()->tickAll();
         AssetManager::get_instance()->drawAll();
+        
         SDL_RenderPresent(SYSTEM.renderer);
-      
     }
+}
+
+void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map){
+    keyMapping = &map;
 }
 
 /*Loads assets from the vector*/

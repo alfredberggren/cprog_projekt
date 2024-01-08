@@ -11,6 +11,8 @@
 
 #include "Sprite.h"
 
+typedef void (*funcPtr)(Sprite*);
+
 class AssetManager
 {
 private:
@@ -33,6 +35,9 @@ public:
         }
         return instance;
     }
+
+    void handleKeyEvent(funcPtr func);
+
     void add(Sprite&);
 
     void tickAll();

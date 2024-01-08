@@ -16,11 +16,30 @@ class Player : public Sprite {
 			
 		}
 
+		void expand(){
+			
+		}
+
+		void minimize(){
+			
+		}
+
 		void mouseMoved(int x, int y){
 			setX(x);
 			setY(y);
 		}
 };
+
+void expandPlayer(Sprite* s){
+	if(Player* p = dynamic_cast<Player*>(s)){
+		p->expand();
+	}
+}
+
+void minimizePlayer(Sprite* s){
+	if(Player* p = dynamic_cast<Player*>(s))
+		p->minimize();
+}
 
 int main(int argc, char* argv[]) {
 	std::string s1 = "Hejsan";
@@ -44,6 +63,12 @@ int main(int argc, char* argv[]) {
 	
 	game->add_sprite(*s);
 	game->add_sprite(*s2);
+
+	std::unordered_map<SDL_Keycode, funcPtr> map;
+	map.emplace(SDLK_UP, expandPlayer);
+	map.emplace(SDLK_DOWN, minimizePlayer);
+
+	game->load_keys(map);
 
 	game->run_game();
 	
