@@ -24,7 +24,7 @@ class Player : public Sprite {
 			
 		}
 
-		void mouseMoved(int x, int y){
+		void mouseMoved(double x, double y){
 			setX(x);
 			setY(y);
 		}
