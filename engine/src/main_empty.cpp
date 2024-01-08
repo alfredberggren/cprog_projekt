@@ -17,11 +17,13 @@ class Player : public Sprite {
 		}
 
 		void expand(){
-			
+			setW(getW() + 5);
+			setH(getH() + 5);
 		}
 
 		void minimize(){
-			
+			setW(getW() - 5);
+			setH(getH() - 5);
 		}
 
 		void mouseMoved(double x, double y){
@@ -30,6 +32,11 @@ class Player : public Sprite {
 		}
 };
 
+// Denna implementation get möjligheten att mappa en KEY till en specific funktion i en eller flera subklasser av Sprite. 
+// Då är det helt upp till själva spelet / användaren att bestämma vad som ska utföras, alltså behövs det ingen funktion som
+// downKeyPressed i Sprite vilket makear sense då inte alla spel använder downKey. 
+
+// TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s){
 	if(Player* p = dynamic_cast<Player*>(s)){
 		p->expand();

@@ -44,6 +44,14 @@ void Sprite::setX(int x) {
 
 void Sprite::setY(int y) { rect.y = y; }
 
+int Sprite::getW() const {
+    return rect.w;
+}
+
+int Sprite::getH() const {
+    return rect.h;
+}
+
 int Sprite::getCenterX() const { return rect.x + rect.w / 2; }
 
 int Sprite::getCenterY() const { return rect.y - rect.h / 2; }

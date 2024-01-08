@@ -20,6 +20,8 @@ class Sprite {
     void setY(int y);
     void setW(int w);
     void setH(int h);
+    int getW() const;
+    int getH() const;
     int getCenterX() const;
     int getCenterY() const;
     bool isCollidable() const;

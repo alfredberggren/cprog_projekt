@@ -1,6 +1,7 @@
 #include "Player.h"
-#include "Food.h"
+
 #include "AssetManager.h"
+#include "Food.h"
 #define PI 3.14
 
 double Player::getDirToMouse() {
@@ -38,4 +39,14 @@ void Player::moveToMouse() {
 void Player::mouseMoved(double x, double y) {
     mouse_x = x;
     mouse_y = y;
+}
+
+void Player::expand() {
+    setW(getW() + 5);
+    setH(getH() + 5);
+}
+
+void Player::minimize() {
+    setW(getW() - 5);
+    setH(getH() - 5);
 }

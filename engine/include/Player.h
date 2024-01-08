@@ -12,6 +12,8 @@ class Player : public Sprite {
     Player(std::string path, int x, int y, int w, int h)
         : Sprite(path, x, y, w, h) {}
 
+    void expand();
+    void minimize();
     double getDirToMouse();
     void tick();
     void moveToMouse();
