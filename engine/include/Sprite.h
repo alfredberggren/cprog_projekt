@@ -10,20 +10,22 @@
 
 class Sprite {
    private:
-    SDL_Rect rect;
     bool collidable;
     SDL_Texture* texture;
 
    public:
-    void move(int x, int y);
-    
+    SDL_Rect rect;
+    void move(double x, double y);
     void setX(int x);
     void setY(int y);
     void setW(int w);
     void setH(int h);
+    int getCenterX() const;
+    int getCenterY() const;
+    bool isCollidable() const;
 
     /*implement what to do when reacting to mouse-movement*/
-    virtual void mouseMoved(int x, int y) = 0;
+    virtual void mouseMoved(double x, double y) = 0;
     
     Sprite(std::string path_to_texture, int x, int y, int width, int height);
     ~Sprite();

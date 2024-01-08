@@ -22,7 +22,14 @@ void AssetManager::add(Sprite& sprite) {
     sprites.push_back(&sprite);
 }
 
-
+void AssetManager::remove(Sprite& sprite) {
+    for (int i = 0; i < sprites.size(); i++) {
+        if (sprites[i] == &sprite) {
+            sprites.erase(sprites.begin() + i);
+            return;
+        }
+    }
+}
 
 void AssetManager::tickAll(){
     for (Sprite* sprite : sprites) {
@@ -30,7 +37,7 @@ void AssetManager::tickAll(){
     }
 }
 
-void AssetManager::mouseMovedAll(int x, int y){
+void AssetManager::mouseMovedAll(double x, double y){
     for (Sprite* sprite : sprites) {
         sprite->mouseMoved(x, y);
     }
