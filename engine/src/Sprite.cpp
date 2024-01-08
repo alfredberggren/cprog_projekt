@@ -38,4 +38,6 @@ int Sprite::getCenterX() const { return rect.x + rect.w / 2; }
 
 int Sprite::getCenterY() const { return rect.y - rect.h / 2; }
 
+bool Sprite::isCollidable() const { return collidable; }
+
 Sprite::~Sprite() {}

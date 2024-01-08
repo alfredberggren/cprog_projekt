@@ -4,36 +4,35 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
-#include <string>
-#include <vector>
-#include <unordered_map>
 #include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "Sprite.h"
 
-class AssetManager
-{
-private:
+class AssetManager {
+   private:
     static AssetManager* instance;
 
     AssetManager();
 
-    std::vector<Sprite*> sprites;
 
-public:
-    static std::unordered_map<std::string, SDL_Texture *> loaded_textures;
+   public:
+    std::vector<Sprite*> sprites;
+    static std::unordered_map<std::string, SDL_Texture*> loaded_textures;
     static std::unordered_map<std::string, Mix_Chunk*> loaded_sounds;
 
-    static AssetManager* get_instance()
-    {
-        if (instance == nullptr)
-        {
+    static AssetManager* get_instance() {
+        if (instance == nullptr) {
             instance = new AssetManager();
             std::cout << "Created AssetManager" << std::endl;
         }
         return instance;
     }
     void add(Sprite&);
+
+    void remove(Sprite&);
 
     void tickAll();
 
@@ -43,4 +42,4 @@ public:
     ~AssetManager();
 };
 
-#endif // ASSET_MANAGER_H
+#endif  // ASSET_MANAGER_H

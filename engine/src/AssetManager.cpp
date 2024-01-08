@@ -16,7 +16,14 @@ void AssetManager::add(Sprite& sprite) {
     sprites.push_back(&sprite);
 }
 
-
+void AssetManager::remove(Sprite& sprite) {
+    for (int i = 0; i < sprites.size(); i++) {
+        if (sprites[i] == &sprite) {
+            sprites.erase(sprites.begin() + i);
+            return;
+        }
+    }
+}
 
 void AssetManager::tickAll(){
     for (Sprite* sprite : sprites) {
