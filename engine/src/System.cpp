@@ -18,9 +18,13 @@ bool System::initSDLComponents(){
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't initialize Mix Audio: %s", Mix_GetError());
         check = false;
     }
-    
+    return check;
+}
+
+bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int width, int height){
+    bool check = true;
     //TODO: Change hardcoded window-text and size to use arguments
-    window = SDL_CreateWindow("SDL2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(title.c_str(), xPos, yPos, width, height, SDL_WINDOW_SHOWN);
     if(window == nullptr) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create window: %s", SDL_GetError());
         check = false;
@@ -33,7 +37,6 @@ bool System::initSDLComponents(){
     }
 
     std::cout << "SYSTEM: \n\tSDL components initialized successfully: " << check << std::endl;
-
     return check;
 }
 

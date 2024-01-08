@@ -21,6 +21,18 @@ GameEngine::~GameEngine() {
     SDL_Quit();
 }
 
+// TODO : Fixa returvärden!
+
+bool GameEngine::init_SDL_libraries() {
+    SYSTEM.initSDLComponents();
+    return true;
+}
+
+bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition, int yPosition, int width, int height){
+    SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width, height);
+    return true;
+}
+
 void GameEngine::run_game() {
     Mix_PlayChannel(-1,
                     AssetManager::get_instance()
