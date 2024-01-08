@@ -11,7 +11,7 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 
 // Denna implementation get möjligheten att mappa en KEY till en specific funktion i en eller flera subklasser av Sprite. 
 // Då är det helt upp till själva spelet / användaren att bestämma vad som ska utföras, alltså behövs det ingen funktion som
-// downKeyPressed i Sprite vilket makear sense då inte alla spel använder downKey. 
+// som hanterar tryck av tangenten 'J' i Sprite t.ex. 
 
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s){

@@ -23,7 +23,7 @@ void GameEngine::run_game() {
             if (event.type == SDL_QUIT) {
                 running = false;
             } else if (event.type == SDL_KEYDOWN) {
-                
+
                 // Kolla om KEY finns i keyMapping, isåfall hämta den och skicka
                 // funktionen till AssetManager
                 if (keyMapping->count(event.key.keysym.sym) > 0) {
