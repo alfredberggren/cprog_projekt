@@ -3,14 +3,16 @@
 #include <string>
 
 #include "Sprite.h"
+#include "Player.h"
 
 class Food : public Sprite {
    public:
     Food(std::string path, int x, int y, int w, int h)
-        : Sprite(path, x, y, w, h) {}
+        : Sprite(path, x, y, w, h, true) {}
 
     void tick() {}
     void mouseMoved(double x, double y) {}
+   
 
    private:
     int value = 5;

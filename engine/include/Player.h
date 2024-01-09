@@ -10,7 +10,7 @@ class Player : public Sprite {
 
    public:
     Player(std::string path, int x, int y, int w, int h)
-        : Sprite(path, x, y, w, h) {}
+        : Sprite(path, x, y, w, h, true) {}
 
     void expand();
     void minimize();

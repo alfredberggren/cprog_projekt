@@ -53,6 +53,7 @@ void GameEngine::run_game() {
         }
 
         SDL_RenderClear(SYSTEM.renderer);
+        
         AssetManager::get_instance()->tickAll();
         AssetManager::get_instance()->drawAll();
 
