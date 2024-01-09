@@ -13,6 +13,7 @@ class Character : public Sprite {
     virtual void expand(int w, int h);
     virtual void minimize();
     void handle_collision();
+    void move_to_point(double x, double y);
     virtual ~Character() {}
 };
 

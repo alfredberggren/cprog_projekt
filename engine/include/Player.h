@@ -12,7 +12,6 @@ class Player : public Character {
     Player(std::string path, int x, int y, int w, int h)
         : Character(path, x, y, w, h) {}
 
-    double getDirToMouse();
     void tick();
     void moveToMouse();
     void mouseMoved(double x, double y);
