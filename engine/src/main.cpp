@@ -6,6 +6,7 @@
 #include "Food.h"
 #include "GameEngine.h"
 #include "Player.h"
+#include "Map.h"
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
@@ -52,6 +53,10 @@ int main(int argc, char* argv[]) {
 
     game->add_sprite(*s);
     game->add_sprite(*f);
+
+    Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
+
+    game->add_sprite(*b);
     /*game->add_sprite(*f2);
     game->add_sprite(*f3);
     game->add_sprite(*f4);

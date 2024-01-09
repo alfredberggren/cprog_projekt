@@ -5,7 +5,7 @@
 
 void Character::handle_collision() {
     std::vector<Sprite*> collisions =
-        AssetManager::get_instance()->check_collisions(this);
+        AssetManager::get_instance()->check_collisions(*this);
     if (collisions.empty()) {
         return;
     }

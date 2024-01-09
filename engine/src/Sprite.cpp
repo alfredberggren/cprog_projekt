@@ -23,7 +23,7 @@ void Sprite::draw() {
 
     if (SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect) < 0) {
         std::cerr << "Sprite could not rendercopy" << std::endl;
-        std::cerr << "Error: " << SDL_GetError() << std::endl;
+        std::cerr << "Error: " << SDL_GetError() << std::endl;  
     }
 }
 
