@@ -14,8 +14,9 @@ void Player::moveToMouse() {
         getCenterY() < mouse_y + 15 && getCenterY() > mouse_y - 15) {
         return;
     }
+
     move_to_point(mouse_x, mouse_y);
-    std::cout << getCenterX() << " " << getCenterY() << std::endl;
+    std::cout << mouse_x << " " << mouse_y << std::endl;
         
     camera.x = (rect.x + rect.w / 2) - 640 / 2;
     camera.y = (rect.y + rect.h / 2) - 480 / 2;

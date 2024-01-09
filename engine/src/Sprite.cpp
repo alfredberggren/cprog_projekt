@@ -30,6 +30,7 @@ void Sprite::draw() {
     //}
     SDL_Rect renderQuad = {rect.x - camera.x, rect.y - camera.y, rect.w,
                            rect.h};
+
     SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &renderQuad);
 }
 
