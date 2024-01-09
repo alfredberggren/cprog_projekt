@@ -27,18 +27,13 @@ void minimizePlayer(Sprite* s) {
 }
 
 int main(int argc, char* argv[]) {
-    std::string s1 = "Hejsan";
-    std::cout << s1 << std::endl;
-
-    SYSTEM.initSDLComponents();
-
+    std::vector<std::string> assets;
+    std::unordered_map<SDL_Keycode, funcPtr> map;
     GameEngine* game = GameEngine::get_instance();
 
     game->init_SDL_libraries();
     game->init_SDL_window("NOT AGARIO COPY", SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED, 640, 480);
-
-    std::vector<std::string> assets;
 
     for (const auto& dirEntry : dir_iterator("resources")) {
         if (dirEntry.is_regular_file())
@@ -63,7 +58,6 @@ int main(int argc, char* argv[]) {
     game->add_sprite(*f5);
     game->add_sprite(*f6);*/
 
-    std::unordered_map<SDL_Keycode, funcPtr> map;
     map.emplace(SDLK_UP, expandPlayer);
     map.emplace(SDLK_DOWN, minimizePlayer);
 
