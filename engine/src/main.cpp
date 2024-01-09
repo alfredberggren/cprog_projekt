@@ -6,6 +6,7 @@
 #include "Food.h"
 #include "GameEngine.h"
 #include "Player.h"
+#include "NPC.h"
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
@@ -18,7 +19,7 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
-        p->expand();
+        p->expand(5, 5);
     }
 }
 
@@ -49,7 +50,10 @@ int main(int argc, char* argv[]) {
     Food* f4 = new Food("resources/images/circle.png", 460, 400, 15, 15);
     Food* f5 = new Food("resources/images/circle.png", 162, 67, 15, 15);
     Food* f6 = new Food("resources/images/circle.png", 267, 194, 15, 15);
-    
+    NPC* n = new NPC("resources/images/circle.png", 0, 0, 20, 20);
+    NPC* n2 = new NPC("resources/images/circle.png", 600, 400, 20, 20);
+
+
     game->add_sprite(*s);
     game->add_sprite(*f);
     game->add_sprite(*f2);
@@ -57,6 +61,8 @@ int main(int argc, char* argv[]) {
     game->add_sprite(*f4);
     game->add_sprite(*f5);
     game->add_sprite(*f6);
+    game->add_sprite(*n);
+    game->add_sprite(*n2);
 
     map.emplace(SDLK_UP, expandPlayer);
     map.emplace(SDLK_DOWN, minimizePlayer);

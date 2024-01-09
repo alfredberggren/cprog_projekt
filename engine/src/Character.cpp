@@ -1,5 +1,7 @@
 #include "Character.h"
+
 #include <vector>
+
 #include "AssetManager.h"
 #include "Food.h"
 
@@ -23,6 +25,17 @@ void Character::handle_collision() {
             }
         }
     }
+}
+
+void Character::move_to_point(double x, double y) {
+    double radian = std::atan2(y - getCenterY(), x - getCenterX());
+    double angle = radian * (180 / PI);
+    if (angle < 0.0) {
+        angle += 360.0;
+    }
+    double x1 = std::cos(angle * (PI / 180));
+    double y1 = std::sin(angle * (PI / 180));
+    move(x1 * 5.0, y1 * 5.0);
 }
 
 void Character::expand(int w, int h) {
