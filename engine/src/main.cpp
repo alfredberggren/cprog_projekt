@@ -53,15 +53,13 @@ int main(int argc, char* argv[]) {
         new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2,
                    game->SCREEN_WIDTH / 2, 15, 15);
     // make food and npcs randomly placed within level width and height
-    for (int i = 0; i < 600; i++) {
-        game->add_sprite(*new Food("resources/images/circle.png",
-                                   rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT,
-                                   15, 15));
+    for (int i = 0; i < 500; i++)
+    {
+        game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
     }
-    for (int i = 0; i < 15; i++) {
-        game->add_sprite(*new NPC("resources/images/circle.png",
-                                  rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT,
-                                  20, 20));
+    for (int i = 0; i < 15; i++)
+    {
+        game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
     }
 
     game->add_sprite(*s);
