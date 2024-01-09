@@ -3,17 +3,15 @@
 #include <cmath>
 #include <string>
 
-#include "Sprite.h"
+#include "Character.h"
 
-class Player : public Sprite {
+class Player : public Character {
     // TODO: singleton
 
    public:
     Player(std::string path, int x, int y, int w, int h)
-        : Sprite(path, x, y, w, h) {}
+        : Character(path, x, y, w, h) {}
 
-    void expand();
-    void minimize();
     double getDirToMouse();
     void tick();
     void moveToMouse();

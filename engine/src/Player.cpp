@@ -43,13 +43,3 @@ void Player::mouseMoved(double x, double y) {
     mouse_x = x;
     mouse_y = y;
 }
-
-void Player::expand() {
-    setW(getW() + 5);
-    setH(getH() + 5);
-}
-
-void Player::minimize() {
-    setW(getW() - 5);
-    setH(getH() - 5);
-}

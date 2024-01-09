@@ -24,6 +24,7 @@ class Sprite {
     int getH() const;
     int getCenterX() const;
     int getCenterY() const;
+    int area() const;
     bool isCollidable() const;
 
     /*implement what to do when reacting to mouse-movement*/
