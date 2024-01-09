@@ -21,8 +21,10 @@ bool GameEngine::init_SDL_libraries() {
     return true;
 }
 
-bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition, int yPosition, int width, int height){
-    SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width, height);
+bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition,
+                                 int yPosition, int width, int height) {
+    SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width,
+                                 height);
     return true;
 }
 
@@ -53,12 +55,13 @@ void GameEngine::run_game() {
         }
 
         SDL_RenderClear(SYSTEM.renderer);
-        
+
         AssetManager::get_instance()->tickAll();
+        AssetManager::get_instance()->remove_marked();
         AssetManager::get_instance()->drawAll();
 
         SDL_RenderPresent(SYSTEM.renderer);
-        SDL_Delay(150);
+        SDL_Delay(62.5);
     }
 }
 

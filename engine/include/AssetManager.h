@@ -13,18 +13,15 @@
 
 typedef void (*funcPtr)(Sprite*);
 
-class AssetManager
-{
-private:
+class AssetManager {
+   private:
     static AssetManager* instance;
 
     AssetManager();
 
    public:
-    
-    //TODO: why are these public? should do something about all of this...
+    // TODO: why are these public? should do something about all of this...
     std::vector<Sprite*> active_sprites;
-    std::vector<Sprite*> sprites_to_remove;
     static std::unordered_map<std::string, SDL_Texture*> loaded_textures;
     static std::unordered_map<std::string, Mix_Chunk*> loaded_sounds;
 
@@ -37,16 +34,11 @@ private:
     }
 
     void handleKeyEvent(funcPtr func);
-
     void add(Sprite&);
-
-    void remove(Sprite&);
-
     void tickAll();
-
     void mouseMovedAll(double, double);
-
     std::vector<Sprite*> check_collisions(Sprite&);
+    void remove_marked();
 
     void drawAll();
     ~AssetManager();

@@ -21,20 +21,10 @@ void AssetManager::handleKeyEvent(funcPtr func) {
     }
 }
 
-void AssetManager::add(Sprite& sprite) { 
+void AssetManager::add(Sprite& sprite) {
     active_sprites.push_back(&sprite);
-    std::cout << "Added a sprite to active_sprites, total now: " << active_sprites.size() << std::endl;
-
-}
-
-void AssetManager::remove(Sprite& sprite) {
-    for (int i = 0; i < active_sprites.size(); i++) {
-        if (active_sprites[i] == &sprite) {
-            active_sprites.erase(active_sprites.begin() + i);
-            return;
-        }
-    }
-    delete &sprite;
+    std::cout << "Added a sprite to active_sprites, total now: "
+              << active_sprites.size() << std::endl;
 }
 
 void AssetManager::tickAll() {
@@ -55,24 +45,38 @@ void AssetManager::drawAll() {
     }
 }
 
-
-/*function to be used by subclasses of Sprite to check if it has collided with anything, will return a vector with all colliding sprites, which the subclass can react to in its implementation*/
+/*function to be used by subclasses of Sprite to check if it has collided with
+ * anything, will return a vector with all colliding sprites, which the subclass
+ * can react to in its implementation*/
 std::vector<Sprite*> AssetManager::check_collisions(Sprite& sprite_to_check) {
-    std::cout << "Checking collisions" << std::endl;
     std::vector<Sprite*> colliding_sprites;
 
     for (Sprite* sprite : active_sprites) {
-        if (sprite->isCollidable()){
-            if (sprite != &sprite_to_check){
-                if (SDL_HasIntersection(&sprite->rect, &sprite_to_check.rect) == SDL_TRUE) {
+        if (sprite->isCollidable()) {
+            if (sprite != &sprite_to_check) {
+                if (SDL_HasIntersection(&sprite->rect, &sprite_to_check.rect) ==
+                    SDL_TRUE) {
                     colliding_sprites.push_back(sprite);
                 }
             }
         }
     }
 
-    return colliding_sprites;    
-} //check_collisions
+    return colliding_sprites;
+}  // check_collisions
+
+void AssetManager::remove_marked() {
+    std::vector<Sprite*>::iterator it;
+    for (it = active_sprites.begin(); it != active_sprites.end();) {
+        if ((*it)->to_remove()) {
+            std::cout << "removing sprite" << std::endl;
+            delete *it;
+            active_sprites.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
 
 std::unordered_map<std::string, SDL_Texture*> AssetManager::loaded_textures;
 std::unordered_map<std::string, Mix_Chunk*> AssetManager::loaded_sounds;

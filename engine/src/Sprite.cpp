@@ -46,8 +46,12 @@ int Sprite::getH() const { return rect.h; }
 
 int Sprite::getCenterX() const { return rect.x + rect.w / 2; }
 
-int Sprite::getCenterY() const { return rect.y - rect.h / 2; }
+int Sprite::getCenterY() const { return rect.y + rect.h / 2; }
 
 bool Sprite::isCollidable() const { return collidable; }
 
 int Sprite::area() const { return rect.w * rect.h; }
+
+bool Sprite::to_remove() const { return to_be_removed; }
+
+void Sprite::set_remove(bool remove) { to_be_removed = remove; }

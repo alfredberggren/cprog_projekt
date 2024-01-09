@@ -5,14 +5,15 @@
 
 #include <string>
 #include <unordered_map>
+#define PI 3.14
 
 // TODO : Bör vara abstrakt?
 
 class Sprite {
    private:
-    bool collidable;  // TODO: check spelling on collidEable/collidable
-
    protected:
+    bool collidable; //TODO: check spelling on collidEable/collidable
+    bool to_be_removed = false;
     SDL_Texture* texture;
 
    public:
@@ -28,6 +29,9 @@ class Sprite {
     int getCenterY() const;
     int area() const;
     bool isCollidable() const;
+    bool to_remove() const;
+    void set_remove(bool remove);
+    
 
     /*implement what to do when reacting to mouse-movement*/
     virtual void mouseMoved(double x, double y) = 0;
