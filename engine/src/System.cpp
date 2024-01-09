@@ -18,6 +18,12 @@ bool System::initSDLComponents(){
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't initialize Mix Audio: %s", Mix_GetError());
         check = false;
     }
+
+    if (check){
+        std::cout << "SYSTEM: \n\tSDL components initialized successfully" << std::endl;
+    } else {
+        std::cerr << "SYSTEM: \n\tSDL components failed initialization" << std::endl;
+    }
     return check;
 }
 
@@ -35,8 +41,12 @@ bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int wi
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create renderer: %s", SDL_GetError());
         check = false;
     }
-
-    std::cout << "SYSTEM: \n\tSDL components initialized successfully: " << check << std::endl;
+    if (check){
+        std::cout << "SYSTEM: \n\tWindow and Renderer initialized successfully" << std::endl;
+    } else {
+        std::cerr << "SYSTEM: \n\tWindow and Renderer failed initialization" << std::endl;
+    }
+    
     return check;
 }
 

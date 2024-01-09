@@ -18,7 +18,7 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
-        p->expand();
+        p->expand(5,5);
     }
 }
 
@@ -41,6 +41,10 @@ int main(int argc, char* argv[]) {
     }
 
     game->load_assets(assets);
+
+    int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", -1);
+    game->stop_sound(soundchannel);
+    game->play_sound("resources/sounds/TillSpel.mp3", -1);
 
     Player* s = new Player("resources/images/circle.png", 320, 240, 100, 100);
     Food* f = new Food("resources/images/circle.png", 100, 100, 15, 15);

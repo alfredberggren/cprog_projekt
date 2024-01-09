@@ -48,7 +48,7 @@ void AssetManager::drawAll() {
 /*function to be used by subclasses of Sprite to check if it has collided with
  * anything, will return a vector with all colliding sprites, which the subclass
  * can react to in its implementation*/
-std::vector<Sprite*> AssetManager::check_collisions(Sprite& sprite_to_check) {
+std::vector<Sprite*> AssetManager::check_collisions(const Sprite& sprite_to_check) const{
     std::vector<Sprite*> colliding_sprites;
 
     for (Sprite* sprite : active_sprites) {
@@ -76,6 +76,22 @@ void AssetManager::remove_marked() {
             ++it;
         }
     }
+}
+
+void AssetManager::add_sound(const std::string path, Mix_Chunk* sound_chunk){
+    loaded_sounds.insert(std::make_pair(path, sound_chunk));
+}
+
+void AssetManager::add_texture(const std::string path, SDL_Texture* texture){
+    loaded_textures.insert(std::make_pair(path, texture));
+}
+
+Mix_Chunk* AssetManager::get_sound(const std::string path){
+    return loaded_sounds[path];
+}
+
+SDL_Texture* AssetManager::get_texture(const std::string path){
+    return loaded_textures[path];
 }
 
 std::unordered_map<std::string, SDL_Texture*> AssetManager::loaded_textures;
