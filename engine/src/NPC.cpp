@@ -10,7 +10,7 @@ void NPC::tick() {
 void NPC::move_to_closest() {
     Sprite* closest = nullptr;
     double closest_dist = 1000000;
-    for (Sprite* s : AssetManager::get_instance()->active_sprites) {
+    for (Sprite* s : AssetManager::get_instance()->get_active_sprites()) {
         if (s == this) {
             continue;
         }

@@ -39,6 +39,7 @@ public:
         return instance;
     }
 
+    std::vector<Sprite *> get_active_sprites() const { return active_sprites; }
     void handleKeyEvent(funcPtr func);
     void add(Sprite &);
     void tickAll();
