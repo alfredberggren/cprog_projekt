@@ -20,7 +20,11 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
+<<<<<<< HEAD
+        p->expand(5,5);
+=======
         p->expand(5, 5);
+>>>>>>> 4b7e95af0331c6a900211543416edf28f52fdae8
     }
 }
 
@@ -44,13 +48,14 @@ int main(int argc, char* argv[]) {
 
     game->load_assets(assets);
 
+    int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", -1);
+    
+
     int LEVEL_WIDTH = 1920;
     int LEVEL_HEIGHT = 1280;
 
+    Player* s = new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2, game->SCREEN_WIDTH / 2, 15, 15);
     // make food and npcs randomly placed within level width and height
-
-
-    Player* s = new Player("resources/images/circle.png", 640, 480, 15, 15);
     for (int i = 0; i < 300; i++)
     {
         game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
@@ -58,7 +63,7 @@ int main(int argc, char* argv[]) {
     //for (int i = 0; i < 15; i++)
     //{
        // game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
-   // }
+    //}
 
     game->add_sprite(*s);
 

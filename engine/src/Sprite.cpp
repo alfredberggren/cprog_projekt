@@ -9,10 +9,9 @@ SDL_Rect Sprite::camera = {0, 0, 640, 480};
 
 Sprite::~Sprite() {}
 
-Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
-               bool is_collideable)
-    : collidable(is_collideable), rect{x, y, width, height} {
-    texture = AssetManager::get_instance()->loaded_textures[path_to_texture];
+Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collideable)
+    : collidable(is_collideable), rect{x, y, width, height}  {
+    texture = AssetManager::get_instance()->get_texture(path_to_texture);
     if (texture == nullptr) {
         std::cerr << "Texture could not be found when creating sprite"
                   << std::endl;

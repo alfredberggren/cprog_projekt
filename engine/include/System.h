@@ -7,7 +7,6 @@
 #include <string>
 
 class System {
-  
    public:
     bool initSDLComponents();
     bool initWindowAndRenderer(std::string title, int xPos, int yPos, int width, int height);

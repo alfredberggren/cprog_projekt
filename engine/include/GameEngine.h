@@ -41,6 +41,11 @@ class GameEngine {
 
     void load_assets(std::vector<std::string> assets);
     void loadSurface(std::string& asset, SDL_Surface* surface, int& retFlag);
+    int SCREEN_WIDTH;
+    int SCREEN_HEIGHT;
+
+    int play_sound(const std::string&, int) const;
+    void stop_sound(int) const;
 
     void add_sprite(Sprite& sprite);
 
