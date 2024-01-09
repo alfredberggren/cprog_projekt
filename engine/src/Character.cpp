@@ -13,13 +13,13 @@ void Character::handle_collision() {
         return;
     }
     for (Sprite* s : collisions) {
-        if (dynamic_cast<Food*>(s)) {
-            this->expand(s->getW(), s->getH());
+        if (Food* f = dynamic_cast<Food*>(s)) {
+            this->expand((f->getW()*10)/getW(), (f->getH()*10)/getH());
             GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", 0);
             s->set_remove(true);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
-                this->expand(c->getW(), c->getH());
+                this->expand(c->getW()/getW(), c->getH()/getH());
                 GameEngine::get_instance()->play_sound("resources/sounds/munchbig.mp3", 0);
                 c->set_remove(true);
             } else {
@@ -41,7 +41,9 @@ void Character::move_to_point(double x, double y) {
     move(x1 * 5.0, y1 * 5.0);
 }
 
+
 void Character::expand(int w, int h) {
+    
     setW(getW() + w);
     setH(getH() + h);
 }
