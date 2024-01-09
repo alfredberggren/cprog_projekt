@@ -37,7 +37,6 @@ void Player::moveToMouse() {
 }
 
 void Player::mouseMoved(double x, double y) {
-    std::cout << "Mouse moved to " << x << ", " << y << std::endl;
     mouse_x = camera.x + camera.w / 2 - 640 / 2 + x;
     mouse_y = camera.y + camera.h / 2 - 480 / 2 + y;
 }
