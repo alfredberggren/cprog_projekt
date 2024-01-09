@@ -18,6 +18,7 @@ class Sprite {
 
    public:
     SDL_Rect rect;
+    static SDL_Rect camera;
     void move(double x, double y);
     void setX(int x);
     void setY(int y);

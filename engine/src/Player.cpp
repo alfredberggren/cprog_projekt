@@ -2,15 +2,7 @@
 
 #include "AssetManager.h"
 #include "Food.h"
-
-/*double Player::getDirToMouse() {
-    double radian = std::atan2(mouse_y - getCenterY(), mouse_x - getCenterX());
-    double angle = radian * (180 / PI);
-    if (angle < 0.0) {
-        angle += 360.0;
-    }
-    return angle;
-}*/
+#include "System.h"
 
 void Player::tick() {
     moveToMouse();
@@ -23,6 +15,10 @@ void Player::moveToMouse() {
         return;
     }
     move_to_point(mouse_x, mouse_y);
+    std::cout << getCenterX() << " " << getCenterY() << std::endl;
+        
+    camera.x = (rect.x + rect.w / 2) - 640 / 2;
+    camera.y = (rect.y + rect.h / 2) - 480 / 2;
 }
 
 void Player::mouseMoved(double x, double y) {

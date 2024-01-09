@@ -5,10 +5,13 @@
 #include "AssetManager.h"
 #include "System.h"
 
+SDL_Rect Sprite::camera = {0, 0, 640, 480};
+
 Sprite::~Sprite() {}
 
-Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collideable)
-    : collidable(is_collideable), rect{x, y, width, height}  {
+Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
+               bool is_collideable)
+    : collidable(is_collideable), rect{x, y, width, height} {
     texture = AssetManager::get_instance()->loaded_textures[path_to_texture];
     if (texture == nullptr) {
         std::cerr << "Texture could not be found when creating sprite"
@@ -21,10 +24,13 @@ void Sprite::draw() {
         std::cerr << "Texture is nullptr" << std::endl;
     }
 
-    if (SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect) < 0) {
-        std::cerr << "Sprite could not rendercopy" << std::endl;
-        std::cerr << "Error: " << SDL_GetError() << std::endl;  
-    }
+    //if (SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect) < 0) {
+    //    std::cerr << "Sprite could not rendercopy" << std::endl;
+    //    std::cerr << "Error: " << SDL_GetError() << std::endl;
+    //}
+    SDL_Rect renderQuad = {rect.x - camera.x, rect.y - camera.y, rect.w,
+                           rect.h};
+    SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &renderQuad);
 }
 
 void Sprite::move(double x, double y) {

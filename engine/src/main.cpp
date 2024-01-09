@@ -44,31 +44,26 @@ int main(int argc, char* argv[]) {
 
     game->load_assets(assets);
 
-    Player* s = new Player("resources/images/circle.png", 320, 240, 100, 100);
-    Food* f = new Food("resources/images/circle.png", 100, 100, 15, 15);
-    Food* f2 = new Food("resources/images/circle.png", 600, 100, 15, 15);
-    Food* f3 = new Food("resources/images/circle.png", 10, 270, 15, 15);
-    Food* f4 = new Food("resources/images/circle.png", 460, 400, 15, 15);
-    Food* f5 = new Food("resources/images/circle.png", 162, 67, 15, 15);
-    Food* f6 = new Food("resources/images/circle.png", 267, 194, 15, 15);
-    NPC* n = new NPC("resources/images/circle.png", 0, 0, 20, 20);
-    NPC* n2 = new NPC("resources/images/circle.png", 600, 400, 20, 20);
+    int LEVEL_WIDTH = 1920;
+    int LEVEL_HEIGHT = 1280;
 
+    // make food and npcs randomly placed within level width and height
+
+
+    Player* s = new Player("resources/images/circle.png", 640, 480, 15, 15);
+    for (int i = 0; i < 300; i++)
+    {
+        game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
+    }
+    //for (int i = 0; i < 15; i++)
+    //{
+       // game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
+   // }
 
     game->add_sprite(*s);
-    game->add_sprite(*f);
 
-    Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
-
-    game->add_sprite(*b);
-    /*game->add_sprite(*f2);
-    game->add_sprite(*f2);
-    game->add_sprite(*f3);
-    game->add_sprite(*f4);
-    game->add_sprite(*f5);
-    game->add_sprite(*f6);
-    game->add_sprite(*n);
-    game->add_sprite(*n2);*/
+    //Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
+    //game->add_sprite(*b);
 
     map.emplace(SDLK_UP, expandPlayer);
     map.emplace(SDLK_DOWN, minimizePlayer);
