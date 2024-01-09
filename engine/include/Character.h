@@ -14,6 +14,7 @@ class Character : public Sprite {
     virtual void minimize();
     void handle_collision();
     void move_to_point(double x, double y);
+    double get_vel() const;
     virtual ~Character() {}
 };
 

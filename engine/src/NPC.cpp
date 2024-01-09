@@ -17,12 +17,12 @@ void NPC::move_to_closest() {
         }
         double dist = std::sqrt(std::pow(getCenterX() - s->getCenterX(), 2) +
                                 std::pow(getCenterY() - s->getCenterY(), 2));
+        if (dynamic_cast<Food*>(s)) {
+            if (dist > 250) {
+                continue;
+            }        
+        }
         if (dist < closest_dist) {
-            if (dynamic_cast<Food*>(s)) {
-                if (dist > 400) {
-                    continue;
-                }
-            }
             closest_dist = dist;
             closest = s;
         }
@@ -31,8 +31,13 @@ void NPC::move_to_closest() {
         return;
     }
     if (closest->area() > area()) {
+        texture = AssetManager::get_instance()->get_texture("resources/images/nervous.png");
         move_to_point(-closest->getCenterX(), -closest->getCenterY());
     } else {
+        if(dynamic_cast<Food*>(closest)){
+            texture = AssetManager::get_instance()->get_texture("resources/images/hungry.png");
+        }else
+            texture = AssetManager::get_instance()->get_texture("resources/images/anger.png");
         move_to_point(closest->getCenterX(), closest->getCenterY());
     }
 }

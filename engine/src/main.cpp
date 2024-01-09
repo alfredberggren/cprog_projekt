@@ -46,14 +46,14 @@ int main(int argc, char* argv[]) {
 
     int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", -1);
 
-    int LEVEL_WIDTH = 5000;
-    int LEVEL_HEIGHT = 5000;
+    int LEVEL_WIDTH = 3500;
+    int LEVEL_HEIGHT = 3500;
 
     Player* s =
         new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2,
                    game->SCREEN_WIDTH / 2, 15, 15);
     // make food and npcs randomly placed within level width and height
-    for (int i = 0; i < 500; i++)
+    for (int i = 0; i < 600; i++)
     {
         game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
     }
