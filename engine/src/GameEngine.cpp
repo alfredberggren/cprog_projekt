@@ -17,24 +17,37 @@ GameEngine::~GameEngine() {
 // TODO : Fixa returvärden!
 
 bool GameEngine::init_SDL_libraries() {
-    SYSTEM.initSDLComponents();
-    return true;
+    return SYSTEM.initSDLComponents();
+    
 }
 
 bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition,
                                  int yPosition, int width, int height) {
-    SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width,
+   
+    return SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width,
                                  height);
     SCREEN_HEIGHT = height;
     SCREEN_WIDTH = width;
     return true;
 }
 
-void GameEngine::run_game() {
-    Mix_PlayChannel(-1,
+/*Plays the sound from specified soundpath the specified amount of repeats. Use -1 for infinite repeats.
+Returns the channel the sound is playing on (int), which can be used for stopping sound later. */
+int GameEngine::play_sound(const std::string& soundpath, int repeats) const {
+    return Mix_PlayChannel(-1,
                     AssetManager::get_instance()
-                        ->loaded_sounds["resources/sounds/TillSpel.mp3"],
-                    -1);  // REMOVE REMOVE REMOVE
+                        ->get_sound(soundpath),
+                    repeats);
+}
+
+/*Stops a sound playing on specified soundchannel. 
+Use -1 to stop all channels.*/
+void GameEngine::stop_sound(int soundchannel) const {
+    Mix_HaltChannel(soundchannel);
+}
+
+
+void GameEngine::run_game() {
 
     SDL_Event event;
     bool running = true;
@@ -81,7 +94,7 @@ void GameEngine::load_assets(std::vector<std::string> assets) {
                    (asset.find(".wav") != std::string::npos)) {
             load_sound(asset);
         } else {
-            std::cout << "Unknown file type: " << asset << std::endl;
+            std::cerr << "Unknown file type: " << asset << std::endl;
         }
 
         // TODO: add pathway?
@@ -94,8 +107,8 @@ void GameEngine::load_assets(std::vector<std::string> assets) {
 bool GameEngine::load_img(std::string path) {
     SDL_Surface* surface = IMG_Load(path.c_str());
     if (surface == nullptr) {
-        std::cout << "Error loading image: " << path << std::endl;
-        std::cout << "SDL Error: " << SDL_GetError() << std::endl;
+        std::cerr << "Error loading image: " << path << std::endl;
+        std::cerr << "SDL Error: " << SDL_GetError() << std::endl;
         return false;
     }
 
@@ -103,19 +116,15 @@ bool GameEngine::load_img(std::string path) {
     SDL_Texture* texture =
         SDL_CreateTextureFromSurface(SYSTEM.renderer, surface);
     if (texture == nullptr) {
-        std::cout << "Error creating texture from surface: " << path
+        std::cerr << "Error creating texture from surface: " << path
                   << std::endl;
-        std::cout << "SDL Error: " << SDL_GetError() << std::endl;
+        std::cerr << "SDL Error: " << SDL_GetError() << std::endl;
         return false;
     }
 
-    AssetManager::get_instance()->loaded_textures.insert(
-        std::make_pair(path, texture));
+    AssetManager::get_instance()->add_texture(path, texture);
     SDL_FreeSurface(surface);
-    if (AssetManager::get_instance()->loaded_textures[path] == nullptr) {
-        std::cout << "Texturen är null efter inlagd" << std::endl;
-        return false;
-    }
+    
     return true;
 }
 
@@ -129,8 +138,7 @@ bool GameEngine::load_sound(std::string path) {
         return false;
     }
 
-    AssetManager::get_instance()->loaded_sounds.insert(
-        std::make_pair(path, chunk));
+    AssetManager::get_instance()->add_sound(path, chunk);
     return true;
 }
 

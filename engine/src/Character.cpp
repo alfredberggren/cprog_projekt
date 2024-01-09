@@ -4,6 +4,7 @@
 
 #include "AssetManager.h"
 #include "Food.h"
+#include "GameEngine.h"
 
 void Character::handle_collision() {
     std::vector<Sprite*> collisions =
@@ -14,10 +15,12 @@ void Character::handle_collision() {
     for (Sprite* s : collisions) {
         if (dynamic_cast<Food*>(s)) {
             this->expand(s->getW(), s->getH());
+            GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", 0);
             s->set_remove(true);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
                 this->expand(c->getW(), c->getH());
+                GameEngine::get_instance()->play_sound("resources/sounds/munchbig.mp3", 0);
                 c->set_remove(true);
             } else {
                 this->minimize();

@@ -20,7 +20,11 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
+<<<<<<< HEAD
+        p->expand(5,5);
+=======
         p->expand(5, 5);
+>>>>>>> 4b7e95af0331c6a900211543416edf28f52fdae8
     }
 }
 
@@ -43,6 +47,9 @@ int main(int argc, char* argv[]) {
     }
 
     game->load_assets(assets);
+
+    int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", -1);
+    
 
     int LEVEL_WIDTH = 1920;
     int LEVEL_HEIGHT = 1280;
