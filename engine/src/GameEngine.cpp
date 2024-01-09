@@ -25,6 +25,8 @@ bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition,
                                  int yPosition, int width, int height) {
     SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width,
                                  height);
+    SCREEN_HEIGHT = height;
+    SCREEN_WIDTH = width;
     return true;
 }
 
