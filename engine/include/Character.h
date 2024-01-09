@@ -10,7 +10,7 @@ class Character : public Sprite {
     Character(std::string path, int x, int y, int w, int h)
         : Sprite(path, x, y, w, h, true) {}
     virtual void tick() = 0;
-    virtual void expand();
+    virtual void expand(int w, int h);
     virtual void minimize();
     void handle_collision();
     virtual ~Character() {}

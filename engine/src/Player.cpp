@@ -15,20 +15,18 @@ double Player::getDirToMouse() {
 
 void Player::tick() {
     moveToMouse();
-    std::vector<Sprite*> collided = AssetManager::get_instance()->check_collisions(*this);
-
-    for (Sprite* sprite : collided){
-        if (Food* f = dynamic_cast<Food*>(sprite)){
-            expand();
-        }
-    }
+    handle_collision();
 }
 
 void Player::moveToMouse() {
+    if (getCenterX() < mouse_x + 15 && getCenterX() > mouse_x - 15 &&
+        getCenterY() < mouse_y + 15 && getCenterY() > mouse_y - 15) {
+        return;
+    }
     double dir = getDirToMouse();
     double x = std::cos(dir * (PI / 180));
     double y = std::sin(dir * (PI / 180));
-    move(x * 5.0, y * 5.0);
+    move(x * 15.0, y * 15.0);
 }
 
 void Player::mouseMoved(double x, double y) {

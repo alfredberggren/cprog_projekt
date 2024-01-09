@@ -5,29 +5,29 @@
 
 void Character::handle_collision() {
     std::vector<Sprite*> collisions =
-        AssetManager::get_instance()->check_collisions(this);
+        AssetManager::get_instance()->check_collisions(*this);
     if (collisions.empty()) {
         return;
     }
     for (Sprite* s : collisions) {
-        if (Food* f = dynamic_cast<Food*>(s)) {
-            this->expand();
-            AssetManager::get_instance()->remove(*s);
+        if (dynamic_cast<Food*>(s)) {
+            this->expand(s->getW(), s->getH());
+            s->set_remove(true);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
-                this->expand();
-                AssetManager::get_instance()->remove(*s);
+                this->expand(c->getW(), c->getH());
+                c->set_remove(true);
             } else {
                 this->minimize();
-                AssetManager::get_instance()->remove(*this);
+                set_remove(true);
             }
         }
     }
 }
 
-void Character::expand() {
-    setW(getW() + 5);
-    setH(getH() + 5);
+void Character::expand(int w, int h) {
+    setW(getW() + w);
+    setH(getH() + h);
 }
 
 void Character::minimize() {

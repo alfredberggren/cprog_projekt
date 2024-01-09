@@ -12,6 +12,7 @@ class Sprite {
    private:
    
     bool collidable; //TODO: check spelling on collidEable/collidable
+    bool to_be_removed = false;
     SDL_Texture* texture;
 
    public:
@@ -27,6 +28,8 @@ class Sprite {
     int getCenterY() const;
     int area() const;
     bool isCollidable() const;
+    bool to_remove() const;
+    void set_remove(bool remove);
     
 
     /*implement what to do when reacting to mouse-movement*/
