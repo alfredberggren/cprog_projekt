@@ -5,9 +5,9 @@
 
 #include "Food.h"
 #include "GameEngine.h"
-#include "Player.h"
 #include "Map.h"
 #include "NPC.h"
+#include "Player.h"
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
@@ -20,7 +20,7 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
-        p->expand(5,5);
+        p->expand(5, 5);
     }
 }
 
@@ -45,26 +45,29 @@ int main(int argc, char* argv[]) {
     game->load_assets(assets);
 
     int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", -1);
-    
 
     int LEVEL_WIDTH = 5000;
     int LEVEL_HEIGHT = 5000;
 
-    Player* s = new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2, game->SCREEN_WIDTH / 2, 15, 15);
+    Player* s =
+        new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2,
+                   game->SCREEN_WIDTH / 2, 15, 15);
     // make food and npcs randomly placed within level width and height
-    for (int i = 0; i < 300; i++)
-    {
-        game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
+    for (int i = 0; i < 600; i++) {
+        game->add_sprite(*new Food("resources/images/circle.png",
+                                   rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT,
+                                   15, 15));
     }
-    //for (int i = 0; i < 15; i++)
-    //{
-       // game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
-    //}
+    for (int i = 0; i < 15; i++) {
+        game->add_sprite(*new NPC("resources/images/circle.png",
+                                  rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT,
+                                  20, 20));
+    }
 
     game->add_sprite(*s);
 
-    //Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
-    //game->add_sprite(*b);
+    // Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
+    // game->add_sprite(*b);
 
     map.emplace(SDLK_UP, expandPlayer);
     map.emplace(SDLK_DOWN, minimizePlayer);

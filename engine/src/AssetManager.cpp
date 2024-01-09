@@ -69,7 +69,6 @@ void AssetManager::remove_marked() {
     std::vector<Sprite*>::iterator it;
     for (it = active_sprites.begin(); it != active_sprites.end();) {
         if ((*it)->to_remove()) {
-            std::cout << "removing sprite" << std::endl;
             delete *it;
             active_sprites.erase(it);
         } else {

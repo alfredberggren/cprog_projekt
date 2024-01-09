@@ -1,6 +1,7 @@
 #include "NPC.h"
 
 #include "AssetManager.h"
+#include "Food.h"
 
 void NPC::tick() {
     move_to_closest();
@@ -17,6 +18,11 @@ void NPC::move_to_closest() {
         double dist = std::sqrt(std::pow(getCenterX() - s->getCenterX(), 2) +
                                 std::pow(getCenterY() - s->getCenterY(), 2));
         if (dist < closest_dist) {
+            if (dynamic_cast<Food*>(s)) {
+                if (dist > 400) {
+                    continue;
+                }
+            }
             closest_dist = dist;
             closest = s;
         }
