@@ -8,7 +8,7 @@
 class Character : public Sprite {
    public:
     Character(std::string path, int x, int y, int w, int h)
-        : Sprite(path, x, y, w, h) {}
+        : Sprite(path, x, y, w, h, true) {}
     virtual void tick() = 0;
     virtual void expand();
     virtual void minimize();

@@ -10,7 +10,8 @@
 
 class Sprite {
    private:
-    bool collidable;
+   
+    bool collidable; //TODO: check spelling on collidEable/collidable
     SDL_Texture* texture;
 
    public:
@@ -26,11 +27,12 @@ class Sprite {
     int getCenterY() const;
     int area() const;
     bool isCollidable() const;
+    
 
     /*implement what to do when reacting to mouse-movement*/
     virtual void mouseMoved(double x, double y) = 0;
     
-    Sprite(std::string path_to_texture, int x, int y, int width, int height);
+    Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collideable);
     virtual ~Sprite();
     void draw();
 

@@ -21,7 +21,10 @@ private:
     AssetManager();
 
    public:
-    std::vector<Sprite*> sprites;
+    
+    //TODO: why are these public? should do something about all of this...
+    std::vector<Sprite*> active_sprites;
+    std::vector<Sprite*> sprites_to_remove;
     static std::unordered_map<std::string, SDL_Texture*> loaded_textures;
     static std::unordered_map<std::string, Mix_Chunk*> loaded_sounds;
 
@@ -42,6 +45,8 @@ private:
     void tickAll();
 
     void mouseMovedAll(double, double);
+
+    std::vector<Sprite*> check_collisions(Sprite&);
 
     void drawAll();
     ~AssetManager();

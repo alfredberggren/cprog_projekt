@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     game->load_assets(assets);
 
     Player* s = new Player("resources/images/circle.png", 320, 240, 100, 100);
-    Food* f = new Food("resources/images/circle.png", 320, 240, 15, 15);
+    Food* f = new Food("resources/images/circle.png", 100, 100, 15, 15);
     /*Food* f2 = new Food("resources/images/circle.png", 600, 100, 15, 15);
     Food* f3 = new Food("resources/images/circle.png", 10, 270, 15, 15);
     Food* f4 = new Food("resources/images/circle.png", 460, 400, 15, 15);
