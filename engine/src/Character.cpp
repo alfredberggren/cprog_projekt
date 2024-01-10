@@ -18,7 +18,7 @@ void Character::handle_collision() {
             this->expand((f->getW()*10)/getW(), (f->getH()*10)/getH());
             if (is_near_player())
                 play_eat_food_sound();
-            s->set_remove(true);
+            s->set_relocate(true);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
                 this->expand((c->getW()*10)/getW(), (c->getH()*10)/getH());

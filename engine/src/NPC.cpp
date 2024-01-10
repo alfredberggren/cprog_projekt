@@ -31,7 +31,7 @@ void NPC::move_to_closest() {
     if (closest == nullptr) {
         return;
     }
-    if (closest->area() > area()) {
+    if (closest->area() >= area()) {
         if (state != State::NERVOUS) {
             texture = AssetManager::get_instance()->get_texture(
                 "resources/images/nervous.png");
