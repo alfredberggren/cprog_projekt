@@ -16,6 +16,8 @@ class Character : public Sprite {
     void move_to_point(double x, double y);
     double get_vel() const;
     virtual ~Character() {}
+
+    private:
 };
 
 #endif

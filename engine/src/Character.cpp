@@ -16,20 +16,14 @@ void Character::handle_collision() {
     for (Sprite* s : collisions) {
         if (Food* f = dynamic_cast<Food*>(s)) {
             this->expand((f->getW()*10)/getW(), (f->getH()*10)/getH());
-            int i = GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", 0);{
-                if (i < 0) {
-                    std::cerr << "could not play munchymunchy, got " << i << std::endl;
-                }
-                //std::cout << "\tchannel is " << i << std::endl;
-            }
+            GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", assigned_channel, 0);
             s->set_remove(true);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
                 this->expand((c->getW()*10)/getW(), (c->getH()*10)/getH());
-                GameEngine::get_instance()->play_sound("resources/sounds/munchbig.mp3", 0);
+                GameEngine::get_instance()->play_sound("resources/sounds/munchbig.mp3", assigned_channel, 0);
                 c->set_remove(true);
             } else {
-                this->minimize();
                 set_remove(true);
             }
         }

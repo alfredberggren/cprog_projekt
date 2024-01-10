@@ -27,6 +27,10 @@ void AssetManager::add(Sprite& sprite) {
               << active_sprites.size() << std::endl;
 }
 
+void AssetManager::set_map(Map& m) {
+    map = &m;
+}
+
 void AssetManager::tickAll() {
     for (Sprite* sprite : active_sprites) {
         sprite->tick();
@@ -40,6 +44,10 @@ void AssetManager::mouseMovedAll(double x, double y) {
 }
 
 void AssetManager::drawAll() {
+    if (map != nullptr){
+        map->draw();
+    }
+
     for (Sprite* sprite : active_sprites) {
         sprite->draw();
     }

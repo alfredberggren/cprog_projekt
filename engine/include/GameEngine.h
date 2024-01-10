@@ -11,11 +11,14 @@
 #include "AssetManager.h"
 #include "Sprite.h"
 #include "System.h"
+#include "Map.h"
 
 typedef void (*funcPtr)(Sprite*);
 
 class GameEngine {
    private:
+    std::vector<int> soundchannels_in_use;
+
     static GameEngine* instance;
     GameEngine(/* args */);
 
@@ -44,10 +47,14 @@ class GameEngine {
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;
 
-    int play_sound(const std::string&, int) const;
+    int play_sound(const std::string&, int, int) const;
     void stop_sound(int) const;
 
     void add_sprite(Sprite& sprite);
+    void set_map(Map& map);
+
+    int get_sound_channel();
+    void remove_used_channel(int channel);
 
     ~GameEngine();
 };

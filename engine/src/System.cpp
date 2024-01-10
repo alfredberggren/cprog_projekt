@@ -21,8 +21,6 @@ bool System::initSDLComponents(){
         check = false;
     }
 
-    Mix_AllocateChannels(32);
-
     if (check){
         std::cout << "SYSTEM: \n\tSDL components initialized successfully" << std::endl;
     } else {
