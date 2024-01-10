@@ -4,12 +4,10 @@
 #include "Food.h"
 
 void NPC::tick() {
-    check_boost();
-    move_to_closest();
-    handle_collision();
+    Character::tick();
 }
 
-void NPC::move_to_closest() {
+void NPC::char_move() {
     Sprite* closest = nullptr;
     double closest_dist = 1000000;
     for (Sprite* s : AssetManager::get_instance()->get_active_sprites()) {
@@ -31,10 +29,11 @@ void NPC::move_to_closest() {
     if (closest == nullptr) {
         return;
     }
-    if (closest->area() > area()) {
+    if (closest->area() >= area()) {
         if (state != State::NERVOUS) {
             texture = AssetManager::get_instance()->get_texture(
                 "resources/images/nervous.png");
+            if (closest_dist < 100) use_boost();
         }
         move_in_dir(get_dir_to(-closest->getCenterX(), -closest->getCenterY()));
     } else {
@@ -47,8 +46,7 @@ void NPC::move_to_closest() {
             if (state != State::ANGRY) {
                 texture = AssetManager::get_instance()->get_texture(
                     "resources/images/anger.png");
-                if(closest_dist < 500)
-                    use_boost();
+                if (closest_dist < 500) use_boost();
             }
         }
         move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));

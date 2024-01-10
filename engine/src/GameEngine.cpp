@@ -66,7 +66,7 @@ int GameEngine::get_sound_channel() {
     for (i = 0; i < soundchannels_in_use.size(); ++i){
         if (i != soundchannels_in_use[i]) {
             soundchannels_in_use[i] = i;
-            std::cout << "\tGiving sprite channel " << i << std::endl;
+            //std::cout << "\tGiving sprite channel " << i << std::endl;
             return i;
         }
     }
@@ -75,13 +75,13 @@ int GameEngine::get_sound_channel() {
     int newSize = Mix_AllocateChannels(Mix_AllocateChannels(-1)*2);
     soundchannels_in_use.resize(newSize);
     soundchannels_in_use[++i] = i;
-    std::cout << "Channels that can be used are now: " << newSize << std::endl;
+    //std::cout << "Channels that can be used are now: " << newSize << std::endl;
     return i; 
 }
 
 void GameEngine::remove_used_channel(int channel){
     soundchannels_in_use[channel] = -1;
-    std::cout << "A Sprite was removed, set soundchannel " << channel << " to -1" << std::endl;
+    //std::cout << "A Sprite was removed, set soundchannel " << channel << " to -1" << std::endl;
 
 }
 
@@ -107,10 +107,20 @@ void GameEngine::run_game() {
                         keyMapping->at(event.key.keysym.sym));
                 }
 
+                if (event.key.keysym.sym == SDLK_ESCAPE ) {
+                    bool paused = true;
+                    while (paused) {
+                        SDL_PollEvent(&event);
+                        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+                            paused = false;
+                        SDL_Delay(100);
+                    }
+                }
+
             } else if (event.type == SDL_MOUSEMOTION) {
                 AssetManager::get_instance()->mouseMovedAll(event.motion.x,
                                                             event.motion.y);
-            }
+            } 
         }
 
         SDL_RenderClear(SYSTEM.renderer);

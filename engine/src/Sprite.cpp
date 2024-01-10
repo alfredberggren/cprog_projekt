@@ -42,6 +42,18 @@ void Sprite::draw() {
 void Sprite::move(double x, double y) {
     rect.x += x;
     rect.y += y;
+    if (rect.x < 0) {
+        rect.x = 0;
+    }
+    if (rect.y < 0) {
+        rect.y = 0;
+    }
+    if (rect.x > 3500 - rect.w) {
+        rect.x = 3500 - rect.w;
+    }
+    if (rect.y > 3500 - rect.h) {
+        rect.y = 3500 - rect.h;
+    }
 }
 
 void Sprite::setW(int w) { rect.w = w; }
@@ -67,3 +79,9 @@ int Sprite::area() const { return rect.w * rect.h; }
 bool Sprite::to_remove() const { return to_be_removed; }
 
 void Sprite::set_remove(bool remove) { to_be_removed = remove; }
+
+bool Sprite::to_relocate() const { return to_be_relocated; }
+
+void Sprite::set_relocate(bool relocate) { to_be_relocated = relocate; }
+
+void Sprite::set_followed_by_camera(bool follow) { followed_by_camera = follow; }

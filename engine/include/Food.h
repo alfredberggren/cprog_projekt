@@ -12,6 +12,7 @@ class Food : public Sprite {
 
     void tick() {}
     void mouseMoved(double x, double y) {}
+    void kill(Sprite* killed_by = nullptr);
    
 
 };

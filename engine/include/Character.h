@@ -8,13 +8,16 @@
 class Character : public Sprite {
    public:
     Character(std::string path, int x, int y, int w, int h)
-        : Sprite(path, x, y, w, h, true), boost_counter(0), boost_timer(0), boost_speed(0){}
+        : Sprite(path, x, y, w, h, true),
+          boost_counter(0),
+          boost_timer(0),
+          boost_speed(0) {}
     virtual void tick() = 0;
     virtual void expand(int w, int h);
     virtual void minimize();
+    virtual void char_move() = 0;
     void handle_collision();
 
-   
     void play_eat_food_sound();
     void play_eat_character_sound();
 
@@ -22,7 +25,7 @@ class Character : public Sprite {
     double get_dir_to(double x, double y);
 
     double get_vel() const;
-    bool is_near_player();
+    bool is_near_player() const;
     virtual ~Character() {}
 
     bool has_boost() const;
@@ -30,11 +33,15 @@ class Character : public Sprite {
     void use_boost();
     void set_boost_speed(int speed);
 
-    private:
-        int boost_counter;
-        bool is_boosting;
-        int boost_speed;
-        int boost_timer;
+    void center_camera();
+
+    void kill(Sprite* killed_by = nullptr);
+
+   private:
+    int boost_counter;
+    bool is_boosting;
+    int boost_speed;
+    int boost_timer;
 };
 
 #endif
