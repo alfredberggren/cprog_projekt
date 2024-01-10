@@ -5,7 +5,7 @@
 #include "AssetManager.h"
 #include "Food.h"
 #include "GameEngine.h"
-#define BASE_SPEED 50.0
+#define BASE_SPEED 30.0
 
 Character::Character(std::string path, int x, int y, int w, int h) : Sprite(path, x, y, w, h, true), 
           boost_counter(0),

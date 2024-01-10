@@ -12,9 +12,9 @@ void Player::tick() {
 Player* Player::get_instance() {
     if (instance == nullptr) {
         instance =
-            new Player("resources/images/circle.png",
+            new Player("resources/images/blackhole.png",
                        GameEngine::get_instance()->SCREEN_HEIGHT / 2,
-                       GameEngine::get_instance()->SCREEN_WIDTH / 2, 15, 15);
+                       GameEngine::get_instance()->SCREEN_WIDTH / 2, 21, 21);
     }
 
     return instance;
