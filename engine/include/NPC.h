@@ -13,6 +13,8 @@ class NPC : public Character {
     // Flyttar NPC:n mot närmsta sprite som är mindre än sig själv
     void char_move() override;
     void mouseMoved(double x, double y);
+    // Inverterar en riktning
+    double inv_dir(double dir);
     enum class State { NERVOUS, HUNGRY, ANGRY };
     State state;
     // Radie runt NPC:n där den kan se mat

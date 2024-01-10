@@ -35,7 +35,7 @@ void NPC::char_move() {
                 "resources/images/nervous.png");
             if (closest_dist < 100) use_boost();
         }
-        move_in_dir(get_dir_to(-closest->getCenterX(), -closest->getCenterY()));
+        move_in_dir(inv_dir(get_dir_to(closest->getCenterX(), closest->getCenterY())));
     } else {
         if (dynamic_cast<Food*>(closest)) {
             if (state != State::HUNGRY) {
@@ -51,6 +51,14 @@ void NPC::char_move() {
         }
         move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));
     }
+}
+
+double NPC::inv_dir(double dir) {
+    dir += 180;
+    if (dir > 360) {
+        dir -= 360;
+    }
+    return dir;
 }
 
 void NPC::mouseMoved(double x, double y) {}
