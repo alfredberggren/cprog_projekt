@@ -1,3 +1,34 @@
+/*TODO:
+-- Spelmotor --
+    X. Kolla ljudkanaler, vad är smartast att göra? 
+        - Implementerade någon sorts "hålla koll på vilka kanaler som används"-funktionalitet i gameengine. Vet inte hur smart det är egentligen.
+    2. Hur ska man kunna lägga till bakgrund?
+    3. Hantera FPS
+    4. Dynamisk allokering, se till att saker o ting inte har publika konstruktorer om de inte ska ha det osv (Sprite t.ex.)
+    5. Möjlighet att starta, pausa, avsluta spel. GameEngine borde alltså ha:
+        - start_game(), 
+        - pause_game(), 
+        - resume_game(), 
+        - stop_game() (spelet avslutas, men programmet körs) och 
+        - close_game() (avslutar allt)... 
+        - (RestartGame??))
+    6. Implementera sätt att avgöra när ett spel är slut? Eller är det för spelspecifikt,?
+    7. Implementera något sätt att lägga in något som ska hända varje spel-tick, t.ex. att lägga till mer mat? 
+    8. PixelPerfectCollisionDetection!!!!
+    
+
+-- Spelet --
+    1. "Dumma ner" NPCs, mer random, inte märker spelaren/att man är större, delay på handlingar
+    2. Se till att NPCs inte kan gå utanför kartan
+    3. Tweaka hastigheter
+    4. Randomisera  vilka ljud som spelas när man äter (finns två i nuläget)
+    5. "Zooma ut" kameran när spelare blivit för stor.
+    6. Sätt spelaren i mitten av kartan vid spelstart
+
+
+*/
+
+
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -5,9 +36,9 @@
 
 #include "Food.h"
 #include "GameEngine.h"
-#include "Player.h"
 #include "Map.h"
 #include "NPC.h"
+#include "Player.h"
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
@@ -20,11 +51,7 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
-<<<<<<< HEAD
-        p->expand(5,5);
-=======
         p->expand(5, 5);
->>>>>>> 4b7e95af0331c6a900211543416edf28f52fdae8
     }
 }
 
@@ -37,6 +64,8 @@ int main(int argc, char* argv[]) {
     std::unordered_map<SDL_Keycode, funcPtr> map;
     GameEngine* game = GameEngine::get_instance();
 
+   
+
     game->init_SDL_libraries();
     game->init_SDL_window("NOT AGARIO COPY", SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED, 640, 480);
@@ -48,27 +77,31 @@ int main(int argc, char* argv[]) {
 
     game->load_assets(assets);
 
-    int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", -1);
-    
+    int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", GameEngine::get_instance()->get_sound_channel(), -1);
 
-    int LEVEL_WIDTH = 1920;
-    int LEVEL_HEIGHT = 1280;
+    int LEVEL_WIDTH = 3500;
+    int LEVEL_HEIGHT = 3500;
 
-    Player* s = new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2, game->SCREEN_WIDTH / 2, 15, 15);
+    Map* m = Map::get_instance("resources/images/spaceBackground.jpg", game->SCREEN_WIDTH, game->SCREEN_HEIGHT);
+    game->add_sprite(*m);
+
+    Player* s =
+        new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2,
+                   game->SCREEN_WIDTH / 2, 15, 15);
     // make food and npcs randomly placed within level width and height
-    for (int i = 0; i < 300; i++)
+    for (int i = 0; i < 600; i++)
     {
         game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
     }
-    //for (int i = 0; i < 15; i++)
-    //{
-       // game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
-    //}
+    for (int i = 0; i < 15; i++)
+    {
+        game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
+    }
 
     game->add_sprite(*s);
 
-    //Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
-    //game->add_sprite(*b);
+    // Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
+    // game->add_sprite(*b);
 
     map.emplace(SDLK_UP, expandPlayer);
     map.emplace(SDLK_DOWN, minimizePlayer);

@@ -11,10 +11,14 @@
 
 class Sprite {
    private:
+   
    protected:
     bool collidable; //TODO: check spelling on collidEable/collidable
     bool to_be_removed = false;
     SDL_Texture* texture;
+    
+    //Channel assigned at construction, to be used for playing sounds.
+    int assigned_channel;
 
    public:
     SDL_Rect rect;

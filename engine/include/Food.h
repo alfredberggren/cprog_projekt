@@ -14,8 +14,6 @@ class Food : public Sprite {
     void mouseMoved(double x, double y) {}
    
 
-   private:
-    int value = 5;
 };
 
 #endif  // FOOD_H

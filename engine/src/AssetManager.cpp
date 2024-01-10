@@ -27,6 +27,10 @@ void AssetManager::add(Sprite& sprite) {
               << active_sprites.size() << std::endl;
 }
 
+void AssetManager::set_map(Map& m) {
+    map = &m;
+}
+
 void AssetManager::tickAll() {
     for (Sprite* sprite : active_sprites) {
         sprite->tick();
@@ -40,6 +44,10 @@ void AssetManager::mouseMovedAll(double x, double y) {
 }
 
 void AssetManager::drawAll() {
+    if (map != nullptr){
+        map->draw();
+    }
+
     for (Sprite* sprite : active_sprites) {
         sprite->draw();
     }
@@ -69,7 +77,6 @@ void AssetManager::remove_marked() {
     std::vector<Sprite*>::iterator it;
     for (it = active_sprites.begin(); it != active_sprites.end();) {
         if ((*it)->to_remove()) {
-            std::cout << "removing sprite" << std::endl;
             delete *it;
             active_sprites.erase(it);
         } else {

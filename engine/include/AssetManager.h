@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "Sprite.h"
+#include "Map.h"
 
 typedef void (*funcPtr)(Sprite *);
 
@@ -17,6 +18,7 @@ class AssetManager
 {
 private:
     static AssetManager *instance;
+    Map* map = nullptr;
 
     std::vector<Sprite *> active_sprites;
     static std::unordered_map<std::string, SDL_Texture *> loaded_textures;
@@ -53,6 +55,7 @@ public:
     SDL_Texture* get_texture(const std::string);
     
     void drawAll();
+    void set_map(Map&);
     
     ~AssetManager();
 };
