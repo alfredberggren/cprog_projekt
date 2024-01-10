@@ -5,7 +5,13 @@
 #include "AssetManager.h"
 #include "Food.h"
 #include "GameEngine.h"
-#define BASE_SPEED 1.0
+#define BASE_SPEED 50.0
+
+Character::Character(std::string path, int x, int y, int w, int h) : Sprite(path, x, y, w, h, true), 
+          boost_counter(0),
+          boost_timer(0),
+          boost_speed(0) {
+}
 
 void Character::tick() {
     check_boost();
@@ -53,8 +59,9 @@ double Character::get_dir_to(double x, double y) {
     return angle;
 }
 
-double Character::get_vel() const {
-    return BASE_SPEED + (200.0 / (rect.w / 2) + boost_speed);
+double Character::get_vel() const{
+    return BASE_SPEED * pow(area(), -0.230) + boost_speed;
+    //return BASE_SPEED + (200.0 / (rect.w / 2) + boost_speed);
 }
 
 void Character::expand(int w, int h) {
@@ -73,7 +80,6 @@ void Character::set_boost_speed(int speed) { boost_speed = speed; }
 bool Character::has_boost() const{
     return (boost_counter >= 10);
 }
-
 
 void Character::check_boost() {
     if (boost_timer > 0) {

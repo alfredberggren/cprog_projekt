@@ -1,17 +1,14 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 #include <string>
+#include <math.h>
 
 #include "Sprite.h"
 
 // Representerar karaktärer som rör på sig, spelbara eller inte.
 class Character : public Sprite {
    public:
-    Character(std::string path, int x, int y, int w, int h)
-        : Sprite(path, x, y, w, h, true),
-          boost_counter(0),
-          boost_timer(0),
-          boost_speed(0) {}
+    Character(std::string path, int x, int y, int w, int h);
     virtual void tick() = 0;
     virtual void expand(int w, int h);
     virtual void minimize();

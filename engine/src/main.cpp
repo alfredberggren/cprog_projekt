@@ -65,7 +65,7 @@ void use_player_boost(Sprite* s){
         p->boost_pressed();
 }
 
-// Nedan är funktionerna som mappas till ett visst knapptryck. Mappen kommer att skickas till GameEngine. 
+// Nedan är funktionerna som mappas till ett visst knapptryck. Mappen<SDLK, funcPtr> kommer att skickas till GameEngine. 
 // Om man trycker en knapp kommer SDL_EVENT loopen i GameEngine köra funktionen som mappats till knappen, funktionen 
 // är definierad i GameEngine klassen. 
 
