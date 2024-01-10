@@ -42,11 +42,11 @@ void Character::move_to_point(double x, double y) {
 }
 
 double Character::get_vel() const { 
-    return BASE_SPEED + (200.0 / (rect.w / 2));
+    return BASE_SPEED + (200.0 / (rect.w / 2) + boost_speed);
 }
 
 void Character::expand(int w, int h) {
-    
+    boost_counter++;
     setW(getW() + w);
     setH(getH() + h);
 }
@@ -55,3 +55,29 @@ void Character::minimize() {
     setW(getW() - 5);
     setH(getH() - 5);
 }
+
+void Character::set_boost_speed(int speed){
+    boost_speed = speed;
+}
+
+bool Character::has_boost() const{
+    return boost_counter >= 20;
+}
+
+void Character::check_boost(){
+    if(boost_timer > 0){
+        set_boost_speed(20);
+        --boost_timer;
+    }
+    else
+        set_boost_speed(0);
+}
+
+void Character::use_boost(){
+    if(has_boost()){
+        boost_timer = 50;
+        boost_counter = 0;
+    }
+}
+
+

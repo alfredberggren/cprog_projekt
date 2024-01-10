@@ -59,6 +59,12 @@ void minimizePlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) p->minimize();
 }
 
+void use_player_boost(Sprite* s){
+    if(Player* p = dynamic_cast<Player*>(s))
+        p->boost_pressed();
+
+}
+
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
     std::unordered_map<SDL_Keycode, funcPtr> map;
@@ -95,7 +101,7 @@ int main(int argc, char* argv[]) {
     }
     for (int i = 0; i < 15; i++)
     {
-        game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
+       game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
     }
 
     game->add_sprite(*s);
@@ -105,6 +111,7 @@ int main(int argc, char* argv[]) {
 
     map.emplace(SDLK_UP, expandPlayer);
     map.emplace(SDLK_DOWN, minimizePlayer);
+    map.emplace(SDLK_SPACE, use_player_boost);
 
     game->load_keys(map);
 

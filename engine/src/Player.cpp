@@ -5,6 +5,7 @@
 #include "System.h"
 
 void Player::tick() {
+    check_boost();
     moveToMouse();
     handle_collision();
 }
@@ -40,4 +41,8 @@ void Player::moveToMouse() {
 void Player::mouseMoved(double x, double y) {
     mouse_x = camera.x + camera.w / 2 - 640 / 2 + x;
     mouse_y = camera.y + camera.h / 2 - 480 / 2 + y;
+}
+
+void Player::boost_pressed(){
+    use_boost();
 }

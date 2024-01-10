@@ -15,6 +15,7 @@ class Player : public Character {
     void tick();
     void moveToMouse();
     void mouseMoved(double x, double y);
+    void boost_pressed();
 
    private:
     double mouse_x;
