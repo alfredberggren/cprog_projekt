@@ -103,8 +103,7 @@ int main(int argc, char* argv[]) {
     Map* m = Map::get_instance("resources/images/spaceBackground.jpg", LEVEL_WIDTH, LEVEL_HEIGHT);
     game->set_map(*m);
 
-    Player* s =
-        Player::get_instance();
+    Player* s = Player::get_instance();
     
     // make food and npcs randomly placed within level width and height
     for (int i = 0; i < 600; i++)

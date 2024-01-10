@@ -79,7 +79,11 @@ void AssetManager::remove_marked() {
         if ((*it)->to_remove()) {
             delete *it;
             active_sprites.erase(it);
-        } else {
+        } else if ((*it)->to_relocate()) {
+            (*it)->setX(rand() % 3500);
+            (*it)->setY(rand() % 3500);
+            (*it)->set_relocate(false);
+        }else {
             ++it;
         }
     }
