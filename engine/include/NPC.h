@@ -6,8 +6,7 @@
 
 class NPC : public Character {
    public:
-    NPC(std::string path, int x, int y, int w, int h)
-        : Character(path, x, y, w, h) {}
+    static NPC* get_instance(std::string path, int x, int y, int w , int h);
 
     void tick() override;
     // NPC:s rörelse-algoritm
@@ -21,6 +20,7 @@ class NPC : public Character {
     static const int FOG_RADIUS = 250;
 
    private:
+    NPC(std::string path, int x, int y, int w, int h);
 };
 
 #endif  // NPC.H

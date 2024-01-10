@@ -3,6 +3,11 @@
 #include "AssetManager.h"
 #include "Food.h"
 
+NPC::NPC(std::string path, int x, int y, int w, int h)
+    : Character(path, x, y, w, h) {}
+
+NPC* NPC::get_instance(std::string path, int x, int y, int w, int h) { return new NPC(path, x, y, w, h); }
+
 void NPC::tick() { Character::tick(); }
 
 void NPC::char_move() {

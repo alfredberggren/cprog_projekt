@@ -111,17 +111,17 @@ int main(int argc, char* argv[]) {
 
     Player* s = Player::get_instance();
     
-    // make food and npcs randomly placed within level width and height
+    // make food and npcs randomly placed within level width and height, get a seed for rand using time.
     srand(time(NULL));
 
     for (int i = 0; i < 600; i++)
     {
-        game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
+        game->add_sprite(*Food::get_instance("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
     }
     
     for (int i = 0; i < 30; i++)
     {
-       game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
+       game->add_sprite(*NPC::get_instance("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
     }
 
     game->add_sprite(*s);

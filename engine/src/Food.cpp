@@ -1,5 +1,11 @@
 #include "Food.h"
 
+Food::Food(std::string path, int x, int y, int w, int h): Sprite(path, x, y, w, h, true) {}
+
+Food* Food::get_instance(std::string path, int x, int y, int w, int h){
+    return new Food(path, x, y, w, h);
+}
+
 void Food::kill(Sprite* killed_by) {
     set_relocate(true);
 }
