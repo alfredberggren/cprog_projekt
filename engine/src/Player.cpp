@@ -5,20 +5,21 @@
 #include "System.h"
 
 void Player::tick() {
-    moveToMouse();
+    move_toward_mouse();
     handle_collision();
 }
 
-void Player::moveToMouse() {
-    if (getCenterX() < mouse_x + 15 &&
-        getCenterX() > mouse_x - 15 &&
-        getCenterY() < mouse_y + 15 &&
-        getCenterY() > mouse_y - 15) {
+// Flyttar karaktären mot muspekaren
+void Player::move_toward_mouse() {
+    // Om muspekaren är inom 15 pixlar från karaktären, gör ingenting
+    if (dir_to_mouse == -1) {
         return;
     }
+    move_in_dir(dir_to_mouse);
+    center_camera();
+}
 
-    move_to_point(mouse_x, mouse_y);
-        
+void Player::center_camera() {
     camera.x = (rect.x + rect.w / 2) - 640 / 2;
     camera.y = (rect.y + rect.h / 2) - 480 / 2;
 
@@ -40,4 +41,11 @@ void Player::moveToMouse() {
 void Player::mouseMoved(double x, double y) {
     mouse_x = camera.x + camera.w / 2 - 640 / 2 + x;
     mouse_y = camera.y + camera.h / 2 - 480 / 2 + y;
+    
+    if (getCenterX() < mouse_x + 15 && getCenterX() > mouse_x - 15 &&
+        getCenterY() < mouse_y + 15 && getCenterY() > mouse_y - 15) {
+        dir_to_mouse = -1;
+        return;
+    }
+    dir_to_mouse = get_dir_to(mouse_x, mouse_y);
 }

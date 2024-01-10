@@ -13,12 +13,14 @@ class Player : public Character {
         : Character(path, x, y, w, h) {}
 
     void tick();
-    void moveToMouse();
+    void move_toward_mouse();
+    void center_camera();
     void mouseMoved(double x, double y);
 
    private:
     double mouse_x;
     double mouse_y;
+    double dir_to_mouse;
 };
 
 #endif  // PLAYER_H

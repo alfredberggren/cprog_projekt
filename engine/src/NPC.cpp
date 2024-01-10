@@ -35,7 +35,7 @@ void NPC::move_to_closest() {
             texture = AssetManager::get_instance()->get_texture(
                 "resources/images/nervous.png");
         }
-        move_to_point(-closest->getCenterX(), -closest->getCenterY());
+        move_in_dir(get_dir_to(-closest->getCenterX(), -closest->getCenterY()));
     } else {
         if (dynamic_cast<Food*>(closest)) {
             if (state != State::HUNGRY) {
@@ -48,7 +48,7 @@ void NPC::move_to_closest() {
                     "resources/images/anger.png");
             }
         }
-        move_to_point(closest->getCenterX(), closest->getCenterY());
+        move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));
     }
 }
 

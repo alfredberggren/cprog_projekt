@@ -2,7 +2,7 @@
 
 Map::Map(std::string backgroundpath, int width, int height) : Sprite(backgroundpath, 0, 0, width, height, false) {}
 
-void Map::draw(){
+//void Map::draw(){
     
-    SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect);
-}
+    //SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect);
+//}
