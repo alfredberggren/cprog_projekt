@@ -16,12 +16,14 @@ void Character::handle_collision() {
     for (Sprite* s : collisions) {
         if (Food* f = dynamic_cast<Food*>(s)) {
             this->expand((f->getW()*10)/getW(), (f->getH()*10)/getH());
-            GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", assigned_channel, 0);
+            if (is_near_player())
+                play_eat_food_sound();
             s->set_remove(true);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
                 this->expand((c->getW()*10)/getW(), (c->getH()*10)/getH());
-                GameEngine::get_instance()->play_sound("resources/sounds/munchbig.mp3", assigned_channel, 0);
+                if (is_near_player())
+                    play_eat_character_sound();
                 c->set_remove(true);
             } else {
                 set_remove(true);
@@ -54,4 +56,29 @@ void Character::expand(int w, int h) {
 void Character::minimize() {
     setW(getW() - 5);
     setH(getH() - 5);
+}
+
+bool Character::is_near_player(){
+    int pX = Player::get_instance()->getCenterX();
+    int pY = Player::get_instance()->getCenterY();
+    
+    if ((getCenterX() <  pX + 250) && (getCenterX() > pX - 250) && 
+        (getCenterY() < pY + 250) && (getCenterY() > pY - 250)){
+            return true;
+    }
+    return false;       
+}
+
+void Character::play_eat_character_sound(){
+    GameEngine::get_instance()->play_sound("resources/sounds/munchbig.mp3", assigned_channel, 0);
+}
+
+/*Plays a eating food sound, "randomly" selected, based on Characters' rect:s x-position*/
+void Character::play_eat_food_sound(){
+    if (rect.x % 2 == 0) {
+        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", assigned_channel, 0);
+    } else {
+        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall2.mp3", assigned_channel, 0);
+    }
+    
 }

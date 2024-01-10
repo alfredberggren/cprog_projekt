@@ -12,6 +12,8 @@ class Map : public Sprite{
         void mouseMoved(double, double) override {}
         void tick() override {}
 
+        void draw() override;
+
         
 
     private:

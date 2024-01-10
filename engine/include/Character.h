@@ -14,7 +14,10 @@ class Character : public Sprite {
     virtual void minimize();
     void handle_collision();
     void move_to_point(double x, double y);
+    void play_eat_food_sound();
+    void play_eat_character_sound();
     double get_vel() const;
+    bool is_near_player();
     virtual ~Character() {}
 
     private:

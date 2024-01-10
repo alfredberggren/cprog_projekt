@@ -3,10 +3,20 @@
 #include "AssetManager.h"
 #include "Food.h"
 #include "System.h"
+#include "GameEngine.h"
 
 void Player::tick() {
     moveToMouse();
     handle_collision();
+}
+
+Player* Player::get_instance(){
+    if (instance == nullptr) {
+        instance = new Player("resources/images/circle.png", GameEngine::get_instance()->SCREEN_HEIGHT / 2,
+                   GameEngine::get_instance()->SCREEN_WIDTH / 2, 15, 15);
+    }
+
+    return instance;
 }
 
 void Player::moveToMouse() {
@@ -28,11 +38,11 @@ void Player::moveToMouse() {
     if (camera.y < 0) {
         camera.y = 0;
     }
-    if (camera.x > 5000 - camera.w) {
-        camera.x = 5000 - camera.w;
+    if (camera.x > 3500 - camera.w) {
+        camera.x = 3500 - camera.w;
     }
-    if (camera.y > 5000 - camera.h) {
-        camera.y = 5000 - camera.h;
+    if (camera.y > 3500 - camera.h) {
+        camera.y = 3500 - camera.h;
     }
 }
 
@@ -40,3 +50,5 @@ void Player::mouseMoved(double x, double y) {
     mouse_x = camera.x + camera.w / 2 - 640 / 2 + x;
     mouse_y = camera.y + camera.h / 2 - 480 / 2 + y;
 }
+
+Player* Player::instance;
