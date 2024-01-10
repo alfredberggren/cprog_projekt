@@ -71,8 +71,6 @@ int main(int argc, char* argv[]) {
     std::unordered_map<SDL_Keycode, funcPtr> map;
     GameEngine* game = GameEngine::get_instance();
 
-   
-
     game->init_SDL_libraries();
     game->init_SDL_window("NOT AGARIO COPY", SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED, 640, 480);
@@ -83,8 +81,6 @@ int main(int argc, char* argv[]) {
     }
 
     game->load_assets(assets);
-
-    
 
     int LEVEL_WIDTH = 3500;
     int LEVEL_HEIGHT = 3500;
