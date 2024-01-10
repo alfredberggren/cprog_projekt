@@ -14,8 +14,6 @@ class Food : public Sprite {
     void kill(Sprite* killed_by = nullptr);
    private:
     Food(std::string path, int x, int y, int w, int h);
-   
-
 };
 
 #endif  // FOOD_H

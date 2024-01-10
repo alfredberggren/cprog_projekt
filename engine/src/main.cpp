@@ -27,7 +27,7 @@ typ att GameEngine borde ha:
 använda eller att det också finns set_camera_focus_on_all() typ
         - set_camera_width(int width);
         - set_camera_height(int height);
-        -
+    10. Nästan alla funktioner i hela koden är publika!
 
 
 -- Spelet --

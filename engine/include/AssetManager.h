@@ -30,8 +30,6 @@ private:
 public:
     // TODO: why are these public? should do something about all of this...
 
-    
-
     static AssetManager *get_instance()
     {
         if (instance == nullptr)

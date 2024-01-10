@@ -11,18 +11,19 @@
 
 class Sprite {
    private:
-   
    protected:
-    bool collidable; //TODO: check spelling on collidEable/collidable
+    bool collidable;  // TODO: check spelling on collidEable/collidable
     bool to_be_removed = false;
     bool to_be_relocated = false;
     bool followed_by_camera = false;
     SDL_Texture* texture;
-    
-    //Channel assigned at construction, to be used for playing sounds.
+
+    // Channel assigned at construction, to be used for playing sounds.
     int assigned_channel;
 
    public:
+    Sprite& operator=(const Sprite& other) = delete;
+    Sprite(const Sprite& other) = delete;
     SDL_Rect rect;
     static SDL_Rect camera;
     void move(double x, double y);
@@ -42,7 +43,6 @@ class Sprite {
     void set_relocate(bool relocate);
     void set_followed_by_camera(bool follow);
     virtual void kill(Sprite* killed_by) = 0;
-    
 
     /*implement what to do when reacting to mouse-movement*/
     virtual void mouseMoved(double x, double y) = 0;
