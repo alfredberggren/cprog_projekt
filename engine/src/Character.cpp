@@ -134,9 +134,6 @@ void Character::play_eat_food_sound() {
             std::cout << "'BOOST READIEY'" << std::endl;
         }
     }
-
-
-    
 }
 
 void Character::center_camera() {

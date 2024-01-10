@@ -97,8 +97,7 @@ void GameEngine::run_game() {
             if (event.type == SDL_QUIT) {
                 running = false;
             } else if (event.type == SDL_KEYDOWN) {
-                // Kolla om KEY finns i keyMapping, isåfall hämta den och skicka
-                // funktionen till AssetManager
+                // Kolla om KEY finns i keyMapping, isåfall hämta den och kör funktionen
                 if (keyMapping->count(event.key.keysym.sym) > 0) {
                     keyMapping->at(event.key.keysym.sym)();
                 }
@@ -167,7 +166,6 @@ bool GameEngine::load_img(std::string path) {
         return false;
     }
 
-    // Behöver kanske inte vara klassmedlem
     SDL_Texture* texture =
         SDL_CreateTextureFromSurface(SYSTEM.renderer, surface);
     if (texture == nullptr) {

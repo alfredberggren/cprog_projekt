@@ -37,8 +37,8 @@ class Character : public Sprite {
    private:
     int boost_counter;
     bool is_boosting;
-    int boost_speed;
     int boost_timer;
+    int boost_speed;
 };
 
 #endif

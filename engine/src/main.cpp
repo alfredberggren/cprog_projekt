@@ -112,6 +112,8 @@ int main(int argc, char* argv[]) {
     Player* s = Player::get_instance();
     
     // make food and npcs randomly placed within level width and height
+    srand(time(NULL));
+
     for (int i = 0; i < 600; i++)
     {
         game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
