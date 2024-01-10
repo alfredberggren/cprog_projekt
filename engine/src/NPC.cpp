@@ -3,9 +3,7 @@
 #include "AssetManager.h"
 #include "Food.h"
 
-void NPC::tick() {
-    Character::tick();
-}
+void NPC::tick() { Character::tick(); }
 
 void NPC::char_move() {
     Sprite* closest = nullptr;
@@ -33,24 +31,36 @@ void NPC::char_move() {
         if (state != State::NERVOUS) {
             texture = AssetManager::get_instance()->get_texture(
                 "resources/images/nervous.png");
-            if (closest_dist < 100) use_boost();
+            state = State::NERVOUS;
         }
-        move_in_dir(get_dir_to(-closest->getCenterX(), -closest->getCenterY()));
+        if (closest_dist < 100) use_boost();
+        move_in_dir(
+            inv_dir(get_dir_to(closest->getCenterX(), closest->getCenterY())));
     } else {
         if (dynamic_cast<Food*>(closest)) {
             if (state != State::HUNGRY) {
                 texture = AssetManager::get_instance()->get_texture(
                     "resources/images/hungry.png");
+                state = State::HUNGRY;
             }
         } else {
             if (state != State::ANGRY) {
                 texture = AssetManager::get_instance()->get_texture(
                     "resources/images/anger.png");
-                if (closest_dist < 500) use_boost();
+                state = State::ANGRY;
             }
+            if (closest_dist < 500) use_boost();
         }
         move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));
     }
+}
+
+double NPC::inv_dir(double dir) {
+    dir += 180;
+    if (dir > 360) {
+        dir -= 360;
+    }
+    return dir;
 }
 
 void NPC::mouseMoved(double x, double y) {}
