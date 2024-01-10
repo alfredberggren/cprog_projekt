@@ -3,7 +3,7 @@
     X. Kolla ljudkanaler, vad är smartast att göra? 
         - Implementerade någon sorts "hålla koll på vilka kanaler som används"-funktionalitet i gameengine. Vet inte hur smart det är egentligen.
     2. Hur ska man kunna lägga till bakgrund? *typ* fixat?? Genom map. 
-    3. Hantera FPS!!!!!!! 
+    X. Hantera FPS!!!!!!! skickas nu in i engine constructor
     4. Dynamisk allokering, se till att saker o ting inte har publika konstruktorer om de inte ska ha det osv (Sprite t.ex.)
     5. Möjlighet att starta, pausa, avsluta spel. GameEngine borde alltså ha:
         - start_game(), 
@@ -86,7 +86,7 @@ map.emplace(SDLK_UP, example);
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
     std::unordered_map<SDL_Keycode, funcPtr> map;
-    GameEngine* game = GameEngine::get_instance();
+    GameEngine* game = GameEngine::get_instance(30);
 
    
 

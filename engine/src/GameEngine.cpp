@@ -6,7 +6,7 @@
 
 GameEngine* GameEngine::instance = nullptr;
 
-GameEngine::GameEngine() {}
+GameEngine::GameEngine(unsigned short fps) : FRAMES_PER_SECOND(fps) {}
 
 GameEngine::~GameEngine() {
     Mix_Quit();
@@ -131,7 +131,7 @@ void GameEngine::run_game() {
         AssetManager::get_instance()->drawAll();
 
         SDL_RenderPresent(SYSTEM.renderer);
-        SDL_Delay(62);
+        SDL_Delay(1000 / FRAMES_PER_SECOND);
     }
 }
 
@@ -205,9 +205,9 @@ void GameEngine::set_map(Map& map){
     AssetManager::get_instance()->set_map(map);
 }
 
-GameEngine* GameEngine::get_instance() {
+GameEngine* GameEngine::get_instance(unsigned short fps) {
     if (instance == nullptr) {
-        instance = new GameEngine();
+        instance = new GameEngine(fps);
     }
     return instance;
 }

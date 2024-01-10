@@ -20,7 +20,8 @@ class GameEngine {
     std::vector<int> soundchannels_in_use;
 
     static GameEngine* instance;
-    GameEngine(/* args */);
+    GameEngine(unsigned short fps = 25);
+    const unsigned short FRAMES_PER_SECOND;
 
     std::unordered_map<SDL_Keycode, funcPtr>* keyMapping;
 
@@ -40,7 +41,7 @@ class GameEngine {
 
     void run_game();
 
-    static GameEngine* get_instance();
+    static GameEngine* get_instance(unsigned short fps = 25);
 
     void load_assets(std::vector<std::string> assets);
     void loadSurface(std::string& asset, SDL_Surface* surface, int& retFlag);
