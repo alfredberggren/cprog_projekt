@@ -13,8 +13,16 @@ class Character : public Sprite {
     virtual void expand(int w, int h);
     virtual void minimize();
     void handle_collision();
-    void move_to_point(double x, double y);
+
+   
+    void play_eat_food_sound();
+    void play_eat_character_sound();
+
+    void move_in_dir(double dir);
+    double get_dir_to(double x, double y);
+
     double get_vel() const;
+    bool is_near_player();
     virtual ~Character() {}
 
     bool has_boost() const;

@@ -9,17 +9,26 @@ class Player : public Character {
     // TODO: singleton
 
    public:
-    Player(std::string path, int x, int y, int w, int h)
-        : Character(path, x, y, w, h) {}
+    static Player* get_instance();
+
 
     void tick();
-    void moveToMouse();
+    void move_toward_mouse();
+    void center_camera();
     void mouseMoved(double x, double y);
     void boost_pressed();
 
    private:
+    Player(std::string path, int x, int y, int w, int h)
+        : Character(path, x, y, w, h) {}
     double mouse_x;
     double mouse_y;
+    static Player* instance;
+    double dir_to_mouse;
 };
+
+
+
+
 
 #endif  // PLAYER_H

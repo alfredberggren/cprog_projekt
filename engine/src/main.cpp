@@ -15,6 +15,7 @@
     6. Implementera sätt att avgöra när ett spel är slut? Eller är det för spelspecifikt,?
     7. Implementera något sätt att lägga in något som ska hända varje spel-tick, t.ex. att lägga till mer mat? 
     8. PixelPerfectCollisionDetection!!!!
+    9. Hur kan den som implementerar välja att använda Camera-grejen eller inte?
     
 
 -- Spelet --
@@ -83,17 +84,17 @@ int main(int argc, char* argv[]) {
 
     game->load_assets(assets);
 
-    int soundchannel = game->play_sound("resources/sounds/TillSpel.mp3", GameEngine::get_instance()->get_sound_channel(), -1);
+    
 
     int LEVEL_WIDTH = 3500;
     int LEVEL_HEIGHT = 3500;
 
-    Map* m = Map::get_instance("resources/images/spaceBackground.jpg", game->SCREEN_WIDTH, game->SCREEN_HEIGHT);
-    game->add_sprite(*m);
+    Map* m = Map::get_instance("resources/images/spaceBackground.jpg", LEVEL_WIDTH, LEVEL_HEIGHT);
+    game->set_map(*m);
 
     Player* s =
-        new Player("resources/images/circle.png", game->SCREEN_HEIGHT / 2,
-                   game->SCREEN_WIDTH / 2, 15, 15);
+        Player::get_instance();
+    
     // make food and npcs randomly placed within level width and height
     for (int i = 0; i < 600; i++)
     {
@@ -106,15 +107,13 @@ int main(int argc, char* argv[]) {
 
     game->add_sprite(*s);
 
-    // Map* b = new Map("resources/images/bg.jpg", 0, 0, 1920, 1280);
-    // game->add_sprite(*b);
-
     map.emplace(SDLK_UP, expandPlayer);
     map.emplace(SDLK_DOWN, minimizePlayer);
     map.emplace(SDLK_SPACE, use_player_boost);
 
     game->load_keys(map);
-
+    
+    game->play_sound("resources/sounds/TillSpel.mp3", GameEngine::get_instance()->get_sound_channel(), -1);
     game->run_game();
 
     return 0;

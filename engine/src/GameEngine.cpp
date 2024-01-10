@@ -52,7 +52,7 @@ void GameEngine::stop_sound(int soundchannel) const {
 //TODO: How to force objects to use this? Or is this even needed?
 
 /*Will return a free soundchannel that can be used solely by an object.
-However, the implementer can break this by using a channel given to them by play_sound....*/
+However, the implementer can break this system by using a channel given to them by entering -1 as channel in play_sound....*/
 int GameEngine::get_sound_channel() {
     
     int available_soundchannels = Mix_AllocateChannels(-1);
@@ -60,10 +60,10 @@ int GameEngine::get_sound_channel() {
         soundchannels_in_use.resize(available_soundchannels);
     }
 
-    int i = 0;
+    int i;
 
     //Gå igenom de använda kanalerna
-    for (i; i < soundchannels_in_use.size(); ++i){
+    for (i = 0; i < soundchannels_in_use.size(); ++i){
         if (i != soundchannels_in_use[i]) {
             soundchannels_in_use[i] = i;
             std::cout << "\tGiving sprite channel " << i << std::endl;

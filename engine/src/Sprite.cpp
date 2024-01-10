@@ -33,8 +33,9 @@ void Sprite::draw() {
     //    std::cerr << "Sprite could not rendercopy" << std::endl;
     //    std::cerr << "Error: " << SDL_GetError() << std::endl;
     //}
-    SDL_Rect render_rect = {rect.x - camera.x, rect.y - camera.y, rect.w,
-                           rect.h};
+
+    
+    SDL_Rect render_rect = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
     SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &render_rect);
 }
 
