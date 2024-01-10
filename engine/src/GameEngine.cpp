@@ -16,45 +16,45 @@ GameEngine::~GameEngine() {
 
 // TODO : Fixa returvärden!
 
-bool GameEngine::init_SDL_libraries() {
-    return SYSTEM.initSDLComponents();
-    
-}
+bool GameEngine::init_SDL_libraries() { return SYSTEM.initSDLComponents(); }
 
 bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition,
                                  int yPosition, int width, int height) {
-   
-    return SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition, width,
-                                 height);
+    return SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition,
+                                        width, height);
     SCREEN_HEIGHT = height;
     SCREEN_WIDTH = width;
     return true;
 }
 
+/*Plays the sound from specified soundpath the specified amount of repeats. Use
+-1 for infinite repeats.
 
+The sound will be played in a "Channel". All Sprite-objects gets a specific
+channel assigned to them at construction, see "assigned_channel". To make sure
+the channel is free (when used outside of objects sub-classing Sprite), use
+get_sound_channel() from GameEngine.
 
-/*Plays the sound from specified soundpath the specified amount of repeats. Use -1 for infinite repeats.
-
-The sound will be played in a "Channel". All Sprite-objects gets a specific channel assigned to them at construction, see "assigned_channel". To make sure the channel is free (when used outside of objects sub-classing Sprite), use get_sound_channel() from GameEngine.
-
-Returns the channel the sound is playing on (int), which can be used for stopping sound later. */
-int GameEngine::play_sound(const std::string& soundpath, int channel, int repeats) const {
-    return Mix_PlayChannel(channel, AssetManager::get_instance()->get_sound(soundpath), repeats);         
+Returns the channel the sound is playing on (int), which can be used for
+stopping sound later. */
+int GameEngine::play_sound(const std::string& soundpath, int channel,
+                           int repeats) const {
+    return Mix_PlayChannel(
+        channel, AssetManager::get_instance()->get_sound(soundpath), repeats);
 }
 
-/*Stops a sound playing on specified soundchannel. 
+/*Stops a sound playing on specified soundchannel.
 Use -1 to stop all channels.*/
 void GameEngine::stop_sound(int soundchannel) const {
     Mix_HaltChannel(soundchannel);
 }
 
-
-//TODO: How to force objects to use this? Or is this even needed?
+// TODO: How to force objects to use this? Or is this even needed?
 
 /*Will return a free soundchannel that can be used solely by an object.
-However, the implementer can break this system by using a channel given to them by entering -1 as channel in play_sound....*/
+However, the implementer can break this system by using a channel given to them
+by entering -1 as channel in play_sound....*/
 int GameEngine::get_sound_channel() {
-    
     int available_soundchannels = Mix_AllocateChannels(-1);
     if (available_soundchannels != soundchannels_in_use.size()) {
         soundchannels_in_use.resize(available_soundchannels);
@@ -62,39 +62,36 @@ int GameEngine::get_sound_channel() {
 
     int i;
 
-    //Gå igenom de använda kanalerna
-    for (i = 0; i < soundchannels_in_use.size(); ++i){
+    // Gå igenom de använda kanalerna
+    for (i = 0; i < soundchannels_in_use.size(); ++i) {
         if (i != soundchannels_in_use[i]) {
             soundchannels_in_use[i] = i;
-            //std::cout << "\tGiving sprite channel " << i << std::endl;
+            // std::cout << "\tGiving sprite channel " << i << std::endl;
             return i;
         }
     }
 
-    //Inga lediga i, måste göra större
-    int newSize = Mix_AllocateChannels(Mix_AllocateChannels(-1)*2);
+    // Inga lediga i, måste göra större
+    int newSize = Mix_AllocateChannels(Mix_AllocateChannels(-1) * 2);
     soundchannels_in_use.resize(newSize);
     soundchannels_in_use[++i] = i;
-    //std::cout << "Channels that can be used are now: " << newSize << std::endl;
-    return i; 
+    // std::cout << "Channels that can be used are now: " << newSize <<
+    // std::endl;
+    return i;
 }
 
-void GameEngine::remove_used_channel(int channel){
+void GameEngine::remove_used_channel(int channel) {
     soundchannels_in_use[channel] = -1;
-    //std::cout << "A Sprite was removed, set soundchannel " << channel << " to -1" << std::endl;
-
+    // std::cout << "A Sprite was removed, set soundchannel " << channel << " to
+    // -1" << std::endl;
 }
-
-
-    
-
 
 /* ---------------------------- RUN GAME ----------------------------*/
 
 void GameEngine::run_game() {
-
     SDL_Event event;
     bool running = true;
+    paused = false;
     while (running) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -103,31 +100,28 @@ void GameEngine::run_game() {
                 // Kolla om KEY finns i keyMapping, isåfall hämta den och skicka
                 // funktionen till AssetManager
                 if (keyMapping->count(event.key.keysym.sym) > 0) {
-                    AssetManager::get_instance()->handleKeyEvent(
-                        keyMapping->at(event.key.keysym.sym));
+                    keyMapping->at(event.key.keysym.sym)();
                 }
 
-                if (event.key.keysym.sym == SDLK_ESCAPE ) {
-                    bool paused = true;
-                    while (paused) {
-                        SDL_PollEvent(&event);
-                        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-                            paused = false;
-                        SDL_Delay(100);
-                    }
+                while (paused) {
+                    SDL_PollEvent(&event);
+                    if (event.type == SDL_KEYDOWN &&
+                        event.key.keysym.sym == SDLK_ESCAPE)
+                        paused = false;
+                    SDL_Delay(100);
                 }
 
             } else if (event.type == SDL_MOUSEMOTION) {
                 AssetManager::get_instance()->mouseMovedAll(event.motion.x,
                                                             event.motion.y);
-            } 
+            }
         }
 
         SDL_RenderClear(SYSTEM.renderer);
 
         AssetManager::get_instance()->tickAll();
         AssetManager::get_instance()->remove_marked();
-        
+
         AssetManager::get_instance()->drawAll();
 
         SDL_RenderPresent(SYSTEM.renderer);
@@ -138,6 +132,12 @@ void GameEngine::run_game() {
 void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr>& map) {
     keyMapping = &map;
 }
+
+void GameEngine::add_key_function_for_sprite(funcPtr2 f) {
+    AssetManager::get_instance()->handleKeyEvent(f);
+}
+
+void GameEngine::pause() { paused = true; }
 
 /*Loads assets from the vector*/
 void GameEngine::load_assets(std::vector<std::string> assets) {
@@ -179,7 +179,7 @@ bool GameEngine::load_img(std::string path) {
 
     AssetManager::get_instance()->add_texture(path, texture);
     SDL_FreeSurface(surface);
-    
+
     return true;
 }
 
@@ -201,7 +201,7 @@ void GameEngine::add_sprite(Sprite& sprite) {
     AssetManager::get_instance()->add(sprite);
 }
 
-void GameEngine::set_map(Map& map){
+void GameEngine::set_map(Map& map) {
     AssetManager::get_instance()->set_map(map);
 }
 

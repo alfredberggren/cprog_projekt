@@ -13,11 +13,13 @@
 #include "System.h"
 #include "Map.h"
 
-typedef void (*funcPtr)(Sprite*);
+typedef void (*funcPtr)();
+typedef void (*funcPtr2)(Sprite*);
 
 class GameEngine {
    private:
     std::vector<int> soundchannels_in_use;
+    bool paused = false;
 
     static GameEngine* instance;
     GameEngine(/* args */);
@@ -37,6 +39,7 @@ class GameEngine {
                        int width, int height);
 
     void load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map);
+    void add_key_function_for_sprite(funcPtr2);
 
     void run_game();
 
@@ -46,6 +49,8 @@ class GameEngine {
     void loadSurface(std::string& asset, SDL_Surface* surface, int& retFlag);
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;
+
+    void pause();
 
     int play_sound(const std::string&, int, int) const;
     void stop_sound(int) const;

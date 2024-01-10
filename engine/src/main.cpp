@@ -43,12 +43,6 @@
 
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
-// Denna implementation get möjligheten att mappa en KEY till en specific
-// funktion i en eller flera subklasser av Sprite. Även funktioner i Sprite går
-// bra. Då är det helt upp till själva spelet / användaren att bestämma vad som
-// ska utföras, alltså behövs det ingen funktion som som hanterar tryck av
-// tangenten 'J' i Sprite t.ex.
-
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
@@ -63,19 +57,29 @@ void minimizePlayer(Sprite* s) {
 void use_player_boost(Sprite* s){
     if(Player* p = dynamic_cast<Player*>(s))
         p->boost_pressed();
-
 }
 
+// Nedan är funktionerna som mappas till ett visst knapptryck. Mappen kommer att skickas till GameEngine. 
+// Om man trycker en knapp kommer SDL_EVENT loopen i GameEngine köra funktionen som mappats till knappen, funktionen 
+// är definierad i GameEngine klassen. 
 
-
-
-/*
-void example(){
-    GameEngine::get_instance()->do_on_all_sprites(use_player_boost);
+// TLDR : Man mappar knapptryck till funktioner i GameEngine. Implementationen förut innebar att man mappade knapptryck som utfördes
+// på alla sprites i spelet. 
+void pause_game(){
+    GameEngine::get_instance()->pause();
 }
 
-map.emplace(SDLK_UP, example);
-*/
+void player_boost(){
+    GameEngine::get_instance()->add_key_function_for_sprite(use_player_boost);
+}
+
+void minimize(){
+    GameEngine::get_instance()->add_key_function_for_sprite(minimizePlayer);
+}
+
+void expand(){
+    GameEngine::get_instance()->add_key_function_for_sprite(expandPlayer);
+}
 
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
@@ -114,9 +118,10 @@ int main(int argc, char* argv[]) {
 
     game->add_sprite(*s);
 
-    map.emplace(SDLK_UP, expandPlayer);
-    map.emplace(SDLK_DOWN, minimizePlayer);
-    map.emplace(SDLK_SPACE, use_player_boost);
+    map.emplace(SDLK_UP, expand);
+    map.emplace(SDLK_DOWN, minimize);
+    map.emplace(SDLK_SPACE, player_boost);
+    map.emplace(SDLK_ESCAPE, pause_game);
 
     game->load_keys(map);
     

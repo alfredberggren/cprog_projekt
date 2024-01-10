@@ -12,7 +12,8 @@
 #include "Sprite.h"
 #include "Map.h"
 
-typedef void (*funcPtr)(Sprite *);
+typedef void (*funcPtr)();
+typedef void (*funcPtr2)(Sprite*);
 
 class AssetManager
 {
@@ -42,7 +43,7 @@ public:
     }
 
     std::vector<Sprite *> get_active_sprites() const { return active_sprites; }
-    void handleKeyEvent(funcPtr func);
+    void handleKeyEvent(funcPtr2 func);
     void add(Sprite &);
     void tickAll();
     void mouseMovedAll(double, double);

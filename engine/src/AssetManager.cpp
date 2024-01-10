@@ -15,7 +15,7 @@ AssetManager::~AssetManager() {
     }
 }
 
-void AssetManager::handleKeyEvent(funcPtr func) {
+void AssetManager::handleKeyEvent(funcPtr2 func) {
     for (Sprite* sprite : active_sprites) {
         func(sprite);
     }
