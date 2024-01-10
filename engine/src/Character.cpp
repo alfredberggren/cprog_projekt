@@ -69,7 +69,7 @@ void Character::set_boost_speed(int speed){
 }
 
 bool Character::has_boost() const{
-    return boost_counter >= 20;
+    return boost_counter >= 10;
 }
 
 void Character::check_boost(){

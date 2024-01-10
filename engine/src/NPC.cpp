@@ -35,6 +35,7 @@ void NPC::move_to_closest() {
         if (state != State::NERVOUS) {
             texture = AssetManager::get_instance()->get_texture(
                 "resources/images/nervous.png");
+            if (closest_dist < 100) use_boost();
         }
         move_in_dir(get_dir_to(-closest->getCenterX(), -closest->getCenterY()));
     } else {
@@ -47,8 +48,7 @@ void NPC::move_to_closest() {
             if (state != State::ANGRY) {
                 texture = AssetManager::get_instance()->get_texture(
                     "resources/images/anger.png");
-                if(closest_dist < 500)
-                    use_boost();
+                if (closest_dist < 500) use_boost();
             }
         }
         move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));

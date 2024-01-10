@@ -42,6 +42,18 @@ void Sprite::draw() {
 void Sprite::move(double x, double y) {
     rect.x += x;
     rect.y += y;
+    if (rect.x < 0) {
+        rect.x = 0;
+    }
+    if (rect.y < 0) {
+        rect.y = 0;
+    }
+    if (rect.x > 3500 - rect.w) {
+        rect.x = 3500 - rect.w;
+    }
+    if (rect.y > 3500 - rect.h) {
+        rect.y = 3500 - rect.h;
+    }
 }
 
 void Sprite::setW(int w) { rect.w = w; }

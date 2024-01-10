@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
     {
         game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
     }
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 30; i++)
     {
        game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));
     }
