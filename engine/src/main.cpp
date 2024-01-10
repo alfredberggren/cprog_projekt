@@ -2,8 +2,8 @@
 -- Spelmotor --
     X. Kolla ljudkanaler, vad är smartast att göra? 
         - Implementerade någon sorts "hålla koll på vilka kanaler som används"-funktionalitet i gameengine. Vet inte hur smart det är egentligen.
-    2. Hur ska man kunna lägga till bakgrund?
-    3. Hantera FPS
+    2. Hur ska man kunna lägga till bakgrund? *typ* fixat?? Genom map. 
+    3. Hantera FPS!!!!!!! 
     4. Dynamisk allokering, se till att saker o ting inte har publika konstruktorer om de inte ska ha det osv (Sprite t.ex.)
     5. Möjlighet att starta, pausa, avsluta spel. GameEngine borde alltså ha:
         - start_game(), 
@@ -15,7 +15,13 @@
     6. Implementera sätt att avgöra när ett spel är slut? Eller är det för spelspecifikt,?
     7. Implementera något sätt att lägga in något som ska hända varje spel-tick, t.ex. att lägga till mer mat? 
     8. PixelPerfectCollisionDetection!!!!
-    9. Hur kan den som implementerar välja att använda Camera-grejen eller inte?
+    9. Hur kan den som implementerar välja att använda Camera-grejen eller inte? typ att GameEngine borde ha:
+        - set_camera_focus(Sprite& sprite); 
+            - Möjligt här att GameEngine kan ha en konstant statisk Sprite som är över hela leveln, osynlig (typ bara en rect då), som spelutvecklaren kan använda
+            eller att det också finns set_camera_focus_on_all() typ
+        - set_camera_width(int width);
+        - set_camera_height(int height);
+        - 
     
 
 -- Spelet --
