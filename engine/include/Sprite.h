@@ -16,6 +16,7 @@ class Sprite {
     bool collidable; //TODO: check spelling on collidEable/collidable
     bool to_be_removed = false;
     bool to_be_relocated = false;
+    bool followed_by_camera = false;
     SDL_Texture* texture;
     
     //Channel assigned at construction, to be used for playing sounds.
@@ -39,6 +40,8 @@ class Sprite {
     void set_remove(bool remove);
     bool to_relocate() const;
     void set_relocate(bool relocate);
+    void set_followed_by_camera(bool follow);
+    virtual void kill(Sprite* killed_by) = 0;
     
 
     /*implement what to do when reacting to mouse-movement*/

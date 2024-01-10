@@ -9,9 +9,9 @@ class NPC : public Character {
     NPC(std::string path, int x, int y, int w, int h)
         : Character(path, x, y, w, h) {}
 
-    void tick();
+    void tick() override;
     // Flyttar NPC:n mot närmsta sprite som är mindre än sig själv
-    void move_to_closest();
+    void char_move() override;
     void mouseMoved(double x, double y);
     enum class State { NERVOUS, HUNGRY, ANGRY };
     State state;

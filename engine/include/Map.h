@@ -12,6 +12,7 @@ class Map : public Sprite{
         void mouseMoved(double, double) override {}
         void tick() override {}
         void draw() override;
+        void kill(Sprite* killed_by) override {}
 
         
 

@@ -4,12 +4,10 @@
 #include "Food.h"
 
 void NPC::tick() {
-    check_boost();
-    move_to_closest();
-    handle_collision();
+    Character::tick();
 }
 
-void NPC::move_to_closest() {
+void NPC::char_move() {
     Sprite* closest = nullptr;
     double closest_dist = 1000000;
     for (Sprite* s : AssetManager::get_instance()->get_active_sprites()) {

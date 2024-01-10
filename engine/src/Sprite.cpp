@@ -83,3 +83,5 @@ void Sprite::set_remove(bool remove) { to_be_removed = remove; }
 bool Sprite::to_relocate() const { return to_be_relocated; }
 
 void Sprite::set_relocate(bool relocate) { to_be_relocated = relocate; }
+
+void Sprite::set_followed_by_camera(bool follow) { followed_by_camera = follow; }
