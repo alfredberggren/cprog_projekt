@@ -18,9 +18,9 @@ void NPC::move_to_closest() {
         double dist = std::sqrt(std::pow(getCenterX() - s->getCenterX(), 2) +
                                 std::pow(getCenterY() - s->getCenterY(), 2));
         if (dynamic_cast<Food*>(s)) {
-            if (dist > 250) {
+            if (dist > FOG_RADIUS) {
                 continue;
-            }        
+            }
         }
         if (dist < closest_dist) {
             closest_dist = dist;
@@ -31,14 +31,24 @@ void NPC::move_to_closest() {
         return;
     }
     if (closest->area() > area()) {
-        texture = AssetManager::get_instance()->get_texture("resources/images/nervous.png");
-        move_to_point(-closest->getCenterX(), -closest->getCenterY());
+        if (state != State::NERVOUS) {
+            texture = AssetManager::get_instance()->get_texture(
+                "resources/images/nervous.png");
+        }
+        move_in_dir(get_dir_to(-closest->getCenterX(), -closest->getCenterY()));
     } else {
-        if(dynamic_cast<Food*>(closest)){
-            texture = AssetManager::get_instance()->get_texture("resources/images/hungry.png");
-        }else
-            texture = AssetManager::get_instance()->get_texture("resources/images/anger.png");
-        move_to_point(closest->getCenterX(), closest->getCenterY());
+        if (dynamic_cast<Food*>(closest)) {
+            if (state != State::HUNGRY) {
+                texture = AssetManager::get_instance()->get_texture(
+                    "resources/images/hungry.png");
+            }
+        } else {
+            if (state != State::ANGRY) {
+                texture = AssetManager::get_instance()->get_texture(
+                    "resources/images/anger.png");
+            }
+        }
+        move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));
     }
 }
 

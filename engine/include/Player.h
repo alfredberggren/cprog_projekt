@@ -13,7 +13,8 @@ class Player : public Character {
 
 
     void tick();
-    void moveToMouse();
+    void move_toward_mouse();
+    void center_camera();
     void mouseMoved(double x, double y);
 
    private:
@@ -22,6 +23,7 @@ class Player : public Character {
     double mouse_x;
     double mouse_y;
     static Player* instance;
+    double dir_to_mouse;
 };
 
 

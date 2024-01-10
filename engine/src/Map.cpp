@@ -6,3 +6,4 @@ void Map::draw() {
     SDL_Rect bRect = {-camera.x, -camera.y, rect.w, rect.h};
     SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &bRect);
 }
+
