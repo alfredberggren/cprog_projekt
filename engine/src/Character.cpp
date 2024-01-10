@@ -69,7 +69,7 @@ void Character::set_boost_speed(int speed){
 }
 
 bool Character::has_boost() const{
-    return boost_counter >= 10;
+    return (boost_counter >= 10);
 }
 
 void Character::check_boost(){
@@ -83,13 +83,19 @@ void Character::check_boost(){
 
 void Character::use_boost(){
     if(has_boost()){
+        if (this == Player::get_instance()) {
+            GameEngine::get_instance()->play_sound("resources/sounds/BoosterActivated.mp3", -1, 0);
+        } else if (is_near_player()) {
+                GameEngine::get_instance()->play_sound("resources/sounds/JustBoost.mp3", -1, 0);
+        }
+        
         boost_timer = 25;
         boost_counter = 0;
     }
 }
 
 
-bool Character::is_near_player(){
+bool Character::is_near_player() const{
     int pX = Player::get_instance()->getCenterX();
     int pY = Player::get_instance()->getCenterY();
     
@@ -107,9 +113,18 @@ void Character::play_eat_character_sound(){
 /*Plays a eating food sound, "randomly" selected, based on Characters' rect:s x-position*/
 void Character::play_eat_food_sound(){
     if (rect.x % 2 == 0) {
-        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", assigned_channel, 0);
+        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", -1, 0);
     } else {
-        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall2.mp3", assigned_channel, 0);
+        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall2.mp3", -1, 0);
     }
+
+    if (boost_counter == 10) {
+        if (this == Player::get_instance()){
+            GameEngine::get_instance()->play_sound("resources/sounds/BoosterReady.mp3", -1, 0);
+            std::cout << "'BOOST READIEY'" << std::endl;
+        }
+    }
+
+
     
 }

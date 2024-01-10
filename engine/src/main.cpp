@@ -66,6 +66,17 @@ void use_player_boost(Sprite* s){
 
 }
 
+
+
+
+/*
+void example(){
+    GameEngine::get_instance()->do_on_all_sprites(use_player_boost);
+}
+
+map.emplace(SDLK_UP, example);
+*/
+
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
     std::unordered_map<SDL_Keycode, funcPtr> map;
@@ -100,6 +111,7 @@ int main(int argc, char* argv[]) {
     {
         game->add_sprite(*new Food("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 15, 15));
     }
+    
     for (int i = 0; i < 30; i++)
     {
        game->add_sprite(*new NPC("resources/images/circle.png", rand() % LEVEL_WIDTH, rand() % LEVEL_HEIGHT, 20, 20));

@@ -22,7 +22,7 @@ class Character : public Sprite {
     double get_dir_to(double x, double y);
 
     double get_vel() const;
-    bool is_near_player();
+    bool is_near_player() const;
     virtual ~Character() {}
 
     bool has_boost() const;
