@@ -74,7 +74,7 @@ bool Character::has_boost() const{
 
 void Character::check_boost(){
     if(boost_timer > 0){
-        set_boost_speed(20);
+        set_boost_speed(10);
         --boost_timer;
     }
     else
@@ -83,7 +83,7 @@ void Character::check_boost(){
 
 void Character::use_boost(){
     if(has_boost()){
-        boost_timer = 50;
+        boost_timer = 25;
         boost_counter = 0;
     }
 }

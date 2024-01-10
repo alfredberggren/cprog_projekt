@@ -4,6 +4,7 @@
 #include "Food.h"
 
 void NPC::tick() {
+    check_boost();
     move_to_closest();
     handle_collision();
 }
@@ -46,6 +47,8 @@ void NPC::move_to_closest() {
             if (state != State::ANGRY) {
                 texture = AssetManager::get_instance()->get_texture(
                     "resources/images/anger.png");
+                if(closest_dist < 500)
+                    use_boost();
             }
         }
         move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));
