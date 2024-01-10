@@ -10,7 +10,7 @@ class NPC : public Character {
         : Character(path, x, y, w, h) {}
 
     void tick() override;
-    // Flyttar NPC:n mot närmsta sprite som är mindre än sig själv
+    // NPC:s rörelse-algoritm
     void char_move() override;
     void mouseMoved(double x, double y);
     // Inverterar en riktning
