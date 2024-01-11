@@ -7,6 +7,9 @@
 /*Class to be used for a background*/
 class Map : public Sprite{
     public:
+        const int MAP_WIDTH;
+        const int MAP_HEIGHT;
+
         static Map* get_instance(std::string backgroundpath, int screen_width, int screen_height) {return new Map(backgroundpath, screen_width, screen_height);}
         void mouse_moved(double, double) override {}
         void tick() override {}

@@ -22,11 +22,10 @@ bool GameEngine::init_SDL_libraries() { return SYSTEM.initSDLComponents(); }
 
 bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition,
                                  int yPosition, int width, int height) {
-    return SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition,
-                                        width, height);
     SCREEN_HEIGHT = height;
     SCREEN_WIDTH = width;
-    return true;
+    return SYSTEM.initWindowAndRenderer(windowTitle, xPosition, yPosition,
+                                        width, height);
 }
 
 /*Plays the sound from specified soundpath the specified amount of repeats. Use

@@ -150,10 +150,10 @@ void Character::play_eat_food_sound() {
 }
 
 void Character::center_camera() {
-    // TODO - Denna funktion behöver tillgång till SCREENWIDTH och SCREENHEIGHT,
-    // samt LEVELWIDTH och LEVELHEIGHT som initieras när man skapar engine
-    camera.x = (rect.x + rect.w / 2) - 640 / 2;
-    camera.y = (rect.y + rect.h / 2) - 480 / 2;
+    // Skicka in en MAP i denna funktion? 
+
+    camera.x = (rect.x + rect.w / 2) - (GameEngine::get_instance()->SCREEN_WIDTH / 2);
+    camera.y = (rect.y + rect.h / 2) - (GameEngine::get_instance()->SCREEN_HEIGHT / 2);
 
     // Håll kameran inom spelplanen
     if (camera.x < 0) {

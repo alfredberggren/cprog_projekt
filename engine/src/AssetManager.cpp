@@ -85,8 +85,6 @@ void AssetManager::remove_marked() {
         if ((*it)->is_to_be_removed()) {
             delete *it;
             active_sprites.erase(it);
-            // WARNING ----------------------------------- WARNING --------------------------
-            // Spelimplementation i engine?
         } else {
             ++it;
         }

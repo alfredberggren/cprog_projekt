@@ -18,6 +18,8 @@ typedef void (*funcPtr2)(Sprite *);
 class AssetManager {
    private:
     static AssetManager *instance;
+
+    // ------------ TYPEN MAP I ENGINE? ------------ 
     const Map* map = nullptr;
 
     std::vector<Sprite *> active_sprites;
