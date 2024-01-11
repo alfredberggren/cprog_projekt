@@ -25,8 +25,8 @@ void AssetManager::add(Sprite& sprite) {
     active_sprites.push_back(&sprite);
 }
 
-void AssetManager::set_map(const Map& m) {
-    map = &m;
+void AssetManager::set_level_background(const LevelBackground& bg) {
+    background = &bg;
 }
 
 void AssetManager::tickAll() {
@@ -42,8 +42,8 @@ void AssetManager::mouseMovedAll(double x, double y) {
 }
 
 void AssetManager::drawAll() const {
-    if (map != nullptr){
-        map->draw();
+    if (background != nullptr){
+        background->draw();
     }
 
     for (Sprite* sprite : active_sprites) {

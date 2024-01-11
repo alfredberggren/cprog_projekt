@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "Sprite.h"
-#include "Map.h"
+#include "LevelBackground.h"
 
 typedef void (*funcPtr)();
 typedef void (*funcPtr2)(Sprite*);
@@ -19,7 +19,7 @@ class AssetManager
 {
 private:
     static AssetManager *instance;
-    const Map* map = nullptr;
+    const LevelBackground* background = nullptr;
 
     std::vector<Sprite *> active_sprites;
     static std::unordered_map<std::string, SDL_Texture *> loaded_textures;
@@ -54,7 +54,7 @@ public:
     SDL_Texture* get_texture(const std::string) const;
     
     void drawAll() const;
-    void set_map(const Map&);
+    void set_level_background(const LevelBackground&);
 
     // Sets camera to follow largest character
     void camera_follow_largest() const;

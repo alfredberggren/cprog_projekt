@@ -43,7 +43,6 @@ private:
     void check_boost();
     void set_boost_speed(int speed);
 
-    void center_camera();
 
     void kill(Sprite *killed_by = nullptr);
 

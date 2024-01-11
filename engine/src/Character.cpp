@@ -5,6 +5,7 @@
 #include "AssetManager.h"
 #include "Food.h"
 #include "GameEngine.h"
+#include "Camera.h"
 #define BASE_SPEED 30.0
 #define FIRST_LOCAL_SOUNDCHANNEL 0
 #define TOTAL_LOCAL_SOUNDCHANNELS 4
@@ -24,7 +25,9 @@ Character::~Character() {
 void Character::tick() {
     check_boost();
     char_move();
-    if(followed_by_camera) center_camera();
+    if(this == Camera::get_instance()->get_focused_on()) {
+        Camera::get_instance()->center();
+    }
     handle_collision();
 }
 
@@ -137,7 +140,7 @@ void Character::play_eat_character_sound() {
 /*Plays a eating food sound, "randomly" selected, based on Characters' rect:s
  * x-position*/
 void Character::play_eat_food_sound() {
-    if (rect.x % 2 == 0) {
+    if (Sprite::get_rect()->x % 2 == 0) {
         GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", get_local_soundchannel(), 0);
     } else {
         GameEngine::get_instance()->play_sound("resources/sounds/munchsmall2.mp3", get_local_soundchannel(), 0);
@@ -151,24 +154,7 @@ void Character::play_eat_food_sound() {
     }
 }
 
-void Character::center_camera() {
-    camera.x = (rect.x + rect.w / 2) - 640 / 2;
-    camera.y = (rect.y + rect.h / 2) - 480 / 2;
 
-    // Håll kameran inom spelplanen
-    if (camera.x < 0) {
-        camera.x = 0;
-    }
-    if (camera.y < 0) {
-        camera.y = 0;
-    }
-    if (camera.x > 3500 - camera.w) {
-        camera.x = 3500 - camera.w;
-    }
-    if (camera.y > 3500 - camera.h) {
-        camera.y = 3500 - camera.h;
-    }
-}
 
 void Character::kill(Sprite* killed_by) {
     set_remove(true);
