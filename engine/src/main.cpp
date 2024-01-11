@@ -26,14 +26,14 @@
     12. Vi ska använda getRes-constanten på någe vis.
     13. get_sound_channel (i GameEngine) kan i nuläget bara göra kanal-vektorn större, men inte mindre. Vet ärligt talat inte om det är ett problem i nuläget. Den kommer bara bli större *om det behövs*, och om det behövs, så kanske det kommer behövas en sådan stor vektor i framtiden också?
     14. På samma sätt som vi implementerar ett sätt att ta bort sprites under loopen, måste vi göra liknande för att lägga till (enl. jozefs exempel)
-    15. Förlåt, men egentligen borde vi göra samma map-lösning för alla sorters event... I nuläget kan spelutvecklaren bara göra att sina sprites kan reagera på knapptryck...
+    15. Förlåt, men egentligen borde vi göra samma map-lösning för alla sorters event... I nuläget kan spelutvecklaren bara göra att sina sprites kan reagera på knapptryck... 
     
 
 -- Spelet --
     1. "Dumma ner" NPCs, mer random, inte märker spelaren/att man är större,
 delay på handlingar
-    X. Se till att NPCs inte kan gå utanför kartan
-    3. Tweaka hastigheter
+    X. Se till att NPCs inte kan gå utanför kartan ✔
+    3. Tweaka hastigheter ✔
     4. Randomisera  vilka ljud som spelas när man äter (finns två i nuläget)
     5. "Zooma ut" kameran när spelare blivit för stor.
     6. Sätt spelaren i mitten av kartan vid spelstart

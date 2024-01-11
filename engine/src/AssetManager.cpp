@@ -87,10 +87,6 @@ void AssetManager::remove_marked() {
             active_sprites.erase(it);
             // WARNING ----------------------------------- WARNING --------------------------
             // Spelimplementation i engine?
-        } else if ((*it)->is_to_be_relocated()) {
-            (*it)->setX(rand() % 3500);
-            (*it)->setY(rand() % 3500);
-            (*it)->set_relocate(false);
         } else {
             ++it;
         }
