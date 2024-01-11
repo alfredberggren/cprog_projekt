@@ -27,9 +27,7 @@ void AssetManager::add(Sprite& sprite) {
               << active_sprites.size() << std::endl;
 }
 
-void AssetManager::set_map(Map& m) {
-    map = &m;
-}
+void AssetManager::set_map(Map& m) { map = &m; }
 
 void AssetManager::tickAll() {
     for (Sprite* sprite : active_sprites) {
@@ -44,7 +42,7 @@ void AssetManager::mouseMovedAll(double x, double y) {
 }
 
 void AssetManager::drawAll() {
-    if (map != nullptr){
+    if (map != nullptr) {
         map->draw();
     }
 
@@ -56,7 +54,8 @@ void AssetManager::drawAll() {
 /*function to be used by subclasses of Sprite to check if it has collided with
  * anything, will return a vector with all colliding sprites, which the subclass
  * can react to in its implementation*/
-std::vector<Sprite*> AssetManager::check_collisions(const Sprite& sprite_to_check) const{
+std::vector<Sprite*> AssetManager::check_collisions(
+    const Sprite& sprite_to_check) const {
     std::vector<Sprite*> colliding_sprites;
 
     for (Sprite* sprite : active_sprites) {
@@ -79,30 +78,35 @@ void AssetManager::remove_marked() {
         if ((*it)->is_to_be_removed()) {
             delete *it;
             active_sprites.erase(it);
-        } else if ((*it)->is_to_be_relocated()) {
-            (*it)->setX(rand() % 3500);
-            (*it)->setY(rand() % 3500);
-            (*it)->set_relocate(false);
-        }else {
+        } else {
             ++it;
         }
     }
 }
 
-void AssetManager::add_sound(const std::string path, Mix_Chunk* sound_chunk){
+void AssetManager::add_sound(const std::string path, Mix_Chunk* sound_chunk) {
     loaded_sounds.insert(std::make_pair(path, sound_chunk));
 }
 
-void AssetManager::add_texture(const std::string path, SDL_Texture* texture){
+void AssetManager::add_texture(const std::string path, SDL_Texture* texture) {
     loaded_textures.insert(std::make_pair(path, texture));
 }
 
-Mix_Chunk* AssetManager::get_sound(const std::string path){
+Mix_Chunk* AssetManager::get_sound(const std::string path) {
     return loaded_sounds[path];
 }
 
-SDL_Texture* AssetManager::get_texture(const std::string path){
+SDL_Texture* AssetManager::get_texture(const std::string path) {
     return loaded_textures[path];
+}
+
+Sprite* AssetManager::get_followed_by_camera() const {
+    for (Sprite* s : active_sprites) {
+        if (s->get_followed_by_camera()) {
+            return s;
+        }
+    }
+    return nullptr;
 }
 
 std::unordered_map<std::string, SDL_Texture*> AssetManager::loaded_textures;

@@ -9,14 +9,20 @@
 #define FIRST_LOCAL_SOUNDCHANNEL 0
 #define TOTAL_LOCAL_SOUNDCHANNELS 4
 
-Character::Character(std::string path, int x, int y, int w, int h) : Sprite(path, x, y, w, h, true), boost_counter(0), boost_timer(0), boost_speed(0), current_local_soundchannel(FIRST_LOCAL_SOUNDCHANNEL) {
-    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i){
-        local_soundchannels.push_back(GameEngine::get_instance()->get_sound_channel());
-    }   
+Character::Character(std::string path, int x, int y, int w, int h)
+    : Sprite(path, x, y, w, h, true),
+      boost_counter(0),
+      boost_timer(0),
+      boost_speed(0),
+      current_local_soundchannel(FIRST_LOCAL_SOUNDCHANNEL) {
+    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i) {
+        local_soundchannels.push_back(
+            GameEngine::get_instance()->get_sound_channel());
+    }
 }
 
 Character::~Character() {
-    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i){
+    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i) {
         GameEngine::get_instance()->remove_used_channel(local_soundchannels[i]);
     }
 }
@@ -24,7 +30,7 @@ Character::~Character() {
 void Character::tick() {
     check_boost();
     char_move();
-    if(followed_by_camera) center_camera();
+    if (followed_by_camera) center_camera();
     handle_collision();
 }
 
@@ -36,13 +42,12 @@ void Character::handle_collision() {
     }
     for (Sprite* s : collisions) {
         if (Food* f = dynamic_cast<Food*>(s)) {
-            this->expand((f->getW() * 10) / getW(), (f->getH() * 10) / getH());
+            this->expand(f);
             if (is_near_player()) play_eat_food_sound();
             s->kill(this);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
-                this->expand((c->getW() * 10) / getW(),
-                             (c->getH() * 10) / getH());
+                this->expand(c);
                 if (is_near_player()) play_eat_character_sound();
                 c->kill(this);
             }
@@ -67,15 +72,20 @@ double Character::get_dir_to(double x, double y) {
     return angle;
 }
 
-double Character::get_vel() const{
+double Character::get_vel() const {
     return BASE_SPEED * pow(area(), -0.230) + boost_speed;
-    //return BASE_SPEED + (200.0 / (rect.w / 2) + boost_speed);
+    // return BASE_SPEED + (200.0 / (rect.w / 2) + boost_speed);
 }
 
-void Character::expand(int w, int h) {
+void Character::expand(Sprite* eaten_sprite) {
     boost_counter++;
-    setW(getW() + w);
-    setH(getH() + h);
+    int expand_w = (eaten_sprite->getW() * 10) / getW();
+    int expand_h = (eaten_sprite->getH() * 10) / getH();
+    setW(getW() + expand_w);
+    setH(getH() + expand_h);
+    if (this->followed_by_camera) {
+
+    }
 }
 
 void Character::minimize() {
@@ -85,9 +95,7 @@ void Character::minimize() {
 
 void Character::set_boost_speed(int speed) { boost_speed = speed; }
 
-bool Character::has_boost() const{
-    return (boost_counter >= 10);
-}
+bool Character::has_boost() const { return (boost_counter >= 10); }
 
 void Character::check_boost() {
     if (boost_timer > 0) {
@@ -97,21 +105,23 @@ void Character::check_boost() {
         set_boost_speed(0);
 }
 
-void Character::use_boost(){
-    if(has_boost()){
+void Character::use_boost() {
+    if (has_boost()) {
         if (this == Player::get_instance()) {
-            GameEngine::get_instance()->play_sound("resources/sounds/BoosterActivated.mp3", get_local_soundchannel(), 0);
+            GameEngine::get_instance()->play_sound(
+                "resources/sounds/BoosterActivated.mp3",
+                get_local_soundchannel(), 0);
         } else if (is_near_player()) {
-                GameEngine::get_instance()->play_sound("resources/sounds/JustBoost.mp3", get_local_soundchannel(), 0);
+            GameEngine::get_instance()->play_sound(
+                "resources/sounds/JustBoost.mp3", get_local_soundchannel(), 0);
         }
-        
+
         boost_timer = 25;
         boost_counter = 0;
     }
 }
 
-
-bool Character::is_near_player() const{
+bool Character::is_near_player() const {
     int pX = Player::get_instance()->getCenterX();
     int pY = Player::get_instance()->getCenterY();
 
@@ -138,14 +148,18 @@ void Character::play_eat_character_sound() {
  * x-position*/
 void Character::play_eat_food_sound() {
     if (rect.x % 2 == 0) {
-        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall1.mp3", get_local_soundchannel(), 0);
+        GameEngine::get_instance()->play_sound(
+            "resources/sounds/munchsmall1.mp3", get_local_soundchannel(), 0);
     } else {
-        GameEngine::get_instance()->play_sound("resources/sounds/munchsmall2.mp3", get_local_soundchannel(), 0);
+        GameEngine::get_instance()->play_sound(
+            "resources/sounds/munchsmall2.mp3", get_local_soundchannel(), 0);
     }
 
     if (boost_counter == 10) {
-        if (this == Player::get_instance()){
-            GameEngine::get_instance()->play_sound("resources/sounds/BoosterReady.mp3", get_local_soundchannel(), 0);
+        if (this == Player::get_instance()) {
+            GameEngine::get_instance()->play_sound(
+                "resources/sounds/BoosterReady.mp3", get_local_soundchannel(),
+                0);
             std::cout << "'BOOST READIEY'" << std::endl;
         }
     }

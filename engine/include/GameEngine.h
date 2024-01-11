@@ -62,6 +62,8 @@ class GameEngine {
     int get_sound_channel();
     void remove_used_channel(int channel);
 
+    void set_window_size(int w, int h);
+
     ~GameEngine();
 };
 

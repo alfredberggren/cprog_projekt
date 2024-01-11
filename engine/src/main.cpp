@@ -58,7 +58,7 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
-        p->expand(5, 5);
+        p->expand(p);
     }
 }
 

@@ -56,8 +56,7 @@ public:
     void drawAll();
     void set_map(Map&);
 
-    // Sets camera to follow largest character
-    void camera_follow_largest() const;
+    Sprite* get_followed_by_camera() const;
     
     ~AssetManager();
 };
