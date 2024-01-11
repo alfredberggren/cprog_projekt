@@ -140,13 +140,13 @@ int main(int argc, char* argv[]) {
         else
             planet = "venus.png";
 
-        game->add_sprite(*Food::get_instance(constants::gResPath + "images/planet.png",
+        game->add_sprite(*Food::get_instance(constants::gResPath + "images/" + planet,
                                              rand() % LEVEL_WIDTH,
                                              rand() % LEVEL_HEIGHT, 15, 15));
     }
 
     for (int i = 0; i < 30; i++) {
-        game->add_sprite(*NPC::get_instance(constants::gResPath + "images/circle.png",
+        game->add_sprite(*NPC::get_instance(constants::gResPath + "images/alien3.png",
                                             rand() % LEVEL_WIDTH,
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }

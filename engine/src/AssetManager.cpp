@@ -96,7 +96,6 @@ void AssetManager::add_sound(const std::string path, Mix_Chunk* sound_chunk) {
 }
 
 void AssetManager::add_texture(const std::string path, SDL_Texture* texture) {
-    std::cout << "ADDED TEXTURE TO " << path << std::endl;
     loaded_textures.insert(std::make_pair(path, texture));
 }
 
@@ -105,9 +104,6 @@ Mix_Chunk* AssetManager::get_sound(const std::string path) const{
 }
 
 SDL_Texture* AssetManager::get_texture(const std::string path) const {
-    std::cout << "GETTING TEXTURE FROM " << path << std::endl;
-    if(loaded_textures[path] == nullptr)
-        std::cout << path << " is null!" << std::endl;
     return loaded_textures[path];
 }
 

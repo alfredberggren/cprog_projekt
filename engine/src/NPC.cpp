@@ -39,7 +39,7 @@ void NPC::char_move() {
     if (closest->area() >= area()) {
         if (state != State::NERVOUS) {
             texture = AssetManager::get_instance()->get_texture(
-                constants::gResPath + "images/nervous.png");
+                constants::gResPath + "images/alien3nervous.png");
             state = State::NERVOUS;
         }
         if (closest_dist < ESCAPE_BOOST_RADIUS) use_boost();
@@ -49,13 +49,13 @@ void NPC::char_move() {
         if (dynamic_cast<Food*>(closest)) {
             if (state != State::HUNGRY) {
                 texture = AssetManager::get_instance()->get_texture(
-                    constants::gResPath + "images/hungry.png");
+                    constants::gResPath + "images/alien3.png");
                 state = State::HUNGRY;
             }
         } else {
             if (state != State::ANGRY) {
                 texture = AssetManager::get_instance()->get_texture(
-                    constants::gResPath + "images/anger.png");
+                    constants::gResPath + "images/alien3angry.png");
                 state = State::ANGRY;
             }
             if (closest_dist < ATTACK_BOOST_RADIUS) use_boost();
