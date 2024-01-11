@@ -14,17 +14,20 @@ class Sprite
 private:
        Sprite &operator=(const Sprite &other) = delete;
        Sprite(const Sprite &other) = delete;
+       SDL_Rect rect;
+       
 
 protected:
        bool collidable; 
-       SDL_Rect rect;
+       SDL_Texture *texture; //WARNING! SHOULD MAYBE BE PRIVATE?!
+       
 
        Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collidable);
        
        bool to_be_removed = false;
        bool to_be_relocated = false;
        bool followed_by_camera = false;
-       SDL_Texture *texture;
+       
 
 public:
        static SDL_Rect camera;

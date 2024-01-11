@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "Constants.h"
 #include "Sprite.h"
 
 // Representerar karaktärer som rör på sig, spelbara eller inte.
@@ -50,7 +51,6 @@ protected:
     void check_boost();
     void set_boost_speed(int speed);
 
-    void center_camera();
 
     void kill(Sprite *killed_by = nullptr);
 

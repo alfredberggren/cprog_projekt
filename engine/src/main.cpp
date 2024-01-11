@@ -49,7 +49,7 @@ delay på handlingar
 
 #include "Food.h"
 #include "GameEngine.h"
-#include "Map.h"
+#include "LevelBackground.h"
 #include "NPC.h"
 #include "Player.h"
 
@@ -95,12 +95,15 @@ void expand() {
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
     std::unordered_map<SDL_Keycode, funcPtr> keycode_map;
+
+    int LEVEL_HEIGHT = 3500;
+    int LEVEL_WIDTH = 3500;
     
-    GameEngine* game = GameEngine::get_instance(30);
+    GameEngine* game = GameEngine::get_instance(30, 640, 480, LEVEL_WIDTH, LEVEL_HEIGHT);
 
     game->init_SDL_libraries();
     game->init_SDL_window("GlobuleGobble", SDL_WINDOWPOS_UNDEFINED,
-                          SDL_WINDOWPOS_UNDEFINED, 640, 480);
+                          SDL_WINDOWPOS_UNDEFINED);
 
     for (const auto& dirEntry : dir_iterator("resources")) {
         if (dirEntry.is_regular_file())
@@ -109,12 +112,11 @@ int main(int argc, char* argv[]) {
 
     game->load_assets(assets);
 
-    int LEVEL_WIDTH = 3500;
-    int LEVEL_HEIGHT = 3500;
 
-    Map* m = Map::get_instance("resources/images/spaceBackground.jpg",
-                               LEVEL_WIDTH, LEVEL_HEIGHT);
-    game->set_map(*m);
+    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "/images/spaceBackground.jpg",
+                               game->get_level_width(), game->get_level_height());
+    
+    game->set_level_background(*m);
 
     Player* s = Player::get_instance();
 
@@ -156,6 +158,8 @@ int main(int argc, char* argv[]) {
 
     game->play_sound("resources/sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
+    
+    
     game->run_game();
 
     return 0;
