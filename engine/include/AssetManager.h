@@ -19,7 +19,7 @@ class AssetManager
 {
 private:
     static AssetManager *instance;
-    Map* map = nullptr;
+    const Map* map = nullptr;
 
     std::vector<Sprite *> active_sprites;
     static std::unordered_map<std::string, SDL_Texture *> loaded_textures;
@@ -28,7 +28,7 @@ private:
     AssetManager();
 
 public:
-    // TODO: why are these public? should do something about all of this...
+    
 
     static AssetManager *get_instance()
     {
@@ -50,11 +50,11 @@ public:
 
     void add_sound(const std::string, Mix_Chunk*);
     void add_texture(const std::string, SDL_Texture*);
-    Mix_Chunk* get_sound(const std::string);
-    SDL_Texture* get_texture(const std::string);
+    Mix_Chunk* get_sound(const std::string) const;
+    SDL_Texture* get_texture(const std::string) const;
     
-    void drawAll();
-    void set_map(Map&);
+    void drawAll() const;
+    void set_map(const Map&);
 
     // Sets camera to follow largest character
     void camera_follow_largest() const;

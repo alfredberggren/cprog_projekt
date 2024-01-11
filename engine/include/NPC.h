@@ -11,7 +11,7 @@ class NPC : public Character {
     void tick() override;
     // NPC:s rörelse-algoritm
     void char_move() override;
-    void mouseMoved(double x, double y);
+    void mouseMoved(double x, double y) override;
     // Inverterar en riktning
     double inv_dir(double dir);
     enum class State { NERVOUS, HUNGRY, ANGRY };

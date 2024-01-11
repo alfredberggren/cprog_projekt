@@ -19,7 +19,7 @@ Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
     }
 }
 
-void Sprite::draw() {
+void Sprite::draw() const{
     if (texture == nullptr) {
         std::cerr << "Texture is nullptr" << std::endl;
     }
@@ -53,6 +53,7 @@ void Sprite::move(double x, double y) {
         rect.y = 3500 - rect.h;
     }
 }
+const SDL_Rect* Sprite::get_rect() const { return &rect; }
 
 void Sprite::setW(int w) { rect.w = w; }
 

@@ -23,11 +23,9 @@ void AssetManager::handleKeyEvent(funcPtr2 func) {
 
 void AssetManager::add(Sprite& sprite) {
     active_sprites.push_back(&sprite);
-    std::cout << "Added a sprite to active_sprites, total now: "
-              << active_sprites.size() << std::endl;
 }
 
-void AssetManager::set_map(Map& m) {
+void AssetManager::set_map(const Map& m) {
     map = &m;
 }
 
@@ -43,7 +41,7 @@ void AssetManager::mouseMovedAll(double x, double y) {
     }
 }
 
-void AssetManager::drawAll() {
+void AssetManager::drawAll() const {
     if (map != nullptr){
         map->draw();
     }
@@ -62,7 +60,7 @@ std::vector<Sprite*> AssetManager::check_collisions(const Sprite& sprite_to_chec
     for (Sprite* sprite : active_sprites) {
         if (sprite->isCollidable()) {
             if (sprite != &sprite_to_check) {
-                if (SDL_HasIntersection(&sprite->rect, &sprite_to_check.rect) ==
+                if (SDL_HasIntersection(sprite->get_rect(), sprite_to_check.get_rect()) ==
                     SDL_TRUE) {
                     colliding_sprites.push_back(sprite);
                 }
@@ -97,11 +95,11 @@ void AssetManager::add_texture(const std::string path, SDL_Texture* texture){
     loaded_textures.insert(std::make_pair(path, texture));
 }
 
-Mix_Chunk* AssetManager::get_sound(const std::string path){
+Mix_Chunk* AssetManager::get_sound(const std::string path) const{
     return loaded_sounds[path];
 }
 
-SDL_Texture* AssetManager::get_texture(const std::string path){
+SDL_Texture* AssetManager::get_texture(const std::string path) const {
     return loaded_textures[path];
 }
 

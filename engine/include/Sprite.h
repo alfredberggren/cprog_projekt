@@ -16,18 +16,19 @@ private:
        Sprite(const Sprite &other) = delete;
 
 protected:
-       Sprite(std::string path_to_texture, int x, int y, int width, int height,
-              bool is_collideable);
+       bool collidable; 
+       SDL_Rect rect;
+
+       Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collidable);
        
-       bool collidable; // TODO: check spelling on collidEable/collidable
        bool to_be_removed = false;
        bool to_be_relocated = false;
        bool followed_by_camera = false;
        SDL_Texture *texture;
 
 public:
-       SDL_Rect rect;
        static SDL_Rect camera;
+       const SDL_Rect* get_rect() const;
        void move(double x, double y);
        void setX(int x);
        void setY(int y);
@@ -45,13 +46,13 @@ public:
        void set_relocate(bool relocate);
        void set_followed_by_camera(bool follow);
 
-       virtual void kill(Sprite *killed_by) = 0;
+       
 
        /*implement what to do when reacting to mouse-movement*/
        virtual void mouseMoved(double x, double y) = 0;
 
        virtual ~Sprite();
-       virtual void draw();
+       virtual void draw() const;
 
        /*Implement what to do when not reacting to input*/
        virtual void tick() = 0;

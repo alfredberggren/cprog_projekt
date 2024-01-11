@@ -11,9 +11,9 @@ class Player : public Character {
    public:
     static Player* get_instance();
 
-    void tick();
+    void tick() override;
     void char_move() override;
-    void mouseMoved(double x, double y);
+    void mouseMoved(double x, double y) override;
     void boost_pressed();
 
    private:
