@@ -18,9 +18,6 @@ class Sprite {
     bool followed_by_camera = false;
     SDL_Texture* texture;
 
-    // Channel assigned at construction, to be used for playing sounds.
-    int assigned_channel;
-
    public:
     Sprite& operator=(const Sprite& other) = delete;
     Sprite(const Sprite& other) = delete;

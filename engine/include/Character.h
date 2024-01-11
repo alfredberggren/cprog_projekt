@@ -10,7 +10,7 @@
 class Character : public Sprite {
    public:
     Character(std::string path, int x, int y, int w, int h);
-    virtual ~Character() {}
+    virtual ~Character();
     virtual void tick() = 0;
     virtual void expand(int w, int h);
     virtual void minimize();
@@ -23,6 +23,9 @@ class Character : public Sprite {
     void use_boost();
 
    private:
+    int current_local_soundchannel;
+    std::vector<int> local_soundchannels;
+    int get_local_soundchannel();
     void play_eat_food_sound();
     void play_eat_character_sound();
 
