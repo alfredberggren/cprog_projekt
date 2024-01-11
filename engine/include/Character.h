@@ -23,6 +23,18 @@ class Character : public Sprite {
     void use_boost();
 
    private:
+    static const int MAX_BOOST = 15;
+    static const int BOOST_SPEED = 10;
+    static const int BOOST_LENGTH = 25;
+    static const int MINIMIZE_AMOUNT = 5;
+    static const int EXPAND_AMOUNT = 10;
+    static const int NEAR_PLAYER_RADIUS = 250;
+
+    int boost_counter;
+    bool is_boosting;
+    int boost_timer;
+    int boost_speed;
+
     void play_eat_food_sound();
     void play_eat_character_sound();
 
@@ -36,11 +48,6 @@ class Character : public Sprite {
     void center_camera();
 
     void kill(Sprite* killed_by = nullptr);
-
-    int boost_counter;
-    bool is_boosting;
-    int boost_timer;
-    int boost_speed;
 };
 
 #endif

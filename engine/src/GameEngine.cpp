@@ -6,7 +6,9 @@
 
 GameEngine* GameEngine::instance = nullptr;
 
-GameEngine::GameEngine(unsigned short fps) : FRAMES_PER_SECOND(fps) {}
+GameEngine::GameEngine(unsigned short fps) : FRAMES_PER_SECOND(fps) {
+
+}
 
 GameEngine::~GameEngine() {
     Mix_Quit();
@@ -111,17 +113,16 @@ void GameEngine::run_game() {
                 }
 
             } else if (event.type == SDL_MOUSEMOTION) {
-                AssetManager::get_instance()->mouseMovedAll(event.motion.x,
+                AssetManager::get_instance()->mouse_moved_all(event.motion.x,
                                                             event.motion.y);
             }
         }
 
         SDL_RenderClear(SYSTEM.renderer);
 
-        AssetManager::get_instance()->tickAll();
+        AssetManager::get_instance()->tick_all();
         AssetManager::get_instance()->remove_marked();
-
-        AssetManager::get_instance()->drawAll();
+        AssetManager::get_instance()->draw_all();
 
         SDL_RenderPresent(SYSTEM.renderer);
         SDL_Delay(1000 / FRAMES_PER_SECOND);
@@ -133,7 +134,7 @@ void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr>& map) {
 }
 
 void GameEngine::add_key_function_for_sprite(funcPtr2 f) {
-    AssetManager::get_instance()->handleKeyEvent(f);
+    AssetManager::get_instance()->handle_key_event(f);
 }
 
 void GameEngine::pause() { paused = true; }

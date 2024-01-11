@@ -45,7 +45,7 @@ class Sprite {
     virtual void kill(Sprite* killed_by) = 0;
 
     /*implement what to do when reacting to mouse-movement*/
-    virtual void mouseMoved(double x, double y) = 0;
+    virtual void mouse_moved(double x, double y) = 0;
 
     Sprite(std::string path_to_texture, int x, int y, int width, int height,
            bool is_collideable);

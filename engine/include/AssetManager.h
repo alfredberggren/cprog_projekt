@@ -9,17 +9,16 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Sprite.h"
 #include "Map.h"
+#include "Sprite.h"
 
 typedef void (*funcPtr)();
-typedef void (*funcPtr2)(Sprite*);
+typedef void (*funcPtr2)(Sprite *);
 
-class AssetManager
-{
-private:
+class AssetManager {
+   private:
     static AssetManager *instance;
-    Map* map = nullptr;
+    Map *map = nullptr;
 
     std::vector<Sprite *> active_sprites;
     static std::unordered_map<std::string, SDL_Texture *> loaded_textures;
@@ -27,39 +26,31 @@ private:
 
     AssetManager();
 
-public:
+   public:
     // TODO: why are these public? should do something about all of this...
 
-    static AssetManager *get_instance()
-    {
-        if (instance == nullptr)
-        {
-            instance = new AssetManager();
-            std::cout << "Created AssetManager" << std::endl;
-        }
-        return instance;
-    }
+    static AssetManager *get_instance();
 
-    std::vector<Sprite *> get_active_sprites() const { return active_sprites; }
-    void handleKeyEvent(funcPtr2 func);
-    void add(Sprite &);
-    void tickAll();
-    void mouseMovedAll(double, double);
     std::vector<Sprite *> check_collisions(const Sprite &) const;
+    std::vector<Sprite *> get_active_sprites() const { return active_sprites; }
+    void handle_key_event(funcPtr2 func);
+    void add(Sprite &);
+    void tick_all();
+    void mouse_moved_all(double, double);
     void remove_marked();
 
-    void add_sound(const std::string, Mix_Chunk*);
-    void add_texture(const std::string, SDL_Texture*);
-    Mix_Chunk* get_sound(const std::string);
-    SDL_Texture* get_texture(const std::string);
-    
-    void drawAll();
-    void set_map(Map&);
+    void add_sound(const std::string, Mix_Chunk *);
+    void add_texture(const std::string, SDL_Texture *);
+    Mix_Chunk *get_sound(const std::string);
+    SDL_Texture *get_texture(const std::string);
+
+    void draw_all();
+    void set_map(Map &);
 
     // Sets camera to follow largest character
     void camera_follow_largest() const;
-    
+
     ~AssetManager();
 };
 
-#endif // ASSET_MANAGER_H
+#endif  // ASSET_MANAGER_H
