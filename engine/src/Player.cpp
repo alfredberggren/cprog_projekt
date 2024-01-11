@@ -13,7 +13,7 @@ void Player::tick() { Character::tick(); }
 Player* Player::get_instance() {
     if (instance == nullptr) {
         instance = new Player(
-            "resources/images/blackhole.png",
+            constants::gResPath + "images/blackhole.png",
             GameEngine::get_instance()->get_screen_height() / 2,
             GameEngine::get_instance()->get_screen_width() / 2, 21, 21);
     }

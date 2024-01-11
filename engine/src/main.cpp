@@ -106,15 +106,17 @@ int main(int argc, char* argv[]) {
     game->init_SDL_window("GlobuleGobble", SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED);
 
-    for (const auto& dirEntry : dir_iterator("resources")) {
-        if (dirEntry.is_regular_file())
+    for (const auto& dirEntry : dir_iterator(constants::gResPath)) {
+        if (dirEntry.is_regular_file()){
+            std::cout << "added" << dirEntry.path().generic_string() << std::endl;
             assets.push_back(dirEntry.path().generic_string());
+    }
     }
 
     game->load_assets(assets);
 
 
-    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "/images/spaceBackground.jpg",
+    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "images/spaceBackground.jpg",
                                game->get_level_width(), game->get_level_height());
     
     game->set_level_background(*m);
@@ -138,13 +140,13 @@ int main(int argc, char* argv[]) {
         else
             planet = "venus.png";
 
-        game->add_sprite(*Food::get_instance("resources/images/" + planet,
+        game->add_sprite(*Food::get_instance(constants::gResPath + "images/planet.png",
                                              rand() % LEVEL_WIDTH,
                                              rand() % LEVEL_HEIGHT, 15, 15));
     }
 
     for (int i = 0; i < 30; i++) {
-        game->add_sprite(*NPC::get_instance("resources/images/circle.png",
+        game->add_sprite(*NPC::get_instance(constants::gResPath + "images/circle.png",
                                             rand() % LEVEL_WIDTH,
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
@@ -158,7 +160,7 @@ int main(int argc, char* argv[]) {
 
     game->load_keys(keycode_map);
 
-    game->play_sound("resources/sounds/TillSpel.mp3",
+    game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
     
     
