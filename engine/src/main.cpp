@@ -58,7 +58,7 @@ using dir_iterator = std::filesystem::recursive_directory_iterator;
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
-        p->expand(5, 5);
+        p->expand(p);
     }
 }
 
@@ -101,6 +101,7 @@ int main(int argc, char* argv[]) {
     
     GameEngine* game = GameEngine::get_instance(30, 640, 480, LEVEL_WIDTH, LEVEL_HEIGHT);
 
+
     game->init_SDL_libraries();
     game->init_SDL_window("GlobuleGobble", SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED);
@@ -119,6 +120,7 @@ int main(int argc, char* argv[]) {
     game->set_level_background(*m);
 
     Player* s = Player::get_instance();
+    Camera* camera = Camera::create(0, 0, game->get_screen_width(), game->get_screen_height(), *s);
 
     // make food and npcs randomly placed within level width and height, get a
     // seed for rand using time.

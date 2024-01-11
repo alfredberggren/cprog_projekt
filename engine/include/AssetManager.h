@@ -46,9 +46,6 @@ public:
     void draw_all() const;
     void set_level_background(const LevelBackground&);
 
-    // Sets camera to follow largest character
-    void camera_follow_largest() const;
-
     ~AssetManager();
 };
 

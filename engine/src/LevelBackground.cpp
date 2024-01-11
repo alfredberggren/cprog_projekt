@@ -2,7 +2,7 @@
 #include "Camera.h"
 
 LevelBackground::LevelBackground(std::string backgroundpath, int width, int height) : rect{0, 0, width, height} {
-    AssetManager::get_instance()->get_texture(backgroundpath);
+    texture = AssetManager::get_instance()->get_texture(backgroundpath);
 }
 
 void LevelBackground::draw() const {

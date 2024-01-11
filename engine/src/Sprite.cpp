@@ -6,12 +6,11 @@
 #include "GameEngine.h"
 #include "System.h"
 
-SDL_Rect Sprite::camera = {0, 0, 640, 480};
-
 Sprite::~Sprite() {}
 
-Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collideable)
-    : collidable(is_collideable), rect{x, y, width, height}  {
+Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
+               bool is_collideable)
+    : collidable(is_collideable), rect{x, y, width, height} {
     texture = AssetManager::get_instance()->get_texture(path_to_texture);
     if (texture == nullptr) {
         std::cerr << "Texture could not be found when creating sprite"
@@ -19,23 +18,43 @@ Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
     }
 }
 
-void Sprite::draw() const{
+void Sprite::draw() const {
     if (texture == nullptr) {
         std::cerr << "Texture is nullptr" << std::endl;
     }
-    //SDL_SetRenderDrawColor(SYSTEM.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    //SDL_RenderFillRect(SYSTEM.renderer, &camera);
-    //SDL_SetRenderDrawColor(SYSTEM.renderer, 0x00, 0x00, 0x00, 0x00);
+    // SDL_SetRenderDrawColor(SYSTEM.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    // SDL_RenderFillRect(SYSTEM.renderer, &camera);
+    // SDL_SetRenderDrawColor(SYSTEM.renderer, 0x00, 0x00, 0x00, 0x00);
 
-    //if (SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect) < 0) {
-    //    std::cerr << "Sprite could not rendercopy" << std::endl;
-    //    std::cerr << "Error: " << SDL_GetError() << std::endl;
+    // if (SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect) < 0) {
+    //     std::cerr << "Sprite could not rendercopy" << std::endl;
+    //     std::cerr << "Error: " << SDL_GetError() << std::endl;
+    // }
+
+    // IMPORTANT FOR CAMERA ZOOM
+    // if (followed_by_camera) {
+    //     rendered_h = 100;
+    //     rendered_w = 100;
+    // } else {
+    //    rendered_h =
+    //        100 + getH() -
+    //        AssetManager::get_instance()->get_followed_by_camera()->getH();
+    //    rendered_w =
+    //        100 + getW() -
+    //        AssetManager::get_instance()->get_followed_by_camera()->getW();
     //}
 
-    
-    SDL_Rect render_rect = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
+    // SDL_Rect render_rect = {rect.x - camera.x, rect.y - camera.y,
+    //                         get_rendered_w(), get_rendered_h()};
+    SDL_Rect render_rect = {get_rendered_x(), get_rendered_y(),
+                            get_rendered_w(), get_rendered_h()};
     SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &render_rect);
 }
+
+int Sprite::get_rendered_w() const { return getW(); }
+int Sprite::get_rendered_h() const { return getH(); }
+int Sprite::get_rendered_x() const { return rect.x; }
+int Sprite::get_rendered_y() const { return rect.y; }
 
 void Sprite::move(double x, double y) {
     rect.x += x;
@@ -73,14 +92,8 @@ int Sprite::getCenterY() const { return rect.y + rect.h / 2; }
 
 bool Sprite::isCollidable() const { return collidable; }
 
-int Sprite::area() const{ return rect.w * rect.h; }
+int Sprite::area() const { return rect.w * rect.h; }
 
 bool Sprite::is_to_be_removed() const { return to_be_removed; }
 
 void Sprite::set_remove(bool remove) { to_be_removed = remove; }
-
-bool Sprite::is_to_be_relocated() const { return to_be_relocated; }
-
-void Sprite::set_relocate(bool relocate) { to_be_relocated = relocate; }
-
-void Sprite::set_followed_by_camera(bool follow) { followed_by_camera = follow; }

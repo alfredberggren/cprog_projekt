@@ -6,15 +6,15 @@
 #include <vector>
 
 #include "Constants.h"
-#include "Sprite.h"
+#include "GlobuleGobbleSprite.h"
 
 // Representerar karaktärer som rör på sig, spelbara eller inte.
-class Character : public Sprite
+class Character : public GlobuleGobbleSprite
 {
 public:
     virtual ~Character();
     virtual void tick() = 0;
-    virtual void expand(int w, int h);
+    virtual void expand(Sprite* eaten_sprite);
     virtual void minimize();
     virtual void char_move() = 0;
     void handle_collision();
@@ -52,9 +52,9 @@ protected:
     void set_boost_speed(int speed);
 
 
-    void kill(Sprite *killed_by = nullptr);
+    void kill(Sprite& killed_by);
 
-    
+
 };
 
 #endif

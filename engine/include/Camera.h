@@ -33,6 +33,8 @@ class Camera {
         int get_y() const;
         int get_h() const;
         int get_w() const;
+
+        const SDL_Rect& get_rect() const { return camera_rect; }
     
 };
 

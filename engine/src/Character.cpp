@@ -3,21 +3,27 @@
 #include <vector>
 
 #include "AssetManager.h"
+#include "Camera.h"
 #include "Food.h"
 #include "GameEngine.h"
-#include "Camera.h"
 #define BASE_SPEED 30.0
 #define FIRST_LOCAL_SOUNDCHANNEL 0
 #define TOTAL_LOCAL_SOUNDCHANNELS 4
 
-Character::Character(std::string path, int x, int y, int w, int h) : Sprite(path, x, y, w, h, true), boost_counter(0), boost_timer(0), boost_speed(0), current_local_soundchannel(FIRST_LOCAL_SOUNDCHANNEL) {
-    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i){
-        local_soundchannels.push_back(GameEngine::get_instance()->get_sound_channel());
-    }   
+Character::Character(std::string path, int x, int y, int w, int h)
+    : GlobuleGobbleSprite(path, x, y, w, h, true),
+      boost_counter(0),
+      boost_timer(0),
+      boost_speed(0),
+      current_local_soundchannel(FIRST_LOCAL_SOUNDCHANNEL) {
+    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i) {
+        local_soundchannels.push_back(
+            GameEngine::get_instance()->get_sound_channel());
+    }
 }
 
 Character::~Character() {
-    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i){
+    for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i) {
         GameEngine::get_instance()->remove_used_channel(local_soundchannels[i]);
     }
 }
@@ -25,7 +31,7 @@ Character::~Character() {
 void Character::tick() {
     check_boost();
     char_move();
-    if(this == Camera::get_instance()->get_focused_on()) {
+    if (this == Camera::get_instance()->get_focused_on()) {
         Camera::get_instance()->center();
     }
     handle_collision();
@@ -39,16 +45,14 @@ void Character::handle_collision() {
     }
     for (Sprite* s : collisions) {
         if (Food* f = dynamic_cast<Food*>(s)) {
-            this->expand((f->getW() * EXPAND_AMOUNT) / getW(),
-                         (f->getH() * EXPAND_AMOUNT) / getH());
+            this->expand(f);
             if (is_near_player()) play_eat_food_sound();
-            f->kill(this);
+            f->kill(*this);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
-                this->expand((c->getW() * EXPAND_AMOUNT) / getW(),
-                             (c->getH() * EXPAND_AMOUNT) / getH());
+                this->expand(c);
                 if (is_near_player()) play_eat_character_sound();
-                c->kill(this);
+                c->kill(*this);
             }
         }
     }
@@ -76,10 +80,15 @@ double Character::get_vel() const {
     // return BASE_SPEED + (200.0 / (rect.w / 2) + boost_speed);
 }
 
-void Character::expand(int w, int h) {
+void Character::expand(Sprite* eaten_sprite) {
     boost_counter++;
-    setW(getW() + w);
-    setH(getH() + h);
+    int expand_w = (eaten_sprite->getW() * EXPAND_AMOUNT) / getW();
+    int expand_h = (eaten_sprite->getH() * EXPAND_AMOUNT) / getH();
+    setW(getW() + expand_w);
+    setH(getH() + expand_h);
+    if (Camera::get_instance()->get_focused_on() == this) {
+        Camera::get_instance()->center();
+    }
 }
 
 void Character::minimize() {
@@ -152,12 +161,10 @@ void Character::play_eat_food_sound() {
     }
 }
 
-void Character::kill(Sprite* killed_by) {
+void Character::kill(Sprite& killed_by) {
     set_remove(true);
-    if (followed_by_camera) {
-        if (killed_by != nullptr) {
-            killed_by->set_followed_by_camera(true);
-        }
-        set_followed_by_camera(false);
+    if (Camera::get_instance()->get_focused_on() == this) {
+        Camera::get_instance()->set_focused_on(killed_by);
     }
 }
+
