@@ -61,29 +61,21 @@ int GameEngine::get_sound_channel() {
     }
 
     int i;
-
-    // Gå igenom de använda kanalerna
-    for (i = 0; i < soundchannels_in_use.size(); ++i) {
+    for (i = 0; i < soundchannels_in_use.size(); ++i) { //Check if a channel has been given back
         if (i != soundchannels_in_use[i]) {
             soundchannels_in_use[i] = i;
-            // std::cout << "\tGiving sprite channel " << i << std::endl;
             return i;
         }
     }
 
-    // Inga lediga i, måste göra större
-    int newSize = Mix_AllocateChannels(Mix_AllocateChannels(-1) * 2);
+    int newSize = Mix_AllocateChannels(Mix_AllocateChannels(-1) * 2); // No channel available, have to resize
     soundchannels_in_use.resize(newSize);
     soundchannels_in_use[++i] = i;
-    // std::cout << "Channels that can be used are now: " << newSize <<
-    // std::endl;
     return i;
 }
 
 void GameEngine::remove_used_channel(int channel) {
     soundchannels_in_use[channel] = -1;
-    // std::cout << "A Sprite was removed, set soundchannel " << channel << " to
-    // -1" << std::endl;
 }
 
 /* ---------------------------- RUN GAME ----------------------------*/
@@ -92,8 +84,13 @@ void GameEngine::run_game() {
     SDL_Event event;
     bool running = true;
     paused = false;
+    Uint32 tick_interval = 1000 / FRAMES_PER_SECOND; //blir alltså millisekunder mellan ticks.
     while (running) {
+        Uint32 next_tick = SDL_GetTicks() + tick_interval;
+        
         while (SDL_PollEvent(&event)) {
+            
+
             if (event.type == SDL_QUIT) {
                 running = false;
             } else if (event.type == SDL_KEYDOWN) {
@@ -124,7 +121,12 @@ void GameEngine::run_game() {
         AssetManager::get_instance()->drawAll();
 
         SDL_RenderPresent(SYSTEM.renderer);
-        SDL_Delay(1000 / FRAMES_PER_SECOND);
+        
+        int delay = next_tick-SDL_GetTicks(); //Hur mycket tid det är kvar till nästa tick
+		if (delay>0)
+			SDL_Delay(delay);
+        
+        
     }
 }
 
