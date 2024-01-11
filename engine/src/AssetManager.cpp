@@ -76,10 +76,10 @@ std::vector<Sprite*> AssetManager::check_collisions(const Sprite& sprite_to_chec
 void AssetManager::remove_marked() {
     std::vector<Sprite*>::iterator it;
     for (it = active_sprites.begin(); it != active_sprites.end();) {
-        if ((*it)->to_remove()) {
+        if ((*it)->is_to_be_removed()) {
             delete *it;
             active_sprites.erase(it);
-        } else if ((*it)->to_relocate()) {
+        } else if ((*it)->is_to_be_relocated()) {
             (*it)->setX(rand() % 3500);
             (*it)->setY(rand() % 3500);
             (*it)->set_relocate(false);
