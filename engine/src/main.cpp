@@ -131,11 +131,11 @@ int main(int argc, char* argv[]) {
     std::string planet;
     for (int i = 0; i < 300; i++) {
 
-        if(i < 200)
+        if(i < 50)
             planet = "planet.png";
-        else if( i >= 200 && i < 300)
+        else if( i >= 50 && i < 150)
             planet = "planet-earth.png";
-        else if(i >= 300 && i < 500)
+        else if(i >= 150 && i < 225)
             planet = "jupiter.png";
         else
             planet = "venus.png";
