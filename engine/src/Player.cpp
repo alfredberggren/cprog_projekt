@@ -6,18 +6,16 @@
 #include "System.h"
 
 Player::Player(std::string path, int x, int y, int w, int h)
-    : Character(path, x, y, w, h) {
-    followed_by_camera = true;
-}
+    : Character(path, x, y, w, h) {}
 
 void Player::tick() { Character::tick(); }
 
 Player* Player::get_instance() {
     if (instance == nullptr) {
-        instance =
-            new Player("resources/images/blackhole.png",
-                       GameEngine::get_instance()->SCREEN_HEIGHT / 2,
-                       GameEngine::get_instance()->SCREEN_WIDTH / 2, 21, 21);
+        instance = new Player(
+            "resources/images/blackhole.png",
+            GameEngine::get_instance()->get_screen_height() / 2,
+            GameEngine::get_instance()->get_screen_width() / 2, 21, 21);
     }
 
     return instance;
@@ -33,8 +31,8 @@ void Player::char_move() {
 }
 
 void Player::mouse_moved(double x, double y) {
-    mouse_x = camera.x + camera.w / 2 - 640 / 2 + x;
-    mouse_y = camera.y + camera.h / 2 - 480 / 2 + y;
+    mouse_x = Camera::get_instance()->get_x() + Camera::get_instance()->get_w() / 2 - 640 / 2 + x;
+    mouse_y = Camera::get_instance()->get_y() + Camera::get_instance()->get_h() / 2 - 480 / 2 + y;
 
     if (getCenterX() < mouse_x + 15 && getCenterX() > mouse_x - 15 &&
         getCenterY() < mouse_y + 15 && getCenterY() > mouse_y - 15) {

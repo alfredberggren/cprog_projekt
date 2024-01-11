@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
-#include "Sprite.h"
+#include "GlobuleGobbleSprite.h"
 
 // Representerar karaktärer som rör på sig, spelbara eller inte.
-class Character : public Sprite
+class Character : public GlobuleGobbleSprite
 {
 public:
     virtual ~Character();
@@ -50,14 +50,10 @@ protected:
     void check_boost();
     void set_boost_speed(int speed);
 
-    void center_camera();
 
-    void kill(Sprite *killed_by = nullptr);
+    void kill(Sprite& killed_by);
 
-    int get_rendered_w() const;
-    int get_rendered_h() const;
-    int get_rendered_x() const;
-    int get_rendered_y() const;
+
 };
 
 #endif

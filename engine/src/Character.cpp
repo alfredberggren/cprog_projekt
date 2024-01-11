@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "AssetManager.h"
+#include "Camera.h"
 #include "Food.h"
 #include "GameEngine.h"
 #define BASE_SPEED 30.0
@@ -10,7 +11,7 @@
 #define TOTAL_LOCAL_SOUNDCHANNELS 4
 
 Character::Character(std::string path, int x, int y, int w, int h)
-    : Sprite(path, x, y, w, h, true),
+    : GlobuleGobbleSprite(path, x, y, w, h, true),
       boost_counter(0),
       boost_timer(0),
       boost_speed(0),
@@ -30,7 +31,9 @@ Character::~Character() {
 void Character::tick() {
     check_boost();
     char_move();
-    if (followed_by_camera) center_camera();
+    if (this == Camera::get_instance()->get_focused_on()) {
+        Camera::get_instance()->center();
+    }
     handle_collision();
 }
 
@@ -44,12 +47,12 @@ void Character::handle_collision() {
         if (Food* f = dynamic_cast<Food*>(s)) {
             this->expand(f);
             if (is_near_player()) play_eat_food_sound();
-            f->kill(this);
+            f->kill(*this);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
                 this->expand(c);
                 if (is_near_player()) play_eat_character_sound();
-                c->kill(this);
+                c->kill(*this);
             }
         }
     }
@@ -83,7 +86,8 @@ void Character::expand(Sprite* eaten_sprite) {
     int expand_h = (eaten_sprite->getH() * EXPAND_AMOUNT) / getH();
     setW(getW() + expand_w);
     setH(getH() + expand_h);
-    if (this->followed_by_camera) {
+    if (Camera::get_instance()->get_focused_on() == this) {
+        Camera::get_instance()->center();
     }
 }
 
@@ -147,7 +151,7 @@ void Character::play_eat_character_sound() {
 /*Plays a eating food sound, "randomly" selected, based on Characters' rect:s
  * x-position*/
 void Character::play_eat_food_sound() {
-    if (rect.x % 2 == 0) {
+    if (Sprite::get_rect()->x % 2 == 0) {
         GameEngine::get_instance()->play_sound(
             "resources/sounds/munchsmall1.mp3", get_local_soundchannel(), 0);
     } else {
@@ -164,67 +168,10 @@ void Character::play_eat_food_sound() {
     }
 }
 
-void Character::center_camera() {
-    // TODO - Denna funktion behöver tillgång till SCREENWIDTH och SCREENHEIGHT,
-    // samt LEVELWIDTH och LEVELHEIGHT som initieras när man skapar engine
-    camera.x = (rect.x + rect.w / 2) - 640 / 2;
-    camera.y = (rect.y + rect.h / 2) - 480 / 2;
-
-    // Håll kameran inom spelplanen
-    if (camera.x < 0) {
-        camera.x = 0;
-    }
-    if (camera.y < 0) {
-        camera.y = 0;
-    }
-    if (camera.x > 3500 - camera.w) {
-        camera.x = 3500 - camera.w;
-    }
-    if (camera.y > 3500 - camera.h) {
-        camera.y = 3500 - camera.h;
-    }
-}
-
-void Character::kill(Sprite* killed_by) {
+void Character::kill(Sprite& killed_by) {
     set_remove(true);
-    if (Camera::get_instance()->get_to_follow() == this) {
-        if (killed_by != nullptr) {
-            Camera::get_instance()->set_to_follow(killed_by);
-        }
-    }
-}
-
-int Character::get_rendered_h() const {
-    // if (followed_by_camera) {
-    //     rendered_h = 100;
-    //     rendered_w = 100;
-    // } else {
-    //    rendered_h =
-    //        100 + getH() -
-    //        AssetManager::get_instance()->get_followed_by_camera()->getH();
-    //    rendered_w =
-    //        100 + getW() -
-    //        AssetManager::get_instance()->get_followed_by_camera()->getW();
-    //}
     if (Camera::get_instance()->get_focused_on() == this) {
-        return 100;  // bör vara variabel
-    } else {
-        return 100 + (getH() - Camera::get_instance->get_focused_on()->getH());
+        Camera::get_instance()->set_focused_on(killed_by);
     }
 }
 
-int Character::get_rendered_w() const {
-    if (Camera::get_instance()->get_focused_on() == this) {
-        return 100;  // bör vara variabel
-    } else {
-        return 100 + (getW() - Camera::get_instance->get_focused_on()->getW());
-    }
-}
-
-int Character::get_rendered_x() const {
-    return rect.x - Camera::get_instance->getX();
-}
-
-int Character::get_rendered_y() const {
-    return rect.y - Camera::get_instance->getY();
-}

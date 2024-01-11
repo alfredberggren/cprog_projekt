@@ -9,8 +9,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Map.h"
 #include "Sprite.h"
+#include "LevelBackground.h"
 
 typedef void (*funcPtr)();
 typedef void (*funcPtr2)(Sprite *);
@@ -18,7 +18,7 @@ typedef void (*funcPtr2)(Sprite *);
 class AssetManager {
    private:
     static AssetManager *instance;
-    const Map* map = nullptr;
+    const LevelBackground* background = nullptr;
 
     std::vector<Sprite *> active_sprites;
     static std::unordered_map<std::string, SDL_Texture *> loaded_textures;
@@ -42,8 +42,9 @@ public:
     Mix_Chunk* get_sound(const std::string) const;
     SDL_Texture* get_texture(const std::string) const;
     
+
     void draw_all() const;
-    void set_map(const Map&);
+    void set_level_background(const LevelBackground&);
 
     ~AssetManager();
 };

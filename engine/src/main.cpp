@@ -26,14 +26,14 @@
     12. Vi ska använda getRes-constanten på någe vis.
     13. get_sound_channel (i GameEngine) kan i nuläget bara göra kanal-vektorn större, men inte mindre. Vet ärligt talat inte om det är ett problem i nuläget. Den kommer bara bli större *om det behövs*, och om det behövs, så kanske det kommer behövas en sådan stor vektor i framtiden också?
     14. På samma sätt som vi implementerar ett sätt att ta bort sprites under loopen, måste vi göra liknande för att lägga till (enl. jozefs exempel)
-    15. Förlåt, men egentligen borde vi göra samma map-lösning för alla sorters event... I nuläget kan spelutvecklaren bara göra att sina sprites kan reagera på knapptryck...
+    15. Förlåt, men egentligen borde vi göra samma map-lösning för alla sorters event... I nuläget kan spelutvecklaren bara göra att sina sprites kan reagera på knapptryck... 
     
 
 -- Spelet --
     1. "Dumma ner" NPCs, mer random, inte märker spelaren/att man är större,
 delay på handlingar
-    X. Se till att NPCs inte kan gå utanför kartan
-    3. Tweaka hastigheter
+    X. Se till att NPCs inte kan gå utanför kartan ✔
+    3. Tweaka hastigheter ✔
     4. Randomisera  vilka ljud som spelas när man äter (finns två i nuläget)
     5. "Zooma ut" kameran när spelare blivit för stor.
     6. Sätt spelaren i mitten av kartan vid spelstart
@@ -49,7 +49,7 @@ delay på handlingar
 
 #include "Food.h"
 #include "GameEngine.h"
-#include "Map.h"
+#include "LevelBackground.h"
 #include "NPC.h"
 #include "Player.h"
 
@@ -95,12 +95,16 @@ void expand() {
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
     std::unordered_map<SDL_Keycode, funcPtr> keycode_map;
+
+    int LEVEL_HEIGHT = 3500;
+    int LEVEL_WIDTH = 3500;
     
-    GameEngine* game = GameEngine::get_instance(30);
+    GameEngine* game = GameEngine::get_instance(30, 640, 480, LEVEL_WIDTH, LEVEL_HEIGHT);
+
 
     game->init_SDL_libraries();
     game->init_SDL_window("GlobuleGobble", SDL_WINDOWPOS_UNDEFINED,
-                          SDL_WINDOWPOS_UNDEFINED, 640, 480);
+                          SDL_WINDOWPOS_UNDEFINED);
 
     for (const auto& dirEntry : dir_iterator("resources")) {
         if (dirEntry.is_regular_file())
@@ -109,14 +113,14 @@ int main(int argc, char* argv[]) {
 
     game->load_assets(assets);
 
-    int LEVEL_WIDTH = 3500;
-    int LEVEL_HEIGHT = 3500;
 
-    Map* m = Map::get_instance("resources/images/spaceBackground.jpg",
-                               LEVEL_WIDTH, LEVEL_HEIGHT);
-    game->set_map(*m);
+    LevelBackground* m = LevelBackground::get_instance("resources/images/spaceBackground.jpg",
+                               game->get_level_width(), game->get_level_height());
+    
+    game->set_level_background(*m);
 
     Player* s = Player::get_instance();
+    Camera* camera = Camera::create(0, 0, game->get_screen_width(), game->get_screen_height(), *s);
 
     // make food and npcs randomly placed within level width and height, get a
     // seed for rand using time.
@@ -156,6 +160,8 @@ int main(int argc, char* argv[]) {
 
     game->play_sound("resources/sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
+    
+    
     game->run_game();
 
     return 0;

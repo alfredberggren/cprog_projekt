@@ -6,8 +6,6 @@
 #include "GameEngine.h"
 #include "System.h"
 
-SDL_Rect Sprite::camera = {0, 0, 640, 480};
-
 Sprite::~Sprite() {}
 
 Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
