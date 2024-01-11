@@ -15,8 +15,6 @@ class GlobuleGobbleSprite : public Sprite {
         : Sprite(path_to_texture, x, y, width, height, is_collidable) {}
 
    private:
-    int get_rendered_w() const;
-    int get_rendered_h() const;
     int get_rendered_x() const;
     int get_rendered_y() const;
 };

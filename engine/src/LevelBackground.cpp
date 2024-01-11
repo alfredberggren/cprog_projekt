@@ -6,8 +6,7 @@ LevelBackground::LevelBackground(std::string backgroundpath, int width, int heig
 }
 
 void LevelBackground::draw() const {
-    std::cout << "ritar bakgrund" << -(Camera::get_instance()->get_x()) << std::endl;
     SDL_Rect bRect = {-(Camera::get_instance()->get_x()), -(Camera::get_instance()->get_y()), rect.w, rect.h};
-    SDL_RenderCopy(SYSTEM.renderer, texture, NULL/*&Camera::get_instance()->get_rect()*/, &bRect);
+    SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &bRect);
 }
 
