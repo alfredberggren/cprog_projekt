@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
     game->load_assets(assets);
 
 
-    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "images/spaceBackground.jpg",
+    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "images/fictionalspacebg.jpg",
                                game->get_level_width(), game->get_level_height());
     
     game->set_level_background(*m);
@@ -144,7 +144,7 @@ int main(int argc, char* argv[]) {
 
         game->add_sprite(*Food::get_instance(constants::gResPath + "images/" + planet,
                                              rand() % LEVEL_WIDTH,
-                                             rand() % LEVEL_HEIGHT, 15, 15));
+                                             rand() % LEVEL_HEIGHT, 19, 19));
     }
 
     for (int i = 0; i < 30; i++) {
