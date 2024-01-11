@@ -31,11 +31,11 @@ void AssetManager::handle_key_event(funcPtr2 func) {
 
 void AssetManager::add(Sprite& sprite) {
     active_sprites.push_back(&sprite);
-    std::cout << "Added a sprite to active_sprites, total now: "
-              << active_sprites.size() << std::endl;
 }
 
-void AssetManager::set_map(Map& m) { map = &m; }
+void AssetManager::set_map(const Map& m) {
+    map = &m;
+}
 
 void AssetManager::tick_all() {
     for (Sprite* sprite : active_sprites) {
@@ -49,7 +49,7 @@ void AssetManager::mouse_moved_all(double x, double y) {
     }
 }
 
-void AssetManager::draw_all() {
+void AssetManager::draw_all() const {
     if (map != nullptr) {
         map->draw();
     }
@@ -69,7 +69,7 @@ std::vector<Sprite*> AssetManager::check_collisions(
     for (Sprite* sprite : active_sprites) {
         if (sprite->isCollidable()) {
             if (sprite != &sprite_to_check) {
-                if (SDL_HasIntersection(&sprite->rect, &sprite_to_check.rect) ==
+                if (SDL_HasIntersection(sprite->get_rect(), sprite_to_check.get_rect()) ==
                     SDL_TRUE) {
                     colliding_sprites.push_back(sprite);
                 }
@@ -82,13 +82,12 @@ std::vector<Sprite*> AssetManager::check_collisions(
 void AssetManager::remove_marked() {
     std::vector<Sprite*>::iterator it;
     for (it = active_sprites.begin(); it != active_sprites.end();) {
-        if ((*it)->to_remove()) {
+        if ((*it)->is_to_be_removed()) {
             delete *it;
             active_sprites.erase(it);
-        } else if ((*it)->to_relocate()) {
-
             // WARNING ----------------------------------- WARNING --------------------------
             // Spelimplementation i engine?
+        } else if ((*it)->is_to_be_relocated()) {
             (*it)->setX(rand() % 3500);
             (*it)->setY(rand() % 3500);
             (*it)->set_relocate(false);
@@ -106,11 +105,11 @@ void AssetManager::add_texture(const std::string path, SDL_Texture* texture) {
     loaded_textures.insert(std::make_pair(path, texture));
 }
 
-Mix_Chunk* AssetManager::get_sound(const std::string path) {
+Mix_Chunk* AssetManager::get_sound(const std::string path) const{
     return loaded_sounds[path];
 }
 
-SDL_Texture* AssetManager::get_texture(const std::string path) {
+SDL_Texture* AssetManager::get_texture(const std::string path) const {
     return loaded_textures[path];
 }
 

@@ -8,12 +8,10 @@
 
 SDL_Rect Sprite::camera = {0, 0, 640, 480};
 
-Sprite::~Sprite() {
-    GameEngine::get_instance()->remove_used_channel(assigned_channel);
-}
+Sprite::~Sprite() {}
 
 Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collideable)
-    : collidable(is_collideable), assigned_channel(GameEngine::get_instance()->get_sound_channel()), rect{x, y, width, height}  {
+    : collidable(is_collideable), rect{x, y, width, height}  {
     texture = AssetManager::get_instance()->get_texture(path_to_texture);
     if (texture == nullptr) {
         std::cerr << "Texture could not be found when creating sprite"
@@ -21,7 +19,7 @@ Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
     }
 }
 
-void Sprite::draw() {
+void Sprite::draw() const{
     if (texture == nullptr) {
         std::cerr << "Texture is nullptr" << std::endl;
     }
@@ -55,6 +53,7 @@ void Sprite::move(double x, double y) {
         rect.y = 3500 - rect.h;
     }
 }
+const SDL_Rect* Sprite::get_rect() const { return &rect; }
 
 void Sprite::setW(int w) { rect.w = w; }
 
@@ -76,11 +75,11 @@ bool Sprite::isCollidable() const { return collidable; }
 
 int Sprite::area() const{ return rect.w * rect.h; }
 
-bool Sprite::to_remove() const { return to_be_removed; }
+bool Sprite::is_to_be_removed() const { return to_be_removed; }
 
 void Sprite::set_remove(bool remove) { to_be_removed = remove; }
 
-bool Sprite::to_relocate() const { return to_be_relocated; }
+bool Sprite::is_to_be_relocated() const { return to_be_relocated; }
 
 void Sprite::set_relocate(bool relocate) { to_be_relocated = relocate; }
 
