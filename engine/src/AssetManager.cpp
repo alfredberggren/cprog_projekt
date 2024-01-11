@@ -5,6 +5,14 @@ AssetManager::AssetManager() {
     // Initialize the sprite vector
 }
 
+AssetManager* AssetManager::get_instance() {
+    if (instance == nullptr) {
+        instance = new AssetManager();
+        std::cout << "Created AssetManager" << std::endl;
+    }
+    return instance;
+}
+
 AssetManager::~AssetManager() {
     std::cout << "Destroying AssetManager" << std::endl;
     for (auto pair : loaded_textures) {
@@ -15,7 +23,7 @@ AssetManager::~AssetManager() {
     }
 }
 
-void AssetManager::handleKeyEvent(funcPtr2 func) {
+void AssetManager::handle_key_event(funcPtr2 func) {
     for (Sprite* sprite : active_sprites) {
         func(sprite);
     }
@@ -23,25 +31,25 @@ void AssetManager::handleKeyEvent(funcPtr2 func) {
 
 void AssetManager::add(Sprite& sprite) {
     active_sprites.push_back(&sprite);
-    std::cout << "Added a sprite to active_sprites, total now: "
-              << active_sprites.size() << std::endl;
 }
 
-void AssetManager::set_map(Map& m) { map = &m; }
+void AssetManager::set_map(const Map& m) {
+    map = &m;
+}
 
-void AssetManager::tickAll() {
+void AssetManager::tick_all() {
     for (Sprite* sprite : active_sprites) {
         sprite->tick();
     }
 }
 
-void AssetManager::mouseMovedAll(double x, double y) {
+void AssetManager::mouse_moved_all(double x, double y) {
     for (Sprite* sprite : active_sprites) {
-        sprite->mouseMoved(x, y);
+        sprite->mouse_moved(x, y);
     }
 }
 
-void AssetManager::drawAll() {
+void AssetManager::draw_all() const {
     if (map != nullptr) {
         map->draw();
     }
@@ -61,14 +69,13 @@ std::vector<Sprite*> AssetManager::check_collisions(
     for (Sprite* sprite : active_sprites) {
         if (sprite->isCollidable()) {
             if (sprite != &sprite_to_check) {
-                if (SDL_HasIntersection(&sprite->rect, &sprite_to_check.rect) ==
+                if (SDL_HasIntersection(sprite->get_rect(), sprite_to_check.get_rect()) ==
                     SDL_TRUE) {
                     colliding_sprites.push_back(sprite);
                 }
             }
         }
     }
-
     return colliding_sprites;
 }  // check_collisions
 
@@ -92,21 +99,12 @@ void AssetManager::add_texture(const std::string path, SDL_Texture* texture) {
     loaded_textures.insert(std::make_pair(path, texture));
 }
 
-Mix_Chunk* AssetManager::get_sound(const std::string path) {
+Mix_Chunk* AssetManager::get_sound(const std::string path) const{
     return loaded_sounds[path];
 }
 
-SDL_Texture* AssetManager::get_texture(const std::string path) {
+SDL_Texture* AssetManager::get_texture(const std::string path) const {
     return loaded_textures[path];
-}
-
-Sprite* AssetManager::get_followed_by_camera() const {
-    for (Sprite* s : active_sprites) {
-        if (s->get_followed_by_camera()) {
-            return s;
-        }
-    }
-    return nullptr;
 }
 
 std::unordered_map<std::string, SDL_Texture*> AssetManager::loaded_textures;

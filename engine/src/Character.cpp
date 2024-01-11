@@ -44,7 +44,7 @@ void Character::handle_collision() {
         if (Food* f = dynamic_cast<Food*>(s)) {
             this->expand(f);
             if (is_near_player()) play_eat_food_sound();
-            s->kill(this);
+            f->kill(this);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
                 this->expand(c);
@@ -79,27 +79,26 @@ double Character::get_vel() const {
 
 void Character::expand(Sprite* eaten_sprite) {
     boost_counter++;
-    int expand_w = (eaten_sprite->getW() * 10) / getW();
-    int expand_h = (eaten_sprite->getH() * 10) / getH();
+    int expand_w = (eaten_sprite->getW() * EXPAND_AMOUNT) / getW();
+    int expand_h = (eaten_sprite->getH() * EXPAND_AMOUNT) / getH();
     setW(getW() + expand_w);
     setH(getH() + expand_h);
     if (this->followed_by_camera) {
-
     }
 }
 
 void Character::minimize() {
-    setW(getW() - 5);
-    setH(getH() - 5);
+    setW(getW() - MINIMIZE_AMOUNT);
+    setH(getH() - MINIMIZE_AMOUNT);
 }
 
 void Character::set_boost_speed(int speed) { boost_speed = speed; }
 
-bool Character::has_boost() const { return (boost_counter >= 10); }
+bool Character::has_boost() const { return (boost_counter >= MAX_BOOST); }
 
 void Character::check_boost() {
     if (boost_timer > 0) {
-        set_boost_speed(10);
+        set_boost_speed(BOOST_SPEED);
         --boost_timer;
     } else
         set_boost_speed(0);
@@ -115,8 +114,7 @@ void Character::use_boost() {
             GameEngine::get_instance()->play_sound(
                 "resources/sounds/JustBoost.mp3", get_local_soundchannel(), 0);
         }
-
-        boost_timer = 25;
+        boost_timer = BOOST_LENGTH;
         boost_counter = 0;
     }
 }
@@ -125,8 +123,10 @@ bool Character::is_near_player() const {
     int pX = Player::get_instance()->getCenterX();
     int pY = Player::get_instance()->getCenterY();
 
-    if ((getCenterX() < pX + 250) && (getCenterX() > pX - 250) &&
-        (getCenterY() < pY + 250) && (getCenterY() > pY - 250)) {
+    if ((getCenterX() < pX + NEAR_PLAYER_RADIUS) &&
+        (getCenterX() > pX - NEAR_PLAYER_RADIUS) &&
+        (getCenterY() < pY + NEAR_PLAYER_RADIUS) &&
+        (getCenterY() > pY - NEAR_PLAYER_RADIUS)) {
         return true;
     }
     return false;
@@ -155,17 +155,18 @@ void Character::play_eat_food_sound() {
             "resources/sounds/munchsmall2.mp3", get_local_soundchannel(), 0);
     }
 
-    if (boost_counter == 10) {
+    if (boost_counter == MAX_BOOST) {
         if (this == Player::get_instance()) {
             GameEngine::get_instance()->play_sound(
                 "resources/sounds/BoosterReady.mp3", get_local_soundchannel(),
                 0);
-            std::cout << "'BOOST READIEY'" << std::endl;
         }
     }
 }
 
 void Character::center_camera() {
+    // TODO - Denna funktion behöver tillgång till SCREENWIDTH och SCREENHEIGHT,
+    // samt LEVELWIDTH och LEVELHEIGHT som initieras när man skapar engine
     camera.x = (rect.x + rect.w / 2) - 640 / 2;
     camera.y = (rect.y + rect.h / 2) - 480 / 2;
 
@@ -186,10 +187,44 @@ void Character::center_camera() {
 
 void Character::kill(Sprite* killed_by) {
     set_remove(true);
-    if (followed_by_camera) {
+    if (Camera::get_instance()->get_to_follow() == this) {
         if (killed_by != nullptr) {
-            killed_by->set_followed_by_camera(true);
+            Camera::get_instance()->set_to_follow(killed_by);
         }
-        set_followed_by_camera(false);
     }
+}
+
+int Character::get_rendered_h() const {
+    // if (followed_by_camera) {
+    //     rendered_h = 100;
+    //     rendered_w = 100;
+    // } else {
+    //    rendered_h =
+    //        100 + getH() -
+    //        AssetManager::get_instance()->get_followed_by_camera()->getH();
+    //    rendered_w =
+    //        100 + getW() -
+    //        AssetManager::get_instance()->get_followed_by_camera()->getW();
+    //}
+    if (Camera::get_instance()->get_focused_on() == this) {
+        return 100;  // bör vara variabel
+    } else {
+        return 100 + (getH() - Camera::get_instance->get_focused_on()->getH());
+    }
+}
+
+int Character::get_rendered_w() const {
+    if (Camera::get_instance()->get_focused_on() == this) {
+        return 100;  // bör vara variabel
+    } else {
+        return 100 + (getW() - Camera::get_instance->get_focused_on()->getW());
+    }
+}
+
+int Character::get_rendered_x() const {
+    return rect.x - Camera::get_instance->getX();
+}
+
+int Character::get_rendered_y() const {
+    return rect.y - Camera::get_instance->getY();
 }

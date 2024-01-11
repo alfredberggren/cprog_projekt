@@ -13,45 +13,49 @@ class Sprite {
    private:
     Sprite &operator=(const Sprite &other) = delete;
     Sprite(const Sprite &other) = delete;
+    
+    // Subklasser av sprite kan överlagra dessa för att specificera hur deras storlek och position ska renderas.
+    virtual int get_rendered_w() const;
+    virtual int get_rendered_h() const;
+    virtual int get_rendered_x() const;
+    virtual int get_rendered_y() const;
 
-   protected:
-    Sprite(std::string path_to_texture, int x, int y, int width, int height,
-           bool is_collideable);
+protected:
+       bool collidable; 
+       SDL_Rect rect;
 
-    bool collidable;  // TODO: check spelling on collidEable/collidable
-    bool to_be_removed = false;
-    bool to_be_relocated = false;
-    bool followed_by_camera = false;
-    SDL_Texture *texture;
-    int rendered_w;
-    int rendered_h;
+       Sprite(std::string path_to_texture, int x, int y, int width, int height, bool is_collidable);
+       
+       bool to_be_removed = false;
+       bool to_be_relocated = false;
+       SDL_Texture *texture;
 
-   public:
-    SDL_Rect rect;
-    static SDL_Rect camera;
-    void move(double x, double y);
-    void setX(int x);
-    void setY(int y);
-    void setW(int w);
-    void setH(int h);
-    int getW() const;
-    int getH() const;
-    int getCenterX() const;
-    int getCenterY() const;
-    int area() const;
-    bool isCollidable() const;
-    bool is_to_be_removed() const;
-    void set_remove(bool remove);
-    void set_followed_by_camera(bool follow);
-    bool get_followed_by_camera() const { return followed_by_camera; }
+public:
+       static SDL_Rect camera;
+       const SDL_Rect* get_rect() const;
+       void move(double x, double y);
+       void setX(int x);
+       void setY(int y);
+       void setW(int w);
+       void setH(int h);
+       int getW() const;
+       int getH() const;
+       int getCenterX() const;
+       int getCenterY() const;
+       int area() const;
+       bool isCollidable() const;
+       bool is_to_be_removed() const;
+       void set_remove(bool remove);
+
+       /*implement what to do when reacting to mouse-movement*/
+       virtual void mouse_moved(double x, double y) = 0;
 
     virtual void kill(Sprite *killed_by) = 0;
-
-    /*implement what to do when reacting to mouse-movement*/
-    virtual void mouseMoved(double x, double y) = 0;
+       virtual ~Sprite();
+       virtual void draw() const;
 
     virtual ~Sprite();
-    virtual void draw();
+    virtual void draw() const;
 
     /*Implement what to do when not reacting to input*/
     virtual void tick() = 0;
