@@ -3,8 +3,6 @@
 #include "AssetManager.h"
 #include "Food.h"
 
-
-
 NPC::NPC(std::string path, int x, int y, int w, int h)
     : Character(path, x, y, w, h) {}
 

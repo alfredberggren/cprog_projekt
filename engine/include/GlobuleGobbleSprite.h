@@ -6,13 +6,11 @@
 
 class GlobuleGobbleSprite : public Sprite {
    public:
-    void draw();
     virtual void kill(Sprite& killed_by) = 0;
 
    protected:
     GlobuleGobbleSprite(std::string path_to_texture, int x, int y, int width,
-                        int height, bool is_collidable)
-        : Sprite(path_to_texture, x, y, width, height, is_collidable) {}
+                        int height, bool is_collidable);
 
    private:
     int get_rendered_x() const;

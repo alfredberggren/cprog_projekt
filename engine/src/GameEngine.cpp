@@ -4,7 +4,7 @@
 
 #include <utility>
 
-GameEngine *GameEngine::instance = nullptr;
+GameEngine* GameEngine::instance = nullptr;
 
 GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level_w, int level_h) : FRAMES_PER_SECOND(fps), SCREEN_WIDTH(screen_w), SCREEN_HEIGHT(screen_h), LEVEL_WIDTH(level_w), LEVEL_HEIGHT(level_h) {}
 
@@ -57,13 +57,13 @@ However, the implementer can break this system by using a channel given to them
 by entering -1 as channel in play_sound....*/
 int GameEngine::get_sound_channel()
 {
-    int available_soundchannels = Mix_AllocateChannels(-1);
+    long long unsigned int available_soundchannels = Mix_AllocateChannels(-1);
     if (available_soundchannels != soundchannels_in_use.size())
     {
         soundchannels_in_use.resize(available_soundchannels);
     }
 
-    int i;
+    int i = 0;
     for (i = 0; i < soundchannels_in_use.size(); ++i)
     { // Check if a channel has been given back
         if (i != soundchannels_in_use[i])
@@ -98,11 +98,19 @@ void GameEngine::run_game()
 
         while (SDL_PollEvent(&event))
         {
-
-            if (event.type == SDL_QUIT)
+            // QUIT - Städa upp allt som har allokerats och returnera. Quit innebär att hela spelet ska stängas ned!
+            if (event.type == SDL_QUIT || key_quit)
             {
                 running = false;
+                // Behövs mer cleanup?
+                // SYSTEM cleanup?
+                delete AssetManager::get_instance();
+                return;
             }
+            // Skapa STOP? Till skillnad från QUIT så behåller man nödvändiga allokerade objekt, returnerar också till main. I main 
+            // får då användaren möjligheten att lägga till t.ex. assets (NPCs eller liknande) som försvann under spelets gång. 
+            // För att detta ska fungera måste det då existera någon typ av loop i main, man kan tänka sig att main är spelets meny,
+            // och när man trycker STOP kommer man tillbaka till menyn, och run_game representerar då t.ex. en Play knapp som startar själva spelet.
             else if (event.type == SDL_KEYDOWN)
             {
                 // Kolla om KEY finns i keyMapping, isåfall hämta den och kör funktionen
@@ -151,6 +159,8 @@ void GameEngine::add_key_function_for_sprite(funcPtr2 f) {
 }
 
 void GameEngine::pause() { paused = true; }
+
+void GameEngine::quit() { key_quit = true; }
 
 /*Loads assets from the vector*/
 void GameEngine::load_assets(std::vector<std::string> assets)

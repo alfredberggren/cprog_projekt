@@ -38,8 +38,6 @@ delay på handlingar
     5. "Zooma ut" kameran när spelare blivit för stor.
     6. Sätt spelaren i mitten av kartan vid spelstart
     7. Något sätt att "vinna spelet"
-
-
 */
 
 #include <filesystem>
@@ -79,6 +77,10 @@ void use_player_boost(Sprite* s) {
 // förut innebar att man mappade knapptryck som utfördes på alla sprites i
 // spelet.
 void pause_game() { GameEngine::get_instance()->pause(); }
+
+void quit_game() {
+    GameEngine::get_instance()->quit();
+}
 
 void player_boost() {
     GameEngine::get_instance()->add_key_function_for_sprite(use_player_boost);
@@ -122,7 +124,7 @@ int main(int argc, char* argv[]) {
     game->set_level_background(*m);
 
     Player* s = Player::get_instance();
-    Camera* camera = Camera::create(0, 0, game->get_screen_width(), game->get_screen_height(), *s);
+    /*Camera* camera = */Camera::create(0, 0, game->get_screen_width(), game->get_screen_height(), *s);
 
     // make food and npcs randomly placed within level width and height, get a
     // seed for rand using time.
@@ -157,13 +159,14 @@ int main(int argc, char* argv[]) {
     keycode_map.emplace(SDLK_DOWN, minimize);
     keycode_map.emplace(SDLK_SPACE, player_boost);
     keycode_map.emplace(SDLK_ESCAPE, pause_game);
+    keycode_map.emplace(SDLK_q, quit_game);
 
     game->load_keys(keycode_map);
 
     game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
     
-    
+
     game->run_game();
 
     return 0;
