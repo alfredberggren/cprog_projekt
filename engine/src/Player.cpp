@@ -31,8 +31,8 @@ void Player::char_move() {
 }
 
 void Player::mouse_moved(double x, double y) {
-    mouse_x = Camera::get_instance()->get_x() + Camera::get_instance()->get_w() / 2 - 640 / 2 + x;
-    mouse_y = Camera::get_instance()->get_y() + Camera::get_instance()->get_h() / 2 - 480 / 2 + y;
+    mouse_x = Camera::get_instance()->get_x() + Camera::get_instance()->get_w() / 2 - GameEngine::get_instance()->get_screen_width() / 2 + x;
+    mouse_y = Camera::get_instance()->get_y() + Camera::get_instance()->get_h() / 2 - GameEngine::get_instance()->get_screen_height() / 2 + y;
 
     if (getCenterX() < mouse_x + 15 && getCenterX() > mouse_x - 15 &&
         getCenterY() < mouse_y + 15 && getCenterY() > mouse_y - 15) {

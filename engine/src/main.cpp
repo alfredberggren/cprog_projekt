@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
     int LEVEL_HEIGHT = 3500;
     int LEVEL_WIDTH = 3500;
     
-    GameEngine* game = GameEngine::get_instance(30, 640, 480, LEVEL_WIDTH, LEVEL_HEIGHT);
+    GameEngine* game = GameEngine::get_instance(30, 1200, 800, LEVEL_WIDTH, LEVEL_HEIGHT);
 
 
     game->init_SDL_libraries();
