@@ -3,10 +3,14 @@
 #include "AssetManager.h"
 #include "Food.h"
 
+
+
 NPC::NPC(std::string path, int x, int y, int w, int h)
     : Character(path, x, y, w, h) {}
 
-NPC* NPC::get_instance(std::string path, int x, int y, int w, int h) { return new NPC(path, x, y, w, h); }
+NPC* NPC::get_instance(std::string path, int x, int y, int w, int h) {
+    return new NPC(path, x, y, w, h);
+}
 
 void NPC::tick() { Character::tick(); }
 
@@ -38,7 +42,7 @@ void NPC::char_move() {
                 "resources/images/nervous.png");
             state = State::NERVOUS;
         }
-        if (closest_dist < 100) use_boost();
+        if (closest_dist < ESCAPE_BOOST_RADIUS) use_boost();
         move_in_dir(
             inv_dir(get_dir_to(closest->getCenterX(), closest->getCenterY())));
     } else {
@@ -54,7 +58,7 @@ void NPC::char_move() {
                     "resources/images/anger.png");
                 state = State::ANGRY;
             }
-            if (closest_dist < 500) use_boost();
+            if (closest_dist < ATTACK_BOOST_RADIUS) use_boost();
         }
         move_in_dir(get_dir_to(closest->getCenterX(), closest->getCenterY()));
     }
@@ -68,4 +72,6 @@ double NPC::inv_dir(double dir) {
     return dir;
 }
 
-void NPC::mouseMoved(double x, double y) {}
+void NPC::mouse_moved(double x, double y) {}
+
+State NPC::get_state() const { return state; }

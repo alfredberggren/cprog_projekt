@@ -121,20 +121,18 @@ void GameEngine::run_game()
                         paused = false;
                     SDL_Delay(100);
                 }
-            }
-            else if (event.type == SDL_MOUSEMOTION)
-            {
-                AssetManager::get_instance()->mouseMovedAll(event.motion.x,
+
+            } else if (event.type == SDL_MOUSEMOTION) {
+                AssetManager::get_instance()->mouse_moved_all(event.motion.x,
                                                             event.motion.y);
             }
         }
 
         SDL_RenderClear(SYSTEM.renderer);
 
-        AssetManager::get_instance()->tickAll();
+        AssetManager::get_instance()->tick_all();
         AssetManager::get_instance()->remove_marked();
-
-        AssetManager::get_instance()->drawAll();
+        AssetManager::get_instance()->draw_all();
 
         SDL_RenderPresent(SYSTEM.renderer);
 
@@ -150,9 +148,8 @@ void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map)
     keyMapping = &map;
 }
 
-void GameEngine::add_key_function_for_sprite(funcPtr2 f)
-{
-    AssetManager::get_instance()->handleKeyEvent(f);
+void GameEngine::add_key_function_for_sprite(funcPtr2 f) {
+    AssetManager::get_instance()->handle_key_event(f);
 }
 
 void GameEngine::pause() { paused = true; }
@@ -226,7 +223,7 @@ bool GameEngine::load_sound(std::string path)
     return true;
 }
 
-void GameEngine::add_sprite(Sprite &sprite)
+void GameEngine::add_sprite(Sprite& sprite)
 {
     AssetManager::get_instance()->add(sprite);
 }

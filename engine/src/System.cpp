@@ -14,8 +14,6 @@ bool System::initSDLComponents(){
         check = false;
     }
 
-    
-
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0){
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't initialize Mix Audio: %s", Mix_GetError());
         check = false;

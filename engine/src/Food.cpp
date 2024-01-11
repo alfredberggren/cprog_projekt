@@ -7,5 +7,6 @@ Food* Food::get_instance(std::string path, int x, int y, int w, int h){
 }
 
 void Food::kill(Sprite* killed_by) {
-    set_relocate(true);
+    setX(rand() % 3500);
+    setY(rand() % 3500);
 }

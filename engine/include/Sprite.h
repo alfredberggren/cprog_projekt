@@ -49,10 +49,8 @@ public:
        void set_relocate(bool relocate);
        void set_followed_by_camera(bool follow);
 
-       
-
        /*implement what to do when reacting to mouse-movement*/
-       virtual void mouseMoved(double x, double y) = 0;
+       virtual void mouse_moved(double x, double y) = 0;
 
        virtual ~Sprite();
        virtual void draw() const;

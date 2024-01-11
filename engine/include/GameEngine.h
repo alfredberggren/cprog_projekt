@@ -45,7 +45,7 @@ class GameEngine {
     bool init_SDL_libraries();
     bool init_SDL_window(std::string windowTitle, int xPosition, int yPosition);
 
-    void load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map);
+    void load_keys(std::unordered_map<SDL_Keycode, funcPtr> &keyMap);
     void add_key_function_for_sprite(funcPtr2);
 
     void run_game();
@@ -53,7 +53,6 @@ class GameEngine {
     static GameEngine* get_instance(unsigned short fps = 0, int screen_width = 0, int screen_height = 0, int level_width = 0, int level_height = 0);
 
     void load_assets(std::vector<std::string> assets);
-    
 
     void pause();
 

@@ -13,14 +13,11 @@ class Player : public Character {
 
     void tick() override;
     void char_move() override;
-    void mouseMoved(double x, double y) override;
+    void mouse_moved(double x, double y);
     void boost_pressed();
 
    private:
-    Player(std::string path, int x, int y, int w, int h)
-        : Character(path, x, y, w, h) {
-        followed_by_camera = true;
-    }
+    Player(std::string path, int x, int y, int w, int h);
     double mouse_x;
     double mouse_y;
     static Player* instance;

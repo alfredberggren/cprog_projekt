@@ -24,7 +24,14 @@ protected:
     double get_dir_to(double x, double y);
     void use_boost();
 
-private:
+   private:
+    static const int MAX_BOOST = 15;
+    static const int BOOST_SPEED = 10;
+    static const int BOOST_LENGTH = 25;
+    static const int MINIMIZE_AMOUNT = 5;
+    static const int EXPAND_AMOUNT = 10;
+    static const int NEAR_PLAYER_RADIUS = 250;
+
     int boost_counter;
     bool is_boosting;
     int boost_timer;

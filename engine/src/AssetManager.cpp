@@ -5,6 +5,14 @@ AssetManager::AssetManager() {
     // Initialize the sprite vector
 }
 
+AssetManager* AssetManager::get_instance() {
+    if (instance == nullptr) {
+        instance = new AssetManager();
+        std::cout << "Created AssetManager" << std::endl;
+    }
+    return instance;
+}
+
 AssetManager::~AssetManager() {
     std::cout << "Destroying AssetManager" << std::endl;
     for (auto pair : loaded_textures) {
@@ -15,7 +23,7 @@ AssetManager::~AssetManager() {
     }
 }
 
-void AssetManager::handleKeyEvent(funcPtr2 func) {
+void AssetManager::handle_key_event(funcPtr2 func) {
     for (Sprite* sprite : active_sprites) {
         func(sprite);
     }
@@ -29,19 +37,19 @@ void AssetManager::set_level_background(const LevelBackground& bg) {
     background = &bg;
 }
 
-void AssetManager::tickAll() {
+void AssetManager::tick_all() {
     for (Sprite* sprite : active_sprites) {
         sprite->tick();
     }
 }
 
-void AssetManager::mouseMovedAll(double x, double y) {
+void AssetManager::mouse_moved_all(double x, double y) {
     for (Sprite* sprite : active_sprites) {
-        sprite->mouseMoved(x, y);
+        sprite->mouse_moved(x, y);
     }
 }
 
-void AssetManager::drawAll() const {
+void AssetManager::draw_all() const {
     if (background != nullptr){
         background->draw();
     }
@@ -54,7 +62,8 @@ void AssetManager::drawAll() const {
 /*function to be used by subclasses of Sprite to check if it has collided with
  * anything, will return a vector with all colliding sprites, which the subclass
  * can react to in its implementation*/
-std::vector<Sprite*> AssetManager::check_collisions(const Sprite& sprite_to_check) const{
+std::vector<Sprite*> AssetManager::check_collisions(
+    const Sprite& sprite_to_check) const {
     std::vector<Sprite*> colliding_sprites;
 
     for (Sprite* sprite : active_sprites) {
@@ -67,7 +76,6 @@ std::vector<Sprite*> AssetManager::check_collisions(const Sprite& sprite_to_chec
             }
         }
     }
-
     return colliding_sprites;
 }  // check_collisions
 
@@ -77,21 +85,19 @@ void AssetManager::remove_marked() {
         if ((*it)->is_to_be_removed()) {
             delete *it;
             active_sprites.erase(it);
-        } else if ((*it)->is_to_be_relocated()) {
-            (*it)->setX(rand() % 3500);
-            (*it)->setY(rand() % 3500);
-            (*it)->set_relocate(false);
-        }else {
+            // WARNING ----------------------------------- WARNING --------------------------
+            // Spelimplementation i engine?
+        } else {
             ++it;
         }
     }
 }
 
-void AssetManager::add_sound(const std::string path, Mix_Chunk* sound_chunk){
+void AssetManager::add_sound(const std::string path, Mix_Chunk* sound_chunk) {
     loaded_sounds.insert(std::make_pair(path, sound_chunk));
 }
 
-void AssetManager::add_texture(const std::string path, SDL_Texture* texture){
+void AssetManager::add_texture(const std::string path, SDL_Texture* texture) {
     loaded_textures.insert(std::make_pair(path, texture));
 }
 
