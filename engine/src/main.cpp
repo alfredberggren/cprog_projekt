@@ -33,7 +33,7 @@ använda eller att det också finns set_camera_focus_on_all() typ
 -- Spelet --
     1. "Dumma ner" NPCs, mer random, inte märker spelaren/att man är större,
 delay på handlingar
-    2. Se till att NPCs inte kan gå utanför kartan
+    X. Se till att NPCs inte kan gå utanför kartan
     3. Tweaka hastigheter
     4. Randomisera  vilka ljud som spelas när man äter (finns två i nuläget)
     5. "Zooma ut" kameran när spelare blivit för stor.
