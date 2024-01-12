@@ -12,8 +12,6 @@ GameEngine::~GameEngine()
 {
 }
 
-// TODO : Fixa returvärden!
-
 /*Initializes the SDL components. Returns true if successful*/
 bool GameEngine::init_SDL_libraries() { return SYSTEM.initSDLComponents(); }
 

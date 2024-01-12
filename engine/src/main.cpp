@@ -97,10 +97,8 @@ int main(int argc, char* argv[]) {
     
     GameEngine* game = GameEngine::get_instance(30, 1200, 800, LEVEL_WIDTH, LEVEL_HEIGHT);
 
-
     game->init_SDL_libraries();
     
-
     game->init_SDL_window("GlobuleGobble", -1,-1);
 
     for (const auto& dirEntry : dir_iterator(constants::gResPath)) {
@@ -117,8 +115,6 @@ int main(int argc, char* argv[]) {
                                game->get_level_width(), game->get_level_height());
     
     game->set_level_background(*m);
-
-    //camera->set_focus_on_center(true);
 
     // make food and npcs randomly placed within level width and height, get a
     // seed for rand using time.
@@ -139,6 +135,7 @@ int main(int argc, char* argv[]) {
     game->add_sprite(*s);
     Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
     camera->set_focused_on(*s);
+    //camera->set_focus_on_center(true);
 
     std::string planet;
     for (int i = 0; i < 300; i++) {
