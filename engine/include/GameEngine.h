@@ -23,13 +23,14 @@ class GameEngine {
     bool stop = false;
     bool paused = false;
     bool key_quit = false;
+    bool running = false;
     SDL_Keycode press_to_resume;
 
     static GameEngine* instance;
     GameEngine(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height);
     const unsigned short FRAMES_PER_SECOND;
 
-    std::unordered_map<SDL_Keycode, funcPtr>* keyMapping;
+    std::unordered_map<SDL_Keycode, funcPtr>* key_to_function_map;
 
     bool load_img(std::string path);
     bool load_sound(std::string path);
@@ -59,6 +60,7 @@ class GameEngine {
     void stop_sound(int) const;
 
     void add_sprite(Sprite& sprite);
+    
     void set_level_background(LevelBackground& bg);
 
     int get_sound_channel();
