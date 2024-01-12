@@ -52,7 +52,7 @@ protected:
     void set_boost_speed(int speed);
 
 
-    void kill(Sprite& killed_by);
+    void die(Sprite& killed_by);
 
 
 };
