@@ -25,17 +25,17 @@ I kommandotolken för spelet kommer statusuppdateringar visas när entiteter ska
 
 ## Hur man spelar
 
-`Använd muspekaren för att styra spelaren (grön varelse). Försök att äta andra spelare (röda varelser) och mat (stillastående 'planeter') genom att styra spelaren mot dessa. Spelet har förlorats när din spelare blir uppäten av en av de röda varelserna. Man vinner spelet när man har ätit upp alla röda varelser.<br/>
-`Spelaren kan endast äta objekt som är mindre än sig själv. Om man kolliderar med en fiende som är större än sig själv så förlorar man.<br/>
-`När man kolliderar med ett objekt som är mindre än sig själv och 'äter upp' den, så ökar spelarens storlek med arean av objektet som åts upp.<br/>
-`Ät mat (planeter) genom att kollidera med dem. Detta laddar upp spelarens boost. När man har ätit 15 planeter så kan man aktivera boost vilket ökar spelarens hastighet temporärt.<br/>
-`De röda varelserna (motståndare) rör sig enligt en algoritmen i NPC.char_move(). De rör sig i huvudsak mot det närmsta objekt som är mindre än de själva, men avviker från detta mönster ifall den närmsta entiteten är större än de själva, i vilket fall de försöker rymma. Fiendernas tillstånd kan ses från vilken textur som de vid en given tidpunkt renderar (när de flyr används en textur där de ser rädda ut o.s.v.)<br/>
+* Använd muspekaren för att styra spelaren (grön varelse). Försök att äta andra spelare (röda varelser) och mat (stillastående 'planeter') genom att styra spelaren mot dessa. Spelet har förlorats när din spelare blir uppäten av en av de röda varelserna. Man vinner spelet när man har ätit upp alla röda varelser.<br/>
+* Spelaren kan endast äta objekt som är mindre än sig själv. Om man kolliderar med en fiende som är större än sig själv så förlorar man.<br/>
+* När man kolliderar med ett objekt som är mindre än sig själv och 'äter upp' den, så ökar spelarens storlek med arean av objektet som åts upp.<br/>
+* Ät mat (planeter) genom att kollidera med dem. Detta laddar upp spelarens boost. När man har ätit 15 planeter så kan man aktivera boost vilket ökar spelarens hastighet temporärt.<br/>
+* De röda varelserna (motståndare) rör sig enligt en algoritmen i NPC.char_move(). De rör sig i huvudsak mot det närmsta objekt som är mindre än de själva, men avviker från detta mönster ifall den närmsta entiteten är större än de själva, i vilket fall de försöker rymma. Fiendernas tillstånd kan ses från vilken textur som de vid en given tidpunkt renderar (när de flyr används en textur där de ser rädda ut o.s.v.)<br/>
 
 ### Keybindings
 
-`[ESC] - pausar spelet<br/>
-`[retur] - återupptar spelet efter paus<br/>
-`[q] - avslutar spelet<br/>
-`[PIL NED] - minskar spelarens storlek (för testning)<br/>
-`[PIL UPP] - ökar spelarens storlek (för testning)<br/>
-`[BLANKSTEG] - aktiverar boost om boost är tillgänglig<br/>
+* `[ESC] - pausar spelet`
+* `[retur] - återupptar spelet efter paus`
+* `[q] - avslutar spelet`
+* `[PIL NED] - minskar spelarens storlek (för testning)`
+* `[PIL UPP] - ökar spelarens storlek (för testning)`
+* `[BLANKSTEG] - aktiverar boost om boost är tillgänglig`
