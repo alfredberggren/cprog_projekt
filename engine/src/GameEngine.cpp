@@ -86,11 +86,10 @@ void GameEngine::remove_used_channel(int channel)
 
 /* ---------------------------- RUN GAME ----------------------------*/
 
-int GameEngine::run_game()
+void GameEngine::run_game()
 {
     SDL_Event event;
     paused = false;
-    key_reset = false;
     key_quit = false;
     running = true;
     Uint32 tick_interval = 1000 / FRAMES_PER_SECOND; // blir alltså millisekunder mellan ticks.
@@ -105,17 +104,7 @@ int GameEngine::run_game()
             {
                 running = false;
                 delete AssetManager::get_instance();
-                return false;
             }
-            if(key_reset){
-                AssetManager::get_instance()->remove_all_active_sprites();
-    
-                return true;
-            }
-            // Skapa STOP? Till skillnad från QUIT så behåller man nödvändiga allokerade objekt, returnerar också till main. I main
-            // får då användaren möjligheten att lägga till t.ex. assets (NPCs eller liknande) som försvann under spelets gång.
-            // För att detta ska fungera måste det då existera någon typ av loop i main, man kan tänka sig att main är spelets meny,
-            // och när man trycker STOP kommer man tillbaka till menyn, och run_game representerar då t.ex. en Play knapp som startar själva spelet.
             else if (event.type == SDL_KEYDOWN)
             {
                 // Kolla om KEY finns i key_to_function_map, isåfall hämta den och kör funktionen
@@ -150,7 +139,6 @@ int GameEngine::run_game()
             {
                 running = false;
                 delete AssetManager::get_instance();
-                return false;
             }
             if (event.type == SDL_KEYDOWN &&
                 event.key.keysym.sym == press_to_resume)
@@ -158,7 +146,6 @@ int GameEngine::run_game()
             SDL_Delay(100);
         }
     }
-    return 0;
 }
 
 /*Will use the supplied map to call a gamedeveloper-implemented function when the player presses a key.
@@ -206,8 +193,6 @@ void GameEngine::pause(SDL_Keycode key_press_to_resume)
 }
 
 void GameEngine::quit() { key_quit = true; }
-
-void GameEngine::reset_game() { key_reset = true; };
 
 /*Loads assets from the vector*/
 void GameEngine::load_assets(std::vector<std::string> assets)

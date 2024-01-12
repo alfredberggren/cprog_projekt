@@ -97,7 +97,7 @@ void AssetManager::remove_marked() {
     std::vector<Sprite*>::iterator it;
     for (it = active_sprites.begin(); it != active_sprites.end();) {
         if ((*it)->is_to_be_removed()) {
-            //delete *it;
+            delete *it;
             active_sprites.erase(it);
         } else {
             ++it;
@@ -119,12 +119,6 @@ Mix_Chunk* AssetManager::get_sound(const std::string path) const{
 
 SDL_Texture* AssetManager::get_texture(const std::string path) const {
     return loaded_textures[path];
-}
-
-void AssetManager::remove_all_active_sprites(){
-    for(Sprite* s : active_sprites)
-        //delete s; --------------------  WARNING ------------------------- WARNING ------------------------------
-    active_sprites.clear();
 }
 
 std::unordered_map<std::string, SDL_Texture*> AssetManager::loaded_textures;

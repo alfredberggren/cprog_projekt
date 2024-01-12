@@ -75,8 +75,6 @@ void use_player_boost(Sprite* s) {
 // spelet.
 void pause_game() { GameEngine::get_instance()->pause(SDLK_RETURN); }
 
-void reset_game() { GameEngine::get_instance()->reset_game(); }
-
 void quit_game() {
     GameEngine::get_instance()->quit();
 }
@@ -125,15 +123,12 @@ int main(int argc, char* argv[]) {
     // make food and npcs randomly placed within level width and height, get a
     // seed for rand using time.
     srand(time(NULL));
-
-    add_assets_loop(game);
     
     keycode_map.emplace(SDLK_UP, expand);
     keycode_map.emplace(SDLK_DOWN, minimize);
     keycode_map.emplace(SDLK_SPACE, player_boost);
     keycode_map.emplace(SDLK_ESCAPE, pause_game);
     keycode_map.emplace(SDLK_q, quit_game);
-    keycode_map.emplace(SDLK_r, reset_game);
 
     game->load_keys(keycode_map);
 
@@ -141,21 +136,7 @@ int main(int argc, char* argv[]) {
                      GameEngine::get_instance()->get_sound_channel(), -1);
 
     Player* s = Player::get_instance();
-    Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_width());
-    camera->set_focused_on(*s);
-    
-    while(game->run_game()){
-        add_assets_loop(game);
-    }
-    return 0;
-}
-
-void add_assets_loop(GameEngine* game){
-    Player* s = Player::get_instance();
-    std::cout << s << std::endl;
-    //Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
     game->add_sprite(*s);
-    //camera->set_focused_on(*s);
 
     std::string planet;
     for (int i = 0; i < 300; i++) {
@@ -180,6 +161,9 @@ void add_assets_loop(GameEngine* game){
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
 
-
-    std::cout << "ADDING PLAYER WITH " << s->area() << " AND x : " << s->getCenterX() << " y : " << s->getCenterY() << std::endl;
+    Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_width());
+    camera->set_focused_on(*s);
+    
+    game->run_game();
+    return 0;
 }
