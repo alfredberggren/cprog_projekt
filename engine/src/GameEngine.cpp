@@ -10,9 +10,7 @@ GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level
 
 GameEngine::~GameEngine()
 {
-    Mix_Quit();
-    IMG_Quit();
-    SDL_Quit();
+    
 }
 
 // TODO : Fixa returvärden!
@@ -122,8 +120,14 @@ void GameEngine::run_game()
                 while (paused)
                 {
                     SDL_PollEvent(&event);
+                    if (event.type == SDL_QUIT || key_quit) 
+                    {
+                        running = false;
+                        delete AssetManager::get_instance();
+                        return;
+                    }
                     if (event.type == SDL_KEYDOWN &&
-                        event.key.keysym.sym == SDLK_ESCAPE)
+                        event.key.keysym.sym == press_to_resume)
                         paused = false;
                     SDL_Delay(100);
                 }
@@ -149,16 +153,44 @@ void GameEngine::run_game()
 }
 
 
+/*Will use the supplied map to call a gamedeveloper-implemented function when the player presses a key.
+
+See GameEngine's use_function_on_all_sprites for further information on how to implement a function where a key pressed should make Sprite-objects react.
+*/
 void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map)
 {
     keyMapping = &map;
 }
 
-void GameEngine::add_key_function_for_sprite(funcPtr2 f) {
+/*GameEngine will use the supplied functionpointer argument, and use that function on all sprites once per gameloop.
+The supplied function pointer needs to have signature: void function_name(Sprite* sprite_ptr)
+
+The game developer can use dynamic cast to check if the sprite is of the right subclass of Sprite, to make sure the function is used on the right object.
+
+Example of use:
+
+void move_player_left(Sprite* sprite){
+    if (Player* p = dynamic_cast<Player*> sprite) {
+        p->move_left();
+    }
+}
+
+void move_player_left_wrapper() {
+    GameEngine::get_instance()->use_function_on_all_sprites(move_player_left);
+}
+
+std::unordered_map<SDL_Keycode, void (*function_pointer)()> key_mappings;
+
+key_mappings.emplace(SDLK_LEFT, move_player_left_wrapper);
+
+GameEngine::get_instance()->load_keys(key_mappings);
+
+*/
+void GameEngine::use_function_on_all_sprites(funcPtr2 f) {
     AssetManager::get_instance()->handle_key_event(f);
 }
 
-void GameEngine::pause() { paused = true; }
+void GameEngine::pause(SDL_Keycode key_press_to_resume) { paused = true; press_to_resume = key_press_to_resume;}
 
 void GameEngine::quit() { key_quit = true; }
 
@@ -187,7 +219,6 @@ void GameEngine::load_assets(std::vector<std::string> assets)
     }
 }
 
-// TODO: could just return the texture itself
 /*Loads an image from the path*/
 bool GameEngine::load_img(std::string path)
 {

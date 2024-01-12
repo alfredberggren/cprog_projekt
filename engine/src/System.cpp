@@ -53,9 +53,22 @@ bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int wi
 }
 
 System::~System() {
+    std::cout << "SYSTEM:" << std::endl;
     SDL_DestroyRenderer(renderer);
+    std::cout << "\t- Destroyed renderer" << std::endl;
     SDL_DestroyWindow(window);
+    std::cout << "\t- Destroyed window" << std::endl;
+    IMG_Quit();
+    std::cout << "\t- Quit IMG" << std::endl;
+    Mix_CloseAudio();
+    std::cout << "\t- Closed  audio" << std::endl;
+    Mix_Quit();
+    std::cout << "\t- Quit mix" << std::endl;
+    SDL_QuitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    std::cout << "\t- Quit VIDEO and AUDIO" << std::endl;
+    
     SDL_Quit();
+    std::cout << "\t- Quit SDL" << std::endl;
 }
 
 System SYSTEM;

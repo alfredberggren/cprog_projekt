@@ -1,8 +1,7 @@
 #include "AssetManager.h"
 
 AssetManager::AssetManager() {
-    // Constructor implementation
-    // Initialize the sprite vector
+    
 }
 
 AssetManager* AssetManager::get_instance() {
@@ -14,13 +13,17 @@ AssetManager* AssetManager::get_instance() {
 }
 
 AssetManager::~AssetManager() {
-    std::cout << "Destroying AssetManager" << std::endl;
+    std::cout << "AssetManager:" << std::endl;
+    
     for (auto pair : loaded_textures) {
         SDL_DestroyTexture(pair.second);
+        std::cout << "\t- Destroyed Texture: " << pair.first << std::endl;
     }
     for (auto pair : loaded_sounds) {
         Mix_FreeChunk(pair.second);
+        std::cout << "\t- Freed Chunk: " << pair.first << std::endl;
     }
+    std::cout << "\t--- AssetManager Destroyed ---" << std::endl;
 }
 
 void AssetManager::handle_key_event(funcPtr2 func) {

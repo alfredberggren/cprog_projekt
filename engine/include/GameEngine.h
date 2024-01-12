@@ -23,6 +23,7 @@ class GameEngine {
     bool stop = false;
     bool paused = false;
     bool key_quit = false;
+    SDL_Keycode press_to_resume;
 
     static GameEngine* instance;
     GameEngine(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height);
@@ -44,10 +45,10 @@ class GameEngine {
     bool init_SDL_window(std::string windowTitle, int xPosition, int yPosition);
 
     void load_keys(std::unordered_map<SDL_Keycode, funcPtr> &keyMap);
-    void add_key_function_for_sprite(funcPtr2);
+    void use_function_on_all_sprites(funcPtr2);
 
     void run_game();
-    void pause();
+    void pause(SDL_Keycode key_press_to_resume);
     void quit();
 
     static GameEngine* get_instance(unsigned short fps = 0, int screen_width = 0, int screen_height = 0, int level_width = 0, int level_height = 0);

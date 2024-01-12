@@ -1,13 +1,9 @@
 /*TODO:
 -- Spelmotor --
-    X. Kolla ljudkanaler, vad är smartast att göra?
-        - Implementerade någon sorts "hålla koll på vilka kanaler som används"-funktionalitet i gameengine. Vet inte hur smart det är egentligen.
-    Z. Hur ska man kunna lägga till bakgrund? *typ* fixat?? Genom map.
-    X. Hantera FPS!!!!!!! skickas nu in i engine constructor
     4. Dynamisk allokering, se till att saker o ting inte har publika konstruktorer om de inte ska ha det osv (Sprite t.ex.)
     5. Möjlighet att starta, pausa, avsluta spel. GameEngine borde alltså ha:
         - start_game(),
-        - pause_game(),
+        - pause_game(), ✔
         - resume_game(),
         - stop_game() (spelet avslutas, men programmet körs) och
         - close_game() (avslutar allt)...
@@ -22,7 +18,6 @@
         - set_camera_width(int width);
         - set_camera_height(int height);
     10. Nästan alla funktioner i hela koden är publika!
-    11. Sprite har en Kill-funktion (virtual pure dock), lite för spelspecifikt?
     12. Vi ska använda getRes-constanten på någe vis.
     13. get_sound_channel (i GameEngine) kan i nuläget bara göra kanal-vektorn större, men inte mindre. Vet ärligt talat inte om det är ett problem i nuläget. Den kommer bara bli större *om det behövs*, och om det behövs, så kanske det kommer behövas en sådan stor vektor i framtiden också?
     14. På samma sätt som vi implementerar ett sätt att ta bort sprites under loopen, måste vi göra liknande för att lägga till (enl. jozefs exempel)
@@ -32,12 +27,7 @@
 -- Spelet --
     1. "Dumma ner" NPCs, mer random, inte märker spelaren/att man är större,
 delay på handlingar
-    X. Se till att NPCs inte kan gå utanför kartan ✔
-    3. Tweaka hastigheter ✔
-    4. Randomisera  vilka ljud som spelas när man äter (finns två i nuläget)
-    5. "Zooma ut" kameran när spelare blivit för stor.
-    6. Sätt spelaren i mitten av kartan vid spelstart
-    7. Något sätt att "vinna spelet"
+    7. Något sätt att "vinna spelet" OBS
 */
 
 #include <filesystem>
@@ -64,6 +54,8 @@ void minimizePlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) p->minimize();
 }
 
+
+
 void use_player_boost(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) p->boost_pressed();
 }
@@ -76,22 +68,22 @@ void use_player_boost(Sprite* s) {
 // TLDR : Man mappar knapptryck till funktioner i GameEngine. Implementationen
 // förut innebar att man mappade knapptryck som utfördes på alla sprites i
 // spelet.
-void pause_game() { GameEngine::get_instance()->pause(); }
+void pause_game() { GameEngine::get_instance()->pause(SDLK_RETURN); }
 
 void quit_game() {
     GameEngine::get_instance()->quit();
 }
 
 void player_boost() {
-    GameEngine::get_instance()->add_key_function_for_sprite(use_player_boost);
+    GameEngine::get_instance()->use_function_on_all_sprites(use_player_boost);
 }
 
 void minimize() {
-    GameEngine::get_instance()->add_key_function_for_sprite(minimizePlayer);
+    GameEngine::get_instance()->use_function_on_all_sprites(minimizePlayer);
 }
 
 void expand() {
-    GameEngine::get_instance()->add_key_function_for_sprite(expandPlayer);
+    GameEngine::get_instance()->use_function_on_all_sprites(expandPlayer);
 }
 
 int main(int argc, char* argv[]) {
@@ -105,6 +97,8 @@ int main(int argc, char* argv[]) {
 
 
     game->init_SDL_libraries();
+    
+    // WARNING----------------             WARNING: SDL reference in main!!! --------------- WARING
     game->init_SDL_window("GlobuleGobble", SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED);
 
@@ -126,7 +120,7 @@ int main(int argc, char* argv[]) {
     Player* s = Player::get_instance();
     Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
     camera->set_focused_on(*s);
-    camera->set_focus_on_center(true);
+    //camera->set_focus_on_center(true);
 
     // make food and npcs randomly placed within level width and height, get a
     // seed for rand using time.
@@ -149,13 +143,14 @@ int main(int argc, char* argv[]) {
                                              rand() % LEVEL_HEIGHT, 19, 19));
     }
 
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 20; i++) {
         game->add_sprite(*NPC::get_instance(constants::gResPath + "images/alien3.png",
                                             rand() % LEVEL_WIDTH,
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
 
     game->add_sprite(*s);
+    
 
     keycode_map.emplace(SDLK_UP, expand);
     keycode_map.emplace(SDLK_DOWN, minimize);
@@ -169,7 +164,6 @@ int main(int argc, char* argv[]) {
                      GameEngine::get_instance()->get_sound_channel(), -1);
     
     game->run_game();
-    game->pause();
     
 
     return 0;
