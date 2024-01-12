@@ -110,6 +110,10 @@ SDL_Texture* AssetManager::get_texture(const std::string path) const {
     return loaded_textures[path];
 }
 
+void AssetManager::remove_all_active_sprites(){
+    active_sprites.clear();
+}
+
 std::unordered_map<std::string, SDL_Texture*> AssetManager::loaded_textures;
 std::unordered_map<std::string, Mix_Chunk*> AssetManager::loaded_sounds;
 

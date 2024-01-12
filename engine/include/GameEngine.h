@@ -20,9 +20,9 @@ typedef void (*funcPtr2)(Sprite*);
 class GameEngine {
    private:
     std::vector<int> soundchannels_in_use;
-    bool stop = false;
     bool paused = false;
     bool key_quit = false;
+    bool key_reset = false;
     SDL_Keycode press_to_resume;
 
     static GameEngine* instance;
@@ -47,9 +47,10 @@ class GameEngine {
     void load_keys(std::unordered_map<SDL_Keycode, funcPtr> &keyMap);
     void use_function_on_all_sprites(funcPtr2);
 
-    void run_game();
+    int run_game();
     void pause(SDL_Keycode key_press_to_resume);
     void quit();
+    void reset_game();
 
     static GameEngine* get_instance(unsigned short fps = 0, int screen_width = 0, int screen_height = 0, int level_width = 0, int level_height = 0);
 

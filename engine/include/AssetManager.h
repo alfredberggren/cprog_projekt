@@ -36,6 +36,7 @@ public:
     void tick_all();
     void mouse_moved_all(double, double);
     void remove_marked();
+    void remove_all_active_sprites();
 
     void add_sound(const std::string, Mix_Chunk*);
     void add_texture(const std::string, SDL_Texture*);

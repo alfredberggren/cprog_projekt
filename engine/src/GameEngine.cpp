@@ -84,11 +84,13 @@ void GameEngine::remove_used_channel(int channel)
 
 /* ---------------------------- RUN GAME ----------------------------*/
 
-void GameEngine::run_game()
+int GameEngine::run_game()
 {
     SDL_Event event;
     bool running = true;
     paused = false;
+    key_reset = false;
+    key_quit = false;
     Uint32 tick_interval = 1000 / FRAMES_PER_SECOND; // blir alltså millisekunder mellan ticks.
     while (running)
     {
@@ -100,10 +102,12 @@ void GameEngine::run_game()
             if (event.type == SDL_QUIT || key_quit)
             {
                 running = false;
-                // Behövs mer cleanup?
-                // SYSTEM cleanup?
                 delete AssetManager::get_instance();
-                return;
+                return false;
+            }
+            if(key_reset){
+                AssetManager::get_instance()->remove_all_active_sprites();
+                return true;
             }
             // Skapa STOP? Till skillnad från QUIT så behåller man nödvändiga allokerade objekt, returnerar också till main. I main 
             // får då användaren möjligheten att lägga till t.ex. assets (NPCs eller liknande) som försvann under spelets gång. 
@@ -124,7 +128,7 @@ void GameEngine::run_game()
                     {
                         running = false;
                         delete AssetManager::get_instance();
-                        return;
+                        return false;
                     }
                     if (event.type == SDL_KEYDOWN &&
                         event.key.keysym.sym == press_to_resume)
@@ -150,6 +154,7 @@ void GameEngine::run_game()
         if (delay > 0)
             SDL_Delay(delay);
     }
+    return false;
 }
 
 
@@ -193,6 +198,8 @@ void GameEngine::use_function_on_all_sprites(funcPtr2 f) {
 void GameEngine::pause(SDL_Keycode key_press_to_resume) { paused = true; press_to_resume = key_press_to_resume;}
 
 void GameEngine::quit() { key_quit = true; }
+
+void GameEngine::reset_game() { key_reset = true; };
 
 /*Loads assets from the vector*/
 void GameEngine::load_assets(std::vector<std::string> assets)
@@ -296,7 +303,6 @@ int GameEngine::get_level_width() const {
 void GameEngine::set_level_size(int width, int height) {
     LEVEL_WIDTH = width;
     LEVEL_HEIGHT = height;
-
 }
 
 /*GameEngine is singleton. The first time this is called, a new instance will be created with given arguments and return it. All calls afterwards will return that instance.*/

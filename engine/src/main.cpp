@@ -41,6 +41,11 @@ delay på handlingar
 #include "NPC.h"
 #include "Player.h"
 
+const int LEVEL_HEIGHT = 3500;
+const int LEVEL_WIDTH = 3500;
+
+void add_assets_loop(GameEngine*);
+
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
 // TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
@@ -70,6 +75,8 @@ void use_player_boost(Sprite* s) {
 // spelet.
 void pause_game() { GameEngine::get_instance()->pause(SDLK_RETURN); }
 
+void reset_game() { GameEngine::get_instance()->reset_game(); }
+
 void quit_game() {
     GameEngine::get_instance()->quit();
 }
@@ -89,9 +96,6 @@ void expand() {
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
     std::unordered_map<SDL_Keycode, funcPtr> keycode_map;
-
-    int LEVEL_HEIGHT = 3500;
-    int LEVEL_WIDTH = 3500;
     
     GameEngine* game = GameEngine::get_instance(30, 1200, 800, LEVEL_WIDTH, LEVEL_HEIGHT);
 
@@ -126,6 +130,29 @@ int main(int argc, char* argv[]) {
     // seed for rand using time.
     srand(time(NULL));
 
+    add_assets_loop(game);
+    
+    keycode_map.emplace(SDLK_UP, expand);
+    keycode_map.emplace(SDLK_DOWN, minimize);
+    keycode_map.emplace(SDLK_SPACE, player_boost);
+    keycode_map.emplace(SDLK_ESCAPE, pause_game);
+    keycode_map.emplace(SDLK_q, quit_game);
+    keycode_map.emplace(SDLK_r, reset_game);
+
+    game->load_keys(keycode_map);
+
+    game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
+                     GameEngine::get_instance()->get_sound_channel(), -1);
+    
+    while(true){
+        game->run_game();
+        add_assets_loop(game);
+    }
+    return 0;
+}
+
+void add_assets_loop(GameEngine* game){
+    Player* s = Player::get_instance();
     std::string planet;
     for (int i = 0; i < 300; i++) {
 
@@ -150,21 +177,4 @@ int main(int argc, char* argv[]) {
     }
 
     game->add_sprite(*s);
-    
-
-    keycode_map.emplace(SDLK_UP, expand);
-    keycode_map.emplace(SDLK_DOWN, minimize);
-    keycode_map.emplace(SDLK_SPACE, player_boost);
-    keycode_map.emplace(SDLK_ESCAPE, pause_game);
-    keycode_map.emplace(SDLK_q, quit_game);
-
-    game->load_keys(keycode_map);
-
-    game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
-                     GameEngine::get_instance()->get_sound_channel(), -1);
-    
-    game->run_game();
-    
-
-    return 0;
 }
