@@ -77,7 +77,6 @@ double Character::get_dir_to(double x, double y) {
 
 double Character::get_vel() const {
     return BASE_SPEED * pow(area(), -0.230) + boost_speed;
-    // return BASE_SPEED + (200.0 / (rect.w / 2) + boost_speed);
 }
 
 void Character::expand(Sprite* eaten_sprite) {

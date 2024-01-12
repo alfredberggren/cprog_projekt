@@ -20,7 +20,6 @@ typedef void (*funcPtr2)(Sprite*);
 class GameEngine {
    private:
     std::vector<int> soundchannels_in_use;
-    bool stop = false;
     bool paused = false;
     bool key_quit = false;
     bool running = false;
