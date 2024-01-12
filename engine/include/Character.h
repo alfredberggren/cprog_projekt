@@ -53,8 +53,6 @@ protected:
 
 
     void die(Sprite& killed_by);
-
-
 };
 
 #endif

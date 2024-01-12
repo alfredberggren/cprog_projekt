@@ -44,11 +44,8 @@ delay på handlingar
 const int LEVEL_HEIGHT = 3500;
 const int LEVEL_WIDTH = 3500;
 
-void add_assets_loop(GameEngine*);
-
 using dir_iterator = std::filesystem::recursive_directory_iterator;
 
-// TODO: Ta reda på hur dyrt det är att kalla dynamic_cast i snabb intervall.
 void expandPlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) {
         p->expand(p);
@@ -58,8 +55,6 @@ void expandPlayer(Sprite* s) {
 void minimizePlayer(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) p->minimize();
 }
-
-
 
 void use_player_boost(Sprite* s) {
     if (Player* p = dynamic_cast<Player*>(s)) p->boost_pressed();
@@ -73,7 +68,9 @@ void use_player_boost(Sprite* s) {
 // TLDR : Man mappar knapptryck till funktioner i GameEngine. Implementationen
 // förut innebar att man mappade knapptryck som utfördes på alla sprites i
 // spelet.
-void pause_game() { GameEngine::get_instance()->pause(SDLK_RETURN); }
+void pause_game() { GameEngine::get_instance()->pause(); }
+
+void resume_game() { GameEngine::get_instance()->resume(); }
 
 void quit_game() {
     GameEngine::get_instance()->quit();
@@ -103,9 +100,8 @@ int main(int argc, char* argv[]) {
 
     for (const auto& dirEntry : dir_iterator(constants::gResPath)) {
         if (dirEntry.is_regular_file()){
-            std::cout << "added" << dirEntry.path().generic_string() << std::endl;
             assets.push_back(dirEntry.path().generic_string());
-    }
+        }
     }
 
     game->load_assets(assets);
@@ -125,6 +121,7 @@ int main(int argc, char* argv[]) {
     keycode_map.emplace(SDLK_SPACE, player_boost);
     keycode_map.emplace(SDLK_ESCAPE, pause_game);
     keycode_map.emplace(SDLK_q, quit_game);
+    keycode_map.emplace(SDLK_RETURN, resume_game);
 
     game->load_keys(keycode_map);
 
@@ -133,6 +130,7 @@ int main(int argc, char* argv[]) {
 
     Player* s = Player::get_instance();
     game->add_sprite(*s);
+
     Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
     camera->set_focused_on(*s);
     //camera->set_focus_on_center(true);

@@ -48,8 +48,9 @@ class GameEngine {
     void use_function_on_all_sprites(funcPtr2);
 
     void run_game();
-    void pause(SDL_Keycode key_press_to_resume);
+    void pause();
     void quit();
+    void resume();
 
     static GameEngine* get_instance(unsigned short fps = 0, int screen_width = 0, int screen_height = 0, int level_width = 0, int level_height = 0);
 

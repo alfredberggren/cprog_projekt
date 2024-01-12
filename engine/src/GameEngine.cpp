@@ -117,38 +117,26 @@ void GameEngine::run_game()
                     key_to_function_map->at(event.key.keysym.sym)();
                 }
 
-            } else if (event.type == SDL_MOUSEMOTION) {
+            } else if (event.type == SDL_MOUSEMOTION && !paused) {
                 AssetManager::get_instance()->mouse_moved_all(event.motion.x,
                                                               event.motion.y);
             }
         }
 
-        SDL_RenderClear(SYSTEM.renderer);
+        if(!paused){
+            SDL_RenderClear(SYSTEM.renderer);
 
-        AssetManager::get_instance()->tick_all();
-        AssetManager::get_instance()->remove_marked();
-        AssetManager::get_instance()->add_new_sprites_to_game();
-        AssetManager::get_instance()->draw_all();
+            AssetManager::get_instance()->tick_all();
+            AssetManager::get_instance()->remove_marked();
+            AssetManager::get_instance()->add_new_sprites_to_game();
+            AssetManager::get_instance()->draw_all();
 
-        SDL_RenderPresent(SYSTEM.renderer);
+            SDL_RenderPresent(SYSTEM.renderer);
+        }
 
         int delay = next_tick - SDL_GetTicks(); // Hur mycket tid det är kvar till nästa tick
         if (delay > 0)
             SDL_Delay(delay);
-
-        while (paused)
-        {
-            SDL_PollEvent(&event);
-            if (event.type == SDL_QUIT || key_quit)
-            {
-                running = false;
-                delete AssetManager::get_instance();
-            }
-            if (event.type == SDL_KEYDOWN &&
-                event.key.keysym.sym == press_to_resume)
-                paused = false;
-            SDL_Delay(100);
-        }
     }
 }
 
@@ -187,14 +175,19 @@ GameEngine::get_instance()->load_keys(key_mappings);
 */
 void GameEngine::use_function_on_all_sprites(funcPtr2 f)
 {
-    AssetManager::get_instance()->handle_key_event(f);
+    if(!paused)
+        AssetManager::get_instance()->handle_key_event(f);
 }
 
-void GameEngine::pause(SDL_Keycode key_press_to_resume)
+void GameEngine::pause()
 {
     paused = true;
-    press_to_resume = key_press_to_resume;
 }
+
+void GameEngine::resume(){
+    paused = false;
+}
+
 
 void GameEngine::quit() { key_quit = true; }
 
