@@ -13,7 +13,7 @@ class Character : public GlobuleGobbleSprite
 {
 public:
     virtual ~Character();
-    virtual void tick() = 0;
+    virtual void tick() override;
     virtual void expand(Sprite* eaten_sprite);
     virtual void minimize();
     virtual void char_move() = 0;
@@ -34,12 +34,11 @@ protected:
     static const int NEAR_PLAYER_RADIUS = 250;
 
     int boost_counter;
-    bool is_boosting;
     int boost_timer;
     int boost_speed;
+    
     int current_local_soundchannel;
     std::vector<int> local_soundchannels;
-    
     int get_local_soundchannel();
     void play_eat_food_sound();
     void play_eat_character_sound();
@@ -52,7 +51,9 @@ protected:
     void set_boost_speed(int speed);
 
 
-    void die(Sprite& killed_by);
+    void die(Sprite& killed_by) override;
+
+
 };
 
 #endif

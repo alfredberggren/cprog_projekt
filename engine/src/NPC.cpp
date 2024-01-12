@@ -76,6 +76,6 @@ double NPC::inv_dir(double dir) {
     return dir;
 }
 
-void NPC::mouse_moved(double x, double y) {}
+
 
 State NPC::get_state() const { return state; }
