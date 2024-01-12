@@ -10,7 +10,8 @@ GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level
 
 GameEngine::~GameEngine()
 {
-
+    std::cout << "--- GAMEENGINE DESTRUCTS NOW ---" << std::endl;
+    delete AssetManager::get_instance();
 }
 
 /*Initializes the SDL components. Returns true if successful*/
@@ -102,7 +103,6 @@ void GameEngine::run_game()
             if (event.type == SDL_QUIT || key_quit)
             {
                 running = false;
-                delete AssetManager::get_instance();
             }
             else if (event.type == SDL_KEYDOWN)
             {

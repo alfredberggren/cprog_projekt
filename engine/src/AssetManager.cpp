@@ -14,6 +14,17 @@ AssetManager* AssetManager::get_instance() {
 
 AssetManager::~AssetManager() {
     std::cout << "AssetManager:" << std::endl;
+
+    for (Sprite* s : sprites_to_be_added_in_game_loop){
+        delete s;
+        std::cout << "\t- Deleted sprite from 'sprite_to_be_added...'" << std::endl;
+    }
+
+    for (Sprite* s : active_sprites){
+        delete s;
+         std::cout << "\t- Deleted sprite from 'active_sprites'" << std::endl;
+
+    }
     
     for (auto pair : loaded_textures) {
         SDL_DestroyTexture(pair.second);

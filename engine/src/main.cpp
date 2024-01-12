@@ -138,5 +138,9 @@ int main(int argc, char* argv[]) {
                      GameEngine::get_instance()->get_sound_channel(), -1);
     
     game->run_game();
+
+   
+
+    delete game;
     return 0;
 }
