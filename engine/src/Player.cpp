@@ -29,6 +29,7 @@ void Player::char_move() {
     move_in_dir(dir_to_mouse);
 }
 
+// Räknar ut vilken riktning Player ska röra sig mot relativt till spelets Camera. 
 void Player::mouse_moved(double x, double y) {
     mouse_x = Camera::get_instance()->get_x() + Camera::get_instance()->get_w() / 2 - GameEngine::get_instance()->get_screen_width() / 2 + x;
     mouse_y = Camera::get_instance()->get_y() + Camera::get_instance()->get_h() / 2 - GameEngine::get_instance()->get_screen_height() / 2 + y;

@@ -79,6 +79,8 @@ double Character::get_vel() const {
     return BASE_SPEED * pow(area(), -0.230) + boost_speed;
 }
 
+// Responsible for expanding the size of a Character when eating another Sprite. The expanded size will depend on the object that was eaten.
+// If the game camera is focusing the current character, it will need to center itself since the characters size was modified. 
 void Character::expand(Sprite* eaten_sprite) {
     boost_counter++;
     int expand_w = (eaten_sprite->getW() * EXPAND_AMOUNT) / getW();

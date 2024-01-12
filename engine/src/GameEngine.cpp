@@ -10,9 +10,8 @@ GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level
 
 GameEngine::~GameEngine()
 {
-    
-}
 
+}
 
 /*Initializes the SDL components. Returns true if successful*/
 bool GameEngine::init_SDL_libraries() { return SYSTEM.initSDLComponents(); }

@@ -25,30 +25,6 @@ void Sprite::draw() const {
     if (texture == nullptr) {
         std::cerr << "Texture is nullptr" << std::endl;
     }
-    // SDL_SetRenderDrawColor(SYSTEM.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    // SDL_RenderFillRect(SYSTEM.renderer, &camera);
-    // SDL_SetRenderDrawColor(SYSTEM.renderer, 0x00, 0x00, 0x00, 0x00);
-
-    // if (SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &rect) < 0) {
-    //     std::cerr << "Sprite could not rendercopy" << std::endl;
-    //     std::cerr << "Error: " << SDL_GetError() << std::endl;
-    // }
-
-    // IMPORTANT FOR CAMERA ZOOM
-    // if (followed_by_camera) {
-    //     rendered_h = 100;
-    //     rendered_w = 100;
-    // } else {
-    //    rendered_h =
-    //        100 + getH() -
-    //        AssetManager::get_instance()->get_followed_by_camera()->getH();
-    //    rendered_w =
-    //        100 + getW() -
-    //        AssetManager::get_instance()->get_followed_by_camera()->getW();
-    //}
-
-    // SDL_Rect render_rect = {rect.x - camera.x, rect.y - camera.y,
-    //                         get_rendered_w(), get_rendered_h()};
     SDL_Rect render_rect = {get_rendered_x(), get_rendered_y(),
                             get_rendered_w(), get_rendered_h()};
     SDL_RenderCopy(SYSTEM.renderer, texture, NULL, &render_rect);

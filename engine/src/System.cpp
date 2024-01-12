@@ -51,7 +51,6 @@ bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int wi
     } else {
         std::cerr << "SYSTEM: \n\tWindow and Renderer failed initialization" << std::endl;
     }
-    
     return check;
 }
 
