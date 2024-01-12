@@ -20,8 +20,8 @@
     10. Nästan alla funktioner i hela koden är publika!
     12. Vi ska använda getRes-constanten på någe vis.
     13. get_sound_channel (i GameEngine) kan i nuläget bara göra kanal-vektorn större, men inte mindre. Vet ärligt talat inte om det är ett problem i nuläget. Den kommer bara bli större *om det behövs*, och om det behövs, så kanske det kommer behövas en sådan stor vektor i framtiden också?
-    14. På samma sätt som vi implementerar ett sätt att ta bort sprites under loopen, måste vi göra liknande för att lägga till (enl. jozefs exempel)
-    15. Förlåt, men egentligen borde vi göra samma map-lösning för alla sorters event... I nuläget kan spelutvecklaren bara göra att sina sprites kan reagera på knapptryck... 
+   
+   
     
 
 -- Spelet --
@@ -152,6 +152,7 @@ int main(int argc, char* argv[]) {
     game->add_sprite(*s);
     
 
+
     keycode_map.emplace(SDLK_UP, expand);
     keycode_map.emplace(SDLK_DOWN, minimize);
     keycode_map.emplace(SDLK_SPACE, player_boost);
@@ -162,6 +163,9 @@ int main(int argc, char* argv[]) {
 
     game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
+    
+    
+    
     
     game->run_game();
     

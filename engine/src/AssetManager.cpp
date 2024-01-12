@@ -36,6 +36,17 @@ void AssetManager::add(Sprite& sprite) {
     active_sprites.push_back(&sprite);
 }
 
+void AssetManager::add_while_running(Sprite& sprite){
+    sprites_to_be_added_in_game_loop.push_back(&sprite);
+}
+
+void AssetManager::add_new_sprites_to_game() {
+    for (Sprite* s : sprites_to_be_added_in_game_loop){
+        active_sprites.push_back(s);
+    }
+    sprites_to_be_added_in_game_loop.clear();
+}
+
 void AssetManager::set_level_background(const LevelBackground& bg) {
     background = &bg;
 }
