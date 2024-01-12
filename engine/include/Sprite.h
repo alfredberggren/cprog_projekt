@@ -4,10 +4,9 @@
 #include <SDL2/SDL.h>
 
 #include <string>
-#include <unordered_map>
+
 #define PI 3.14
 
-// TODO : Bör vara abstrakt?
 
 class Sprite {
    private:

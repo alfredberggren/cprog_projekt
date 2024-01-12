@@ -98,9 +98,8 @@ int main(int argc, char* argv[]) {
 
     game->init_SDL_libraries();
     
-    // WARNING----------------             WARNING: SDL reference in main!!! --------------- WARING
-    game->init_SDL_window("GlobuleGobble", SDL_WINDOWPOS_UNDEFINED,
-                          SDL_WINDOWPOS_UNDEFINED);
+
+    game->init_SDL_window("GlobuleGobble", -1,-1);
 
     for (const auto& dirEntry : dir_iterator(constants::gResPath)) {
         if (dirEntry.is_regular_file()){

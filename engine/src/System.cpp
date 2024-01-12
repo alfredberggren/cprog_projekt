@@ -29,6 +29,12 @@ bool System::initSDLComponents(){
 
 bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int width, int height){
     bool check = true;
+
+    if (xPos < 0 || yPos < 0) {
+        xPos = SDL_WINDOWPOS_CENTERED;
+        yPos = SDL_WINDOWPOS_CENTERED;
+    }
+
     //TODO: Change hardcoded window-text and size to use arguments
     window = SDL_CreateWindow(title.c_str(), xPos, yPos, width, height, SDL_WINDOW_SHOWN);
     if(window == nullptr) {

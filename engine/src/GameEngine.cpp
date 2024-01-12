@@ -14,8 +14,11 @@ GameEngine::~GameEngine()
 
 // TODO : Fixa returvärden!
 
+/*Initializes the SDL components. Returns true if successful*/
 bool GameEngine::init_SDL_libraries() { return SYSTEM.initSDLComponents(); }
 
+/*Initializes a gamewindow, with top left corner at screens x and y. If x- or y-value is negative, the window will be centered on the screen.
+Returns true if the initialization was successful.*/
 bool GameEngine::init_SDL_window(std::string windowTitle, int xPosition,
                                  int yPosition)
 {
@@ -54,7 +57,7 @@ However, the implementer can break this system by using a channel given to them
 by entering -1 as channel in play_sound....*/
 int GameEngine::get_sound_channel()
 {
-    long long unsigned int available_soundchannels = Mix_AllocateChannels(-1);
+    int available_soundchannels = Mix_AllocateChannels(-1);
     if (available_soundchannels != soundchannels_in_use.size())
     {
         soundchannels_in_use.resize(available_soundchannels);
