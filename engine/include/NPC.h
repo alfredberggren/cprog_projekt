@@ -19,7 +19,7 @@ class NPC : public Character {
     void tick() override;
     // NPC:s rörelse-algoritm
     void char_move() override;
-    void mouse_moved(double x, double y);
+    void mouse_moved(double x, double y) override {}
    
     State get_state() const;
 

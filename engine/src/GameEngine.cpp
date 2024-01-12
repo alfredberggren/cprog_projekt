@@ -10,6 +10,7 @@ GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level
 
 GameEngine::~GameEngine()
 {
+
 }
 
 /*Initializes the SDL components. Returns true if successful*/
@@ -80,12 +81,6 @@ int GameEngine::get_sound_channel()
 void GameEngine::remove_used_channel(int channel)
 {
     soundchannels_in_use[channel] = -1;
-    std::cout << "Removed a channel from use, current state: " << std::endl;
-    for (int i = 0; i < soundchannels_in_use.size(); ++i) {
-        std::cout << soundchannels_in_use[i] << ", ";
-    }
-
-    std::cout << std::endl;
 }
 
 /* ---------------------------- RUN GAME ----------------------------*/

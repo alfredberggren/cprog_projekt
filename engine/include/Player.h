@@ -6,14 +6,13 @@
 #include "Character.h"
 
 class Player : public Character {
-    // TODO: singleton
 
    public:
     static Player* get_instance();
 
     void tick() override;
     void char_move() override;
-    void mouse_moved(double x, double y);
+    void mouse_moved(double x, double y) override;
     void boost_pressed();
 
    private:
