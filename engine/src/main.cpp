@@ -120,7 +120,9 @@ int main(int argc, char* argv[]) {
     game->set_level_background(*m);
 
     Player* s = Player::get_instance();
-    Camera* camera = Camera::create(0, 0, game->get_screen_width(), game->get_screen_height(), *s);
+    Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
+    camera->set_focused_on(*s);
+    camera->set_focus_on_center(true);
 
     // make food and npcs randomly placed within level width and height, get a
     // seed for rand using time.
@@ -162,7 +164,10 @@ int main(int argc, char* argv[]) {
                      GameEngine::get_instance()->get_sound_channel(), -1);
     
     
+    
     game->run_game();
+    game->pause();
+    
 
     return 0;
 }

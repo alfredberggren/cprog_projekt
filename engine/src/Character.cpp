@@ -32,7 +32,7 @@ void Character::tick() {
     check_boost();
     char_move();
     if (this == Camera::get_instance()->get_focused_on()) {
-        Camera::get_instance()->center();
+        Camera::get_instance()->center_on_sprite();
     }
     handle_collision();
 }
@@ -87,7 +87,7 @@ void Character::expand(Sprite* eaten_sprite) {
     setW(getW() + expand_w);
     setH(getH() + expand_h);
     if (Camera::get_instance()->get_focused_on() == this) {
-        Camera::get_instance()->center();
+        Camera::get_instance()->center_on_sprite();
     }
 }
 
