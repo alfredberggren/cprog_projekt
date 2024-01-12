@@ -55,7 +55,7 @@ However, the implementer can break this system by using a channel given to them
 by entering -1 as channel in play_sound....*/
 int GameEngine::get_sound_channel()
 {
-    long long unsigned int available_soundchannels = Mix_AllocateChannels(-1);
+    int available_soundchannels = Mix_AllocateChannels(-1);
     if (available_soundchannels != soundchannels_in_use.size())
     {
         soundchannels_in_use.resize(available_soundchannels);

@@ -154,6 +154,8 @@ int main(int argc, char* argv[]) {
 void add_assets_loop(GameEngine* game){
     Player* s = Player::get_instance();
     std::string planet;
+    Camera::get_instance()->set_focused_on(*s);
+    game->add_sprite(*s);
     for (int i = 0; i < 300; i++) {
 
         if(i < 50)
@@ -175,6 +177,4 @@ void add_assets_loop(GameEngine* game){
                                             rand() % LEVEL_WIDTH,
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
-
-    game->add_sprite(*s);
 }
