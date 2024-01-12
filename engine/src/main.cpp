@@ -20,8 +20,8 @@
     10. Nästan alla funktioner i hela koden är publika!
     12. Vi ska använda getRes-constanten på någe vis.
     13. get_sound_channel (i GameEngine) kan i nuläget bara göra kanal-vektorn större, men inte mindre. Vet ärligt talat inte om det är ett problem i nuläget. Den kommer bara bli större *om det behövs*, och om det behövs, så kanske det kommer behövas en sådan stor vektor i framtiden också?
-    14. På samma sätt som vi implementerar ett sätt att ta bort sprites under loopen, måste vi göra liknande för att lägga till (enl. jozefs exempel)
-    15. Förlåt, men egentligen borde vi göra samma map-lösning för alla sorters event... I nuläget kan spelutvecklaren bara göra att sina sprites kan reagera på knapptryck... 
+   
+   
     
 
 -- Spelet --
@@ -121,9 +121,6 @@ int main(int argc, char* argv[]) {
     
     game->set_level_background(*m);
 
-    Player* s = Player::get_instance();
-    Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
-    camera->set_focused_on(*s);
     //camera->set_focus_on_center(true);
 
     // make food and npcs randomly placed within level width and height, get a
@@ -143,9 +140,12 @@ int main(int argc, char* argv[]) {
 
     game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
+
+    Player* s = Player::get_instance();
+    Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_width());
+    camera->set_focused_on(*s);
     
-    while(true){
-        game->run_game();
+    while(game->run_game()){
         add_assets_loop(game);
     }
     return 0;
@@ -153,6 +153,11 @@ int main(int argc, char* argv[]) {
 
 void add_assets_loop(GameEngine* game){
     Player* s = Player::get_instance();
+    std::cout << s << std::endl;
+    //Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
+    game->add_sprite(*s);
+    //camera->set_focused_on(*s);
+
     std::string planet;
     for (int i = 0; i < 300; i++) {
 
@@ -176,5 +181,6 @@ void add_assets_loop(GameEngine* game){
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
 
-    game->add_sprite(*s);
+
+    std::cout << "ADDING PLAYER WITH " << s->area() << " AND x : " << s->getCenterX() << " y : " << s->getCenterY() << std::endl;
 }

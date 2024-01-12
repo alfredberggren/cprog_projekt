@@ -4,13 +4,12 @@
 
 #include <utility>
 
-GameEngine* GameEngine::instance = nullptr;
+GameEngine *GameEngine::instance = nullptr;
 
 GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level_w, int level_h) : FRAMES_PER_SECOND(fps), SCREEN_WIDTH(screen_w), SCREEN_HEIGHT(screen_h), LEVEL_WIDTH(level_w), LEVEL_HEIGHT(level_h) {}
 
 GameEngine::~GameEngine()
 {
-    
 }
 
 // TODO : Fixa returvärden!
@@ -87,10 +86,10 @@ void GameEngine::remove_used_channel(int channel)
 int GameEngine::run_game()
 {
     SDL_Event event;
-    bool running = true;
     paused = false;
     key_reset = false;
     key_quit = false;
+    running = true;
     Uint32 tick_interval = 1000 / FRAMES_PER_SECOND; // blir alltså millisekunder mellan ticks.
     while (running)
     {
@@ -107,38 +106,24 @@ int GameEngine::run_game()
             }
             if(key_reset){
                 AssetManager::get_instance()->remove_all_active_sprites();
+    
                 return true;
             }
-            // Skapa STOP? Till skillnad från QUIT så behåller man nödvändiga allokerade objekt, returnerar också till main. I main 
-            // får då användaren möjligheten att lägga till t.ex. assets (NPCs eller liknande) som försvann under spelets gång. 
+            // Skapa STOP? Till skillnad från QUIT så behåller man nödvändiga allokerade objekt, returnerar också till main. I main
+            // får då användaren möjligheten att lägga till t.ex. assets (NPCs eller liknande) som försvann under spelets gång.
             // För att detta ska fungera måste det då existera någon typ av loop i main, man kan tänka sig att main är spelets meny,
             // och när man trycker STOP kommer man tillbaka till menyn, och run_game representerar då t.ex. en Play knapp som startar själva spelet.
             else if (event.type == SDL_KEYDOWN)
             {
-                // Kolla om KEY finns i keyMapping, isåfall hämta den och kör funktionen
-                if (keyMapping->count(event.key.keysym.sym) > 0)
+                // Kolla om KEY finns i key_to_function_map, isåfall hämta den och kör funktionen
+                if (key_to_function_map->count(event.key.keysym.sym) > 0)
                 {
-                    keyMapping->at(event.key.keysym.sym)();
-                }
-
-                while (paused)
-                {
-                    SDL_PollEvent(&event);
-                    if (event.type == SDL_QUIT || key_quit) 
-                    {
-                        running = false;
-                        delete AssetManager::get_instance();
-                        return false;
-                    }
-                    if (event.type == SDL_KEYDOWN &&
-                        event.key.keysym.sym == press_to_resume)
-                        paused = false;
-                    SDL_Delay(100);
+                    key_to_function_map->at(event.key.keysym.sym)();
                 }
 
             } else if (event.type == SDL_MOUSEMOTION) {
                 AssetManager::get_instance()->mouse_moved_all(event.motion.x,
-                                                            event.motion.y);
+                                                              event.motion.y);
             }
         }
 
@@ -146,6 +131,7 @@ int GameEngine::run_game()
 
         AssetManager::get_instance()->tick_all();
         AssetManager::get_instance()->remove_marked();
+        AssetManager::get_instance()->add_new_sprites_to_game();
         AssetManager::get_instance()->draw_all();
 
         SDL_RenderPresent(SYSTEM.renderer);
@@ -153,10 +139,24 @@ int GameEngine::run_game()
         int delay = next_tick - SDL_GetTicks(); // Hur mycket tid det är kvar till nästa tick
         if (delay > 0)
             SDL_Delay(delay);
-    }
-    return false;
-}
 
+        while (paused)
+        {
+            SDL_PollEvent(&event);
+            if (event.type == SDL_QUIT || key_quit)
+            {
+                running = false;
+                delete AssetManager::get_instance();
+                return false;
+            }
+            if (event.type == SDL_KEYDOWN &&
+                event.key.keysym.sym == press_to_resume)
+                paused = false;
+            SDL_Delay(100);
+        }
+    }
+    return 0;
+}
 
 /*Will use the supplied map to call a gamedeveloper-implemented function when the player presses a key.
 
@@ -164,7 +164,7 @@ See GameEngine's use_function_on_all_sprites for further information on how to i
 */
 void GameEngine::load_keys(std::unordered_map<SDL_Keycode, funcPtr> &map)
 {
-    keyMapping = &map;
+    key_to_function_map = &map;
 }
 
 /*GameEngine will use the supplied functionpointer argument, and use that function on all sprites once per gameloop.
@@ -191,11 +191,16 @@ key_mappings.emplace(SDLK_LEFT, move_player_left_wrapper);
 GameEngine::get_instance()->load_keys(key_mappings);
 
 */
-void GameEngine::use_function_on_all_sprites(funcPtr2 f) {
+void GameEngine::use_function_on_all_sprites(funcPtr2 f)
+{
     AssetManager::get_instance()->handle_key_event(f);
 }
 
-void GameEngine::pause(SDL_Keycode key_press_to_resume) { paused = true; press_to_resume = key_press_to_resume;}
+void GameEngine::pause(SDL_Keycode key_press_to_resume)
+{
+    paused = true;
+    press_to_resume = key_press_to_resume;
+}
 
 void GameEngine::quit() { key_quit = true; }
 
@@ -269,9 +274,12 @@ bool GameEngine::load_sound(std::string path)
     return true;
 }
 
-void GameEngine::add_sprite(Sprite& sprite)
+void GameEngine::add_sprite(Sprite &sprite)
 {
-    AssetManager::get_instance()->add(sprite);
+    if (running)
+        AssetManager::get_instance()->add_while_running(sprite);
+    else    
+        AssetManager::get_instance()->add(sprite);
 }
 
 void GameEngine::set_level_background(LevelBackground &bg)
@@ -294,19 +302,22 @@ void GameEngine::set_screen_size(int width, int height)
     SDL_SetWindowSize(SYSTEM.window, width, height);
 }
 
-int GameEngine::get_level_height() const{
+int GameEngine::get_level_height() const
+{
     return LEVEL_HEIGHT;
 }
-int GameEngine::get_level_width() const {
+int GameEngine::get_level_width() const
+{
     return LEVEL_WIDTH;
 }
-void GameEngine::set_level_size(int width, int height) {
+void GameEngine::set_level_size(int width, int height)
+{
     LEVEL_WIDTH = width;
     LEVEL_HEIGHT = height;
 }
 
 /*GameEngine is singleton. The first time this is called, a new instance will be created with given arguments and return it. All calls afterwards will return that instance.*/
-GameEngine* GameEngine::get_instance(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height) 
+GameEngine *GameEngine::get_instance(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height)
 {
     if (instance == nullptr)
     {

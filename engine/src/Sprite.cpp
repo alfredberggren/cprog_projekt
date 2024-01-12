@@ -6,7 +6,9 @@
 #include "GameEngine.h"
 #include "System.h"
 
-Sprite::~Sprite() {}
+Sprite::~Sprite() {
+    std::cout << "ran " << std::endl;
+}
 
 Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
                bool is_collideable)
@@ -19,8 +21,9 @@ Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,
 }
 
 void Sprite::draw() const {
+
     if (texture == nullptr) {
-        //std::cerr << "Texture is nullptr" << std::endl;
+        std::cerr << "Texture is nullptr" << std::endl;
     }
     // SDL_SetRenderDrawColor(SYSTEM.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     // SDL_RenderFillRect(SYSTEM.renderer, &camera);

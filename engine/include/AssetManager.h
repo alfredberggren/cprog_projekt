@@ -19,7 +19,7 @@ class AssetManager {
    private:
     static AssetManager *instance;
     const LevelBackground* background = nullptr;
-
+    std::vector<Sprite *> sprites_to_be_added_in_game_loop;
     std::vector<Sprite *> active_sprites;
     static std::unordered_map<std::string, SDL_Texture *> loaded_textures;
     static std::unordered_map<std::string, Mix_Chunk *> loaded_sounds;
@@ -33,6 +33,8 @@ public:
     std::vector<Sprite *> get_active_sprites() const { return active_sprites; }
     void handle_key_event(funcPtr2 func);
     void add(Sprite &);
+    void add_while_running(Sprite &);
+    void add_new_sprites_to_game();
     void tick_all();
     void mouse_moved_all(double, double);
     void remove_marked();

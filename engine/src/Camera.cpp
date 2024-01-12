@@ -1,16 +1,12 @@
 #include "Camera.h"
 
-
-
 Camera *Camera::get_instance(int x, int y, int w, int h)
 {
     if (instance == nullptr)
     {
         instance = new Camera(x, y, w, h);
     }
-
     return instance;
-    
 }
 
 Camera::Camera(int x, int y, int w, int h) : camera_rect{x, y, w, h} {}

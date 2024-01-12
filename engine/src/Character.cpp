@@ -26,6 +26,8 @@ Character::~Character() {
     for (int i = FIRST_LOCAL_SOUNDCHANNEL; i < TOTAL_LOCAL_SOUNDCHANNELS; ++i) {
         GameEngine::get_instance()->remove_used_channel(local_soundchannels[i]);
     }
+
+    std::cout << "destuct " << std::endl;
 }
 
 void Character::tick() {
