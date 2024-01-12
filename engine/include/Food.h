@@ -11,7 +11,7 @@ class Food : public GlobuleGobbleSprite {
 
     void tick() {}
     void mouse_moved(double x, double y) {}
-    void kill(Sprite& killed_by);
+    void die(Sprite& killed_by);
    private:
     Food(std::string path, int x, int y, int w, int h);
 };

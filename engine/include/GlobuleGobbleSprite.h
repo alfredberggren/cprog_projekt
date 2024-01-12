@@ -6,7 +6,7 @@
 
 class GlobuleGobbleSprite : public Sprite {
    public:
-    virtual void kill(Sprite& killed_by) = 0;
+    virtual void die(Sprite& killed_by) = 0;
 
    protected:
     GlobuleGobbleSprite(std::string path_to_texture, int x, int y, int width,
