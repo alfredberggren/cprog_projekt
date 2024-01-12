@@ -11,7 +11,7 @@ Om cwd är projektets huvudkatalog när spelet körs så räcker det med resourc
 ## Build
 
 Byggs genom att köra 'make' i projektets huvudkatalog med en individuellt anpassad makefile.<br/>
-* [make] - bygger spelet. Makefile fungerar i nuläget på windowssystem och kan behöva anpassas ifall annat operativsystem användes.<br/>
+* [make] - bygger spelet. Den bifogade Makefilen fungerar i nuläget på windowssystem och kan behöva anpassas ifall annat operativsystem användes.<br/>
 
 ## Körning
 
