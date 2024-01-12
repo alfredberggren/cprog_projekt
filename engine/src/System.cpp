@@ -35,14 +35,11 @@ bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int wi
         yPos = SDL_WINDOWPOS_CENTERED;
     }
 
-    //TODO: Change hardcoded window-text and size to use arguments
     window = SDL_CreateWindow(title.c_str(), xPos, yPos, width, height, SDL_WINDOW_SHOWN);
     if(window == nullptr) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create window: %s", SDL_GetError());
         check = false;
     }
-
-    
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     if(renderer == nullptr) {

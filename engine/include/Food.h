@@ -9,9 +9,9 @@ class Food : public GlobuleGobbleSprite {
    public:
     static Food* get_instance(std::string path, int x, int y, int w, int h);
 
-    void tick() {}
-    void mouse_moved(double x, double y) {}
-    void die(Sprite& killed_by);
+    void tick() override {}
+    void mouse_moved(double x, double y) override {}
+    void die(Sprite& killed_by) override;
    private:
     Food(std::string path, int x, int y, int w, int h);
 };

@@ -7,7 +7,7 @@ AssetManager::AssetManager() {
 AssetManager* AssetManager::get_instance() {
     if (instance == nullptr) {
         instance = new AssetManager();
-        std::cout << "Created AssetManager" << std::endl;
+        std::cout << "AssetManager:\n\t- Created AssetManager" << std::endl;
     }
     return instance;
 }
@@ -107,10 +107,12 @@ void AssetManager::remove_marked() {
 
 void AssetManager::add_sound(const std::string path, Mix_Chunk* sound_chunk) {
     loaded_sounds.insert(std::make_pair(path, sound_chunk));
+    std::cout << "AssetManager:\n\t- Added sound: " << path << std::endl;
 }
 
 void AssetManager::add_texture(const std::string path, SDL_Texture* texture) {
     loaded_textures.insert(std::make_pair(path, texture));
+    std::cout << "AssetManager:\n\t- Added texture: " << path << std::endl;
 }
 
 Mix_Chunk* AssetManager::get_sound(const std::string path) const{
