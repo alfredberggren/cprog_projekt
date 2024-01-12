@@ -7,7 +7,7 @@
 #include "System.h"
 
 Sprite::~Sprite() {
-    std::cout << "ran " << std::endl;
+    
 }
 
 Sprite::Sprite(std::string path_to_texture, int x, int y, int width, int height,

@@ -137,6 +137,8 @@ int main(int argc, char* argv[]) {
 
     Player* s = Player::get_instance();
     game->add_sprite(*s);
+    Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
+    camera->set_focused_on(*s);
 
     std::string planet;
     for (int i = 0; i < 300; i++) {
@@ -160,9 +162,6 @@ int main(int argc, char* argv[]) {
                                             rand() % LEVEL_WIDTH,
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
-
-    Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_width());
-    camera->set_focused_on(*s);
     
     game->run_game();
     return 0;
