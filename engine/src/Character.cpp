@@ -49,12 +49,12 @@ void Character::handle_collision() {
         if (Food* f = dynamic_cast<Food*>(s)) {
             this->expand(f);
             if (is_near_player()) play_eat_food_sound();
-            f->kill(*this);
+            f->die(*this);
         } else if (Character* c = dynamic_cast<Character*>(s)) {
             if (area() > c->area()) {
                 this->expand(c);
                 if (is_near_player()) play_eat_character_sound();
-                c->kill(*this);
+                c->die(*this);
             }
         }
     }
@@ -163,7 +163,7 @@ void Character::play_eat_food_sound() {
     }
 }
 
-void Character::kill(Sprite& killed_by) {
+void Character::die(Sprite& killed_by) {
     set_remove(true);
     if (Camera::get_instance()->get_focused_on() == this) {
         Camera::get_instance()->set_focused_on(killed_by);
