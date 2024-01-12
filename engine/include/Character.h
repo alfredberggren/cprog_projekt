@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "Constants.h"
 #include "GlobuleGobbleSprite.h"
 
 // Representerar karaktärer som rör på sig, spelbara eller inte.

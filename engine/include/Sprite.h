@@ -23,8 +23,8 @@ class Sprite {
     virtual int get_rendered_y() const;
 
    protected:
-    bool collidable;
     SDL_Texture *texture;  // WARNING! SHOULD MAYBE BE PRIVATE?!
+    bool collidable;
 
     Sprite(std::string path_to_texture, int x, int y, int width, int height,
            bool is_collidable);

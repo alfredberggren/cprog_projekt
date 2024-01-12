@@ -111,12 +111,9 @@ void Character::check_boost() {
 void Character::use_boost() {
     if (has_boost()) {
         if (this == Player::get_instance()) {
-            GameEngine::get_instance()->play_sound(
-                "resources/sounds/BoosterActivated.mp3",
-                get_local_soundchannel(), 0);
+            GameEngine::get_instance()->play_sound(constants::gResPath + "sounds/BoosterActivated.mp3", get_local_soundchannel(), 0);
         } else if (is_near_player()) {
-            GameEngine::get_instance()->play_sound(
-                "resources/sounds/JustBoost.mp3", get_local_soundchannel(), 0);
+                GameEngine::get_instance()->play_sound(constants::gResPath + "sounds/JustBoost.mp3", get_local_soundchannel(), 0);
         }
         boost_timer = BOOST_LENGTH;
         boost_counter = 0;
@@ -144,7 +141,7 @@ int Character::get_local_soundchannel() {
 }
 
 void Character::play_eat_character_sound() {
-    GameEngine::get_instance()->play_sound("resources/sounds/munchbig.mp3",
+    GameEngine::get_instance()->play_sound(constants::gResPath + "sounds/munchbig.mp3",
                                            get_local_soundchannel(), 0);
 }
 
@@ -152,18 +149,14 @@ void Character::play_eat_character_sound() {
  * x-position*/
 void Character::play_eat_food_sound() {
     if (Sprite::get_rect()->x % 2 == 0) {
-        GameEngine::get_instance()->play_sound(
-            "resources/sounds/munchsmall1.mp3", get_local_soundchannel(), 0);
+        GameEngine::get_instance()->play_sound(constants::gResPath + "sounds/munchsmall1.mp3", get_local_soundchannel(), 0);
     } else {
-        GameEngine::get_instance()->play_sound(
-            "resources/sounds/munchsmall2.mp3", get_local_soundchannel(), 0);
+        GameEngine::get_instance()->play_sound(constants::gResPath + "sounds/munchsmall2.mp3", get_local_soundchannel(), 0);
     }
 
     if (boost_counter == MAX_BOOST) {
-        if (this == Player::get_instance()) {
-            GameEngine::get_instance()->play_sound(
-                "resources/sounds/BoosterReady.mp3", get_local_soundchannel(),
-                0);
+        if (this == Player::get_instance()){
+            GameEngine::get_instance()->play_sound(constants::gResPath + "sounds/BoosterReady.mp3", get_local_soundchannel(), 0);
         }
     }
 }

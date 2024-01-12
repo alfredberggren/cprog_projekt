@@ -38,8 +38,6 @@ delay på handlingar
     5. "Zooma ut" kameran när spelare blivit för stor.
     6. Sätt spelaren i mitten av kartan vid spelstart
     7. Något sätt att "vinna spelet"
-
-
 */
 
 #include <filesystem>
@@ -80,6 +78,10 @@ void use_player_boost(Sprite* s) {
 // spelet.
 void pause_game() { GameEngine::get_instance()->pause(); }
 
+void quit_game() {
+    GameEngine::get_instance()->quit();
+}
+
 void player_boost() {
     GameEngine::get_instance()->add_key_function_for_sprite(use_player_boost);
 }
@@ -106,15 +108,17 @@ int main(int argc, char* argv[]) {
     game->init_SDL_window("GlobuleGobble", SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED);
 
-    for (const auto& dirEntry : dir_iterator("resources")) {
-        if (dirEntry.is_regular_file())
+    for (const auto& dirEntry : dir_iterator(constants::gResPath)) {
+        if (dirEntry.is_regular_file()){
+            std::cout << "added" << dirEntry.path().generic_string() << std::endl;
             assets.push_back(dirEntry.path().generic_string());
+    }
     }
 
     game->load_assets(assets);
 
 
-    LevelBackground* m = LevelBackground::get_instance("resources/images/spaceBackground.jpg",
+    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "images/fictionalspacebg.jpg",
                                game->get_level_width(), game->get_level_height());
     
     game->set_level_background(*m);
@@ -131,22 +135,22 @@ int main(int argc, char* argv[]) {
     std::string planet;
     for (int i = 0; i < 300; i++) {
 
-        if(i < 200)
+        if(i < 50)
             planet = "planet.png";
-        else if( i >= 200 && i < 300)
+        else if( i >= 50 && i < 150)
             planet = "planet-earth.png";
-        else if(i >= 300 && i < 500)
+        else if(i >= 150 && i < 225)
             planet = "jupiter.png";
         else
             planet = "venus.png";
 
-        game->add_sprite(*Food::get_instance("resources/images/" + planet,
+        game->add_sprite(*Food::get_instance(constants::gResPath + "images/" + planet,
                                              rand() % LEVEL_WIDTH,
-                                             rand() % LEVEL_HEIGHT, 15, 15));
+                                             rand() % LEVEL_HEIGHT, 19, 19));
     }
 
     for (int i = 0; i < 30; i++) {
-        game->add_sprite(*NPC::get_instance("resources/images/circle.png",
+        game->add_sprite(*NPC::get_instance(constants::gResPath + "images/alien3.png",
                                             rand() % LEVEL_WIDTH,
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
@@ -157,13 +161,12 @@ int main(int argc, char* argv[]) {
     keycode_map.emplace(SDLK_DOWN, minimize);
     keycode_map.emplace(SDLK_SPACE, player_boost);
     keycode_map.emplace(SDLK_ESCAPE, pause_game);
+    keycode_map.emplace(SDLK_q, quit_game);
 
     game->load_keys(keycode_map);
 
-    game->play_sound("resources/sounds/TillSpel.mp3",
+    game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
-    
-    
     
     game->run_game();
     game->pause();

@@ -20,7 +20,9 @@ typedef void (*funcPtr2)(Sprite*);
 class GameEngine {
    private:
     std::vector<int> soundchannels_in_use;
+    bool stop = false;
     bool paused = false;
+    bool key_quit = false;
 
     static GameEngine* instance;
     GameEngine(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height);
@@ -38,10 +40,6 @@ class GameEngine {
     int LEVEL_HEIGHT;
 
    public:
-
-    // Istället för att ha SYSTEM variabeln i main kan vi låta kommunikationen mellan faktiska spelet/användaren och System utföras av GameEngine.
-    // Nedan är 2 funktioner som exemplifierar detta.  
-    // ** Fundering ** Ge möjligheten att välja vilka SDL bibliotek man vill inkludera till sin GameEngine? 
     bool init_SDL_libraries();
     bool init_SDL_window(std::string windowTitle, int xPosition, int yPosition);
 
@@ -49,12 +47,12 @@ class GameEngine {
     void add_key_function_for_sprite(funcPtr2);
 
     void run_game();
+    void pause();
+    void quit();
 
     static GameEngine* get_instance(unsigned short fps = 0, int screen_width = 0, int screen_height = 0, int level_width = 0, int level_height = 0);
 
     void load_assets(std::vector<std::string> assets);
-
-    void pause();
 
     int play_sound(const std::string&, int, int) const;
     void stop_sound(int) const;
