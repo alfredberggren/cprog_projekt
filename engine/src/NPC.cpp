@@ -12,6 +12,11 @@ NPC* NPC::get_instance(std::string path, int x, int y, int w, int h) {
 
 void NPC::tick() { Character::tick(); }
 
+/* 
+    Function responsible for deciding which direction the NPC should move in. Will calculate distances to other sprites that are 
+    active in the game and use logic to decide which direction to go in. Will also update NPCs texture depending on its current state.
+    The state is updated depending on the closest sprites area.
+*/
 void NPC::char_move() {
     Sprite* closest = nullptr;
     double closest_dist = 1000000;
@@ -62,6 +67,7 @@ void NPC::char_move() {
     }
 }
 
+// Used to inverse the direction of the NPC.
 double NPC::inv_dir(double dir) {
     dir += 180;
     if (dir > 360) {

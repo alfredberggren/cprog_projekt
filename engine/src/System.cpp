@@ -42,8 +42,6 @@ bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int wi
         check = false;
     }
 
-    
-
     renderer = SDL_CreateRenderer(window, -1, 0);
     if(renderer == nullptr) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create renderer: %s", SDL_GetError());
@@ -54,7 +52,6 @@ bool System::initWindowAndRenderer(std::string title, int xPos, int yPos, int wi
     } else {
         std::cerr << "SYSTEM: \n\tWindow and Renderer failed initialization" << std::endl;
     }
-    
     return check;
 }
 

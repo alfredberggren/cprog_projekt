@@ -93,6 +93,7 @@ std::vector<Sprite*> AssetManager::check_collisions(
     return colliding_sprites;
 }  // check_collisions
 
+// Will remove active sprites that has been marked for removal. 
 void AssetManager::remove_marked() {
     std::vector<Sprite*>::iterator it;
     for (it = active_sprites.begin(); it != active_sprites.end();) {
