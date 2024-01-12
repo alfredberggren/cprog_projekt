@@ -82,6 +82,12 @@ int GameEngine::get_sound_channel()
 void GameEngine::remove_used_channel(int channel)
 {
     soundchannels_in_use[channel] = -1;
+    std::cout << "Removed a channel from use, current state: " << std::endl;
+    for (int i = 0; i < soundchannels_in_use.size(); ++i) {
+        std::cout << soundchannels_in_use[i] << ", ";
+    }
+
+    std::cout << std::endl;
 }
 
 /* ---------------------------- RUN GAME ----------------------------*/
@@ -89,6 +95,8 @@ void GameEngine::remove_used_channel(int channel)
 void GameEngine::run_game()
 {
     SDL_Event event;
+    paused = false;
+    key_quit = false;
     running = true;
     Uint32 tick_interval = 1000 / FRAMES_PER_SECOND; // blir alltså millisekunder mellan ticks.
     while (running)
@@ -101,15 +109,8 @@ void GameEngine::run_game()
             if (event.type == SDL_QUIT || key_quit)
             {
                 running = false;
-                // Behövs mer cleanup?
-                // SYSTEM cleanup?
                 delete AssetManager::get_instance();
-                return;
             }
-            // Skapa STOP? Till skillnad från QUIT så behåller man nödvändiga allokerade objekt, returnerar också till main. I main
-            // får då användaren möjligheten att lägga till t.ex. assets (NPCs eller liknande) som försvann under spelets gång.
-            // För att detta ska fungera måste det då existera någon typ av loop i main, man kan tänka sig att main är spelets meny,
-            // och när man trycker STOP kommer man tillbaka till menyn, och run_game representerar då t.ex. en Play knapp som startar själva spelet.
             else if (event.type == SDL_KEYDOWN)
             {
                 // Kolla om KEY finns i key_to_function_map, isåfall hämta den och kör funktionen
@@ -117,9 +118,8 @@ void GameEngine::run_game()
                 {
                     key_to_function_map->at(event.key.keysym.sym)();
                 }
-            }
-            else if (event.type == SDL_MOUSEMOTION)
-            {
+
+            } else if (event.type == SDL_MOUSEMOTION) {
                 AssetManager::get_instance()->mouse_moved_all(event.motion.x,
                                                               event.motion.y);
             }
@@ -145,7 +145,6 @@ void GameEngine::run_game()
             {
                 running = false;
                 delete AssetManager::get_instance();
-                return;
             }
             if (event.type == SDL_KEYDOWN &&
                 event.key.keysym.sym == press_to_resume)
