@@ -24,7 +24,6 @@ class GameEngine {
     bool paused = false;
     bool key_quit = false;
     bool running = false;
-    SDL_Keycode press_to_resume;
     Camera* camera;
 
     static GameEngine* instance;
