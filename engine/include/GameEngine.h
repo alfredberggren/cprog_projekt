@@ -12,6 +12,7 @@
 #include "AssetManager.h"
 #include "Sprite.h"
 #include "System.h"
+#include "Camera.h"
 
 
 typedef void (*funcPtr)();
@@ -24,6 +25,7 @@ class GameEngine {
     bool key_quit = false;
     bool running = false;
     SDL_Keycode press_to_resume;
+    Camera* camera;
 
     static GameEngine* instance;
     GameEngine(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height);

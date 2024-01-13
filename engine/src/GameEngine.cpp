@@ -6,7 +6,9 @@
 
 GameEngine *GameEngine::instance = nullptr;
 
-GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level_w, int level_h) : FRAMES_PER_SECOND(fps), SCREEN_WIDTH(screen_w), SCREEN_HEIGHT(screen_h), LEVEL_WIDTH(level_w), LEVEL_HEIGHT(level_h) {}
+GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level_w, int level_h) : FRAMES_PER_SECOND(fps), SCREEN_WIDTH(screen_w), SCREEN_HEIGHT(screen_h), LEVEL_WIDTH(level_w), LEVEL_HEIGHT(level_h) {
+    camera = Camera::get_instance(0, 0, get_screen_width(), get_screen_height());
+}
 
 GameEngine::~GameEngine()
 {
