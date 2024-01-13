@@ -64,28 +64,28 @@ void expand() {
 int main(int argc, char* argv[]) {
     std::vector<std::string> assets;
     std::unordered_map<SDL_Keycode, funcPtr> keycode_map;
-    
-    GameEngine* game = GameEngine::get_instance(FRAMES_PER_SECOND, SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL_WIDTH, LEVEL_HEIGHT);
-
-    game->init_SDL_libraries();
-    
-    game->init_SDL_window("GlobuleGobble", -1,-1);
-
     //Get asset-paths and put them in vector
     for (const auto& dirEntry : dir_iterator(constants::gResPath)) {
         if (dirEntry.is_regular_file()){
             assets.push_back(dirEntry.path().generic_string());
         }
     }
-    //load assets
+
+    // -------------- SKAPAR EN GAMEENGINE OCH INITIERAR GRUNDLÄGGANDE SDL BIBLIOTEK OCH VIKTIGA SDL KOMPONENTER ------------------
+    
+    GameEngine* game = GameEngine::get_instance(FRAMES_PER_SECOND, SCREEN_WIDTH, SCREEN_HEIGHT, LEVEL_WIDTH, LEVEL_HEIGHT);
+    game->init_SDL_libraries();
+    game->init_SDL_window("GlobuleGobble", -1,-1);
+
+    // -------------- SKICKAR IN ALLT SOM LIGGER I RESOURCES TILL MOTORN ---------------------------------------------------------- 
+
     game->load_assets(assets);
 
-    //Set the background for game
-    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "images/fictionalspacebg.jpg",
-                               game->get_level_width(), game->get_level_height());
-    
+    // -------------- SKAPAR ETT LEVELBACKGROUND OBJEKT SOM TAR EN TEXTUR OCH SPELETS LEVEL WIDTH OCH HEIGHT OCH SÄTTER BAKGRUNDEN-
+    LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "images/fictionalspacebg.jpg", game->get_level_width(), game->get_level_height());
     game->set_level_background(*m);
 
+    // -------------- FYLLER EN MAP MED KNAPPTRYCK SOM MAPPAS TILL FUNKTIONER OCH LADDAR INTE DET I MOTORN ------------------------
     keycode_map.emplace(SDLK_UP, expand);
     keycode_map.emplace(SDLK_DOWN, minimize);
     keycode_map.emplace(SDLK_SPACE, player_boost);
@@ -95,14 +95,17 @@ int main(int argc, char* argv[]) {
 
     game->load_keys(keycode_map);
 
+    // ------------- SKAPAR ETT SPELAROBJEKT OCH LÄGGER TILL DET I ENGINE ----------------------------------------------------------
+
     Player* s = Player::get_instance();
     game->add_sprite(*s);
+
+    // ------------- SKAPAR ETT CAMERA OBJEKT OCH SÄTTER KAMERAN ATT FOKUSA PÅ EN SPRITE -------------------------------------------
 
     Camera* camera = Camera::get_instance(0, 0, game->get_screen_width(), game->get_screen_height());
     camera->set_focused_on(*s);
      
-    // make food and npcs randomly placed within level width and height, get a
-    // seed for rand using time.
+    // ------------- SKAPAR FOOD OCH NPC OBJEKT OCH LÄGGER TILL DEN I ENGINE -------------------------------------------------------
     srand(time(NULL));
     std::string planet;
     for (int i = 0; i < AMOUNT_OF_PLANETS; i++) {
@@ -126,12 +129,16 @@ int main(int argc, char* argv[]) {
                                             rand() % LEVEL_HEIGHT, 21, 21));
     }
     
-    //Sätter på FANTASTISK bakgrundsmusik
+    // --------------- LÄGGER TILL EN LJUDFIL I ENGINE OCH SPELAR DENNA ---------------------------------------------------------------
     game->play_sound(constants::gResPath + "sounds/TillSpel.mp3",
                      GameEngine::get_instance()->get_sound_channel(), -1);
     
+
+    // --------------- KÖR SPELET UTIFRÅN DET SOM HAR LADDATS IN OCH FÖRBERETTS OVAN --------------------------------------------------
     game->run_game();
 
+
+    // --------------- STÄDAR UPP ALLA ALLOKERADE RESURSER -----------------------------------------------------------------------------
     delete game;
     return 0;
 }

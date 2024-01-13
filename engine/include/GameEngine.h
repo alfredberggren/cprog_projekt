@@ -12,8 +12,6 @@
 #include "AssetManager.h"
 #include "Sprite.h"
 #include "System.h"
-#include "Camera.h"
-
 
 typedef void (*funcPtr)();
 typedef void (*funcPtr2)(Sprite*);
@@ -24,7 +22,6 @@ class GameEngine {
     bool paused = false;
     bool key_quit = false;
     bool running = false;
-    Camera* camera;
 
     static GameEngine* instance;
     GameEngine(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height);

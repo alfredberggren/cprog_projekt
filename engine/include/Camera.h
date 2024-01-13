@@ -4,7 +4,6 @@
 #include "Sprite.h"
 #include "GameEngine.h"
 
-
 class Camera {
     private:
         Camera(int x, int y, int w, int h);
@@ -16,7 +15,6 @@ class Camera {
     public:
         void center_on_sprite();
         const Sprite* get_focused_on();
-        
         
         /*Will return a nullpointer if Camera has not been initiated.
         Combine with set_focus_on to set its focus on a sprite*/

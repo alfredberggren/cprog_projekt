@@ -7,7 +7,7 @@
 GameEngine *GameEngine::instance = nullptr;
 
 GameEngine::GameEngine(unsigned short fps, int screen_w, int screen_h, int level_w, int level_h) : FRAMES_PER_SECOND(fps), SCREEN_WIDTH(screen_w), SCREEN_HEIGHT(screen_h), LEVEL_WIDTH(level_w), LEVEL_HEIGHT(level_h) {
-    camera = Camera::get_instance(0, 0, get_screen_width(), get_screen_height());
+    
 }
 
 GameEngine::~GameEngine()
@@ -51,8 +51,6 @@ void GameEngine::stop_sound(int soundchannel) const
 {
     Mix_HaltChannel(soundchannel);
 }
-
-// TODO: How to force objects to use this? Or is this even needed?
 
 /*Will return a free soundchannel that can be used solely by an object.
 However, the implementer can break this system by using a channel given to them
@@ -307,3 +305,4 @@ GameEngine *GameEngine::get_instance(unsigned short fps, int screen_width, int s
     }
     return instance;
 }
+
