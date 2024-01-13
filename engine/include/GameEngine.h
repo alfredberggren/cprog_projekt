@@ -23,7 +23,6 @@ class GameEngine {
     bool paused = false;
     bool key_quit = false;
     bool running = false;
-    SDL_Keycode press_to_resume;
 
     static GameEngine* instance;
     GameEngine(unsigned short fps, int screen_width, int screen_height, int level_width, int level_height);
