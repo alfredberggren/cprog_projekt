@@ -30,7 +30,7 @@ public:
     static AssetManager *get_instance();
 
     std::vector<Sprite *> check_collisions(const Sprite &) const;
-    std::vector<Sprite *> get_active_sprites() const { return active_sprites; }
+    const std::vector<Sprite *>& get_active_sprites() const { return active_sprites; }
     void handle_key_event(funcPtr2 func);
     void add(Sprite &);
     void add_while_running(Sprite &);
