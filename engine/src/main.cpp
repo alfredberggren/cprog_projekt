@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
     LevelBackground* m = LevelBackground::get_instance(constants::gResPath + "images/fictionalspacebg.jpg", game->get_level_width(), game->get_level_height());
     game->set_level_background(*m);
 
-    // -------------- FYLLER EN MAP MED KNAPPTRYCK SOM MAPPAS TILL FUNKTIONER OCH LADDAR INTE DET I MOTORN ------------------------
+    // -------------- FYLLER EN MAP MED KNAPPTRYCK SOM MAPPAS TILL FUNKTIONER OCH LADDAR IN DET I MOTORN --------------------------
     keycode_map.emplace(SDLK_UP, expand);
     keycode_map.emplace(SDLK_DOWN, minimize);
     keycode_map.emplace(SDLK_SPACE, player_boost);
