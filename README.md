@@ -1,6 +1,12 @@
 # CPROG Projekt (GlobuleGobble)
 
-Spelmotor skriven med c++ och SDL2 och spel som tillämpar spelmotorn.
+Spelmotor skriven med c++ och SDL2, samt ett enkelt spel som tillämpar spelmotorn.
+
+## Projektmedlemmar
+
+Alfred Berggren
+Kristian Remnelius
+Jesper Nilsson
 
 ## Förutsättningar
 
