@@ -4,9 +4,9 @@ Spelmotor skriven med c++ och SDL2, samt ett enkelt spel som tillämpar spelmoto
 
 ## Projektmedlemmar
 
-Alfred Berggren
-Kristian Remnelius
-Jesper Nilsson
+Alfred Berggren<br/>
+Kristian Remnelius<br/>
+Jesper Nilsson<br/>
 
 ## Förutsättningar
 
